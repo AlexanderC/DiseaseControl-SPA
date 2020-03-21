@@ -13,18 +13,18 @@ function _fail() {
   exit 1
 }
 
-# _info "Validating environment"
-# if [ -z "$DEPLOY_SERVER_DSN" ] || [ -z "$DEPLOY_SERVER_ROOT" ]; then
-#   _fail "Missing deploy server configuration"
-# elif [ -z "$(which rsync)" ]; then
-#   _fail "Missing rsync utility"
-# fi
+_info "Validating environment"
+if [ -z "$DEPLOY_SERVER_DSN" ] || [ -z "$DEPLOY_SERVER_ROOT" ]; then
+  _fail "Missing deploy server configuration"
+elif [ -z "$(which rsync)" ]; then
+  _fail "Missing rsync utility"
+fi
 
-# _info "Building dc-spa image"
-# docker build -t dc-spa . || _fail
+_info "Building dc-spa image"
+docker build -t dc-spa . || _fail
 
-# _info "Exporting image into dc-spa.tar archive"
-# docker save dc-spa > dc-spa.tar || _fail
+_info "Exporting image into dc-spa.tar archive"
+docker save dc-spa > dc-spa.tar || _fail
 
 _info "Sending image and configuration to $DEPLOY_SERVER_DSN"
 rsync -av dc-spa.tar docker-compose.yml "$DEPLOY_SERVER_DSN:$DEPLOY_SERVER_ROOT/" || _fail
