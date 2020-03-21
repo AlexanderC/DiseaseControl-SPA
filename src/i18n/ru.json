@@ -3,5 +3,7 @@
   "login.email": "Имэйл",
   "login.password": "Пароль",
   "login.button": "Залогиниться",
+  "login.error": "Неправильные имэйл или пароль",
+  "login.inputError": "Поля имэйл и пароль не могут быть пустыми",
   "header.list": "Список госпиталей"
 }

@@ -42,10 +42,10 @@ export const Description = styled.div`
 
 export const ParametersList = styled.div`
   position: absolute;
-  bottom: 10px;
+  top: 300px;
   left: 20px;
   width: calc(100% - 40px);
-  height: 200px;
+  height: 400px;
   overflow-y: scroll;
   padding-right: 10px;
 `;

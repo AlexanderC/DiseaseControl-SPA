@@ -47,9 +47,9 @@ export const DetailsContainer = styled.div`
 
 export const ParametersList = styled.div`
   position: absolute;
-  bottom: 10px;
+  top: 200px;
   width: 80%;
-  height: 70px;
+  height: 180px;
   overflow-y: scroll;
   padding-right: 10px;
 `;
