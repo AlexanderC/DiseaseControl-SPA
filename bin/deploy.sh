@@ -7,7 +7,7 @@ function _info() {
 }
 
 function _fail() {
-  if [ !-z "$1" ]; then
+  if [ ! -z "$1" ]; then
     echo "$1"
   fi
   exit 1
