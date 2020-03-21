@@ -1,16 +1,10 @@
-version: '3.7'
-
+version: '3.3'
 services:
-
-  sample:
-    container_name: sample
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - '.:/app'
-      - '/app/node_modules'
+  spa:
+    image: dc-spa
+    container_name: spa
+    restart: always
     ports:
-      - '3001:3000'
-    environment:
-      - NODE_ENV=development
+      - '80:80'
+    expose:
+      - '80'
