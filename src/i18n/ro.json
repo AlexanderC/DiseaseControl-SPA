@@ -3,5 +3,7 @@
   "login.email": "Email",
   "login.password": "Password",
   "login.button": "Login",
+  "login.error": "Ati introdus email sau parola incorecte",
+  "login.inputError": "Cimpurile email si parola nu pot fi goale ",
   "header.list": "Lista spitale"
 }

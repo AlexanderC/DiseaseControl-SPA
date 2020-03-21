@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 export const MainContainer = styled.div`
   width: 100vw;
   height: 100vh;
-  padding-top: 30vh;
+  padding-top: 20vh;
 `;
 
 export const LoginContainer = styled.div`
@@ -18,6 +18,7 @@ export const LoginContainer = styled.div`
 
 export const Logo = styled.img`
   width: 100%;
+  background: white;
 `;
 
 export const InputContainer = styled.div`
@@ -34,6 +35,13 @@ export const Input = styled.input`
   border-radius: 5px;
   outline: none;
   margin-top: 5px;
+`;
+
+export const ErrorMessage = styled.div`
+  height: 3px;
+  font-size: 13px;
+  color: #ec1d1d;
+  font-weight: 400;
 `;
 
 export const LoginButton = styled.button`

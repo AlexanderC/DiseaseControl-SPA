@@ -1,0 +1,1 @@
+export const GET_HOSPITAL_DATA = "GET_HOSPITAL_DATA"

@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from '../../services/Axios';
 import * as S from './Dashboard.style';
+import * as T from '../../resources/types';
 import { useHistory } from 'react-router-dom';
 import elements from './data';
 import hospitalIcon from '../../resources/icons/hospital.png';
+import { connect } from "react-redux";
+import { getHospitals } from '../../actions/DataActions';
 
 function sliceStringAndAppendDots(str: string, sliceAt = 15) {
   let slicedString = str || '';
@@ -12,11 +16,17 @@ function sliceStringAndAppendDots(str: string, sliceAt = 15) {
   return slicedString;
 }
 
+type Props = {
+  data: T.Data[],
+  getHospitals: () => void;
+}
 
-const data: any[] = elements;
-
-export default function Dashboard() {
+function Dashboard({ data, getHospitals } : Props) {
   const history = useHistory();
+
+  useEffect(() => {
+    getHospitals();
+  }, [])
 
   const handleDetailsClick = (id: number) => {
     history.push(`/details/${id}`)
@@ -25,21 +35,23 @@ export default function Dashboard() {
   return (<S.Dashboard>
     <S.DashboardList>
       {
-        data.map(d => (
-          <S.DetailsContainer onClick={() => handleDetailsClick(d.id)}>
+        data && data.map(d => (
+          <S.DetailsContainer
+            key={d.id}
+            onClick={() => handleDetailsClick(d.id)}
+          >
             <S.Title>
               {sliceStringAndAppendDots(d.name, 35)}
             </S.Title>
             <S.Description>
               {sliceStringAndAppendDots(d.description, 100)}
             </S.Description>
-            <S.Image src={hospitalIcon}/>
             <S.ParametersList>
               {
-                d.parameters.map((p:any) => (
-                  <S.ParameterContainer>
-                    <S.ParameterTitle>{p.title}</S.ParameterTitle>
-                    <S.ParameterCount>{p.count}</S.ParameterCount>
+                d.inventory && d.inventory.map((p:any) => (
+                  <S.ParameterContainer key={p.name}>
+                    <S.ParameterTitle>{p.name}</S.ParameterTitle>
+                    <S.ParameterCount>{p.HospitalInventory.quantity}</S.ParameterCount>
                   </S.ParameterContainer>
                 ))
               }
@@ -50,3 +62,15 @@ export default function Dashboard() {
     </S.DashboardList>
   </S.Dashboard>)
 };
+
+const mapStateToProps = (state:any) => {
+  return {
+    data: state.data.data
+  }
+}
+
+const mapDispatchToProps = {
+  getHospitals
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
