@@ -16,9 +16,8 @@ export const LoginContainer = styled.div`
   font-weight: bold;
 `;
 
-export const LoginTitle = styled.div`
-  font-size: 30px;
-  text-align: center;
+export const Logo = styled.img`
+  width: 100%;
 `;
 
 export const InputContainer = styled.div`

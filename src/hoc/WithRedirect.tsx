@@ -8,7 +8,9 @@ export default function WithRedirect({ children }: Props) {
   const history = useHistory();
 
   useEffect(() => {
-    history.push('/login');
+    if (false) {
+      history.push('/login');
+    }
   }, [history])
 
   return (

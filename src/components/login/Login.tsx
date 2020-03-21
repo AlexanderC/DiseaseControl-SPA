@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { useHistory } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import * as S from './Login.style';
+import logo from '../../resources/img/logo.png';
 
 export default function Login() {
   const history = useHistory();
@@ -23,9 +24,7 @@ export default function Login() {
 
   return (<S.MainContainer>
     <S.LoginContainer>
-      <S.LoginTitle>
-        Disease Control
-      </S.LoginTitle>
+      <S.Logo src={logo} />
       <S.InputContainer>
         <S.InputTitle>
           <FormattedMessage id="login.email" />

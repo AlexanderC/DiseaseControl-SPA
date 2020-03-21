@@ -2,5 +2,6 @@
   "login.title": "Логин",
   "login.email": "Имэйл",
   "login.password": "Пароль",
-  "login.button": "Залогиниться"
+  "login.button": "Залогиниться",
+  "header.list": "Список госпиталей"
 }

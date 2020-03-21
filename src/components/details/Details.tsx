@@ -1,53 +1,57 @@
 import React from "react";
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { useParams } from 'react-router-dom';
 import * as S from './Details.style';
+import elements from '../dashboard/data';
+import hospitalIcon from '../../resources/icons/hospital.png';
 
-const data: any[] = [];
+type Data = {
+  id: number,
+  name: string,
+  description: string,
+  parameters: { title: string; count: number; }[],
+  events: { time: string; type: string; inventoryType: string; userId: string; }[]
+}
+
 
 export default function Details() {
-  return (<S.DetailsContainer>
-    <S.DataContainer>
-      <S.Title>
+  const params: any = useParams();
+  const data: Data = elements.find(el => el.id === parseInt(params.id)) || {
+    id: 0,
+    name: '',
+    description: '',
+    parameters: [],
+    events: []
+  };
 
-      </S.Title>
-      <S.Image></S.Image>
+  return (
+    <S.DetailsContainer>
+      <S.DataContainer>
+        <S.Title>{data.name}</S.Title>
+        <S.Image src={hospitalIcon}/>
+        <S.Description>{data.description}</S.Description>
+        <S.ParametersList>
+          {data.parameters.map(p => (
+            <S.Parameter>
+              <S.ParameterTitle>{p.title}</S.ParameterTitle>
+              <S.ParameterCountContainer>
+                <S.ActionButton>-</S.ActionButton>
+                <S.Count>{p.count}</S.Count>
+                <S.ActionButton>+</S.ActionButton>
+              </S.ParameterCountContainer>
+            </S.Parameter>
+          ))}
+        </S.ParametersList>
+      </S.DataContainer>
 
-      <Tabs>
-        <TabList>
-          <Tab>Parametri</Tab>
-          <Tab>Istorie operatii</Tab>
-        </TabList>
-
-        <TabPanel>
-            <S.ParametersList>
-            {
-              data.map(d => (
-                <S.Parameter>
-                  <S.ParameterTitle>Pat</S.ParameterTitle>
-                  <S.ParameterCountContainer>
-                    <S.DecrementButton>-</S.DecrementButton>
-                    <S.Count>3</S.Count>
-                    <S.IncrementButton>+</S.IncrementButton>
-                  </S.ParameterCountContainer>
-                </S.Parameter>
-              ))
-            }
-          </S.ParametersList>
-        </TabPanel>
-        <TabPanel>
-         <S.HistoryList>
-           {
-             data.map(d => (
-               <S.HistoryItem>
-                 <S.DateTime></S.DateTime>
-                 <S.EventTitle></S.EventTitle>
-                 <S.EventOrigin></S.EventOrigin>
-               </S.HistoryItem>
-             ))
-           }
-         </S.HistoryList>
-        </TabPanel>
-      </Tabs>
-    </S.DataContainer>
-  </S.DetailsContainer>)
+      <S.HistoryList>
+        {data.events.map(e => (
+          <S.HistoryItem>
+            <S.DateTime>{e.time}</S.DateTime>
+            <S.EventTitle>{e.inventoryType}</S.EventTitle>
+            <S.EventOrigin>{e.type}</S.EventOrigin>
+          </S.HistoryItem>
+        ))}
+      </S.HistoryList>
+    </S.DetailsContainer>
+  );
 };
