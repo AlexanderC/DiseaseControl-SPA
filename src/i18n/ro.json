@@ -1,6 +1,6 @@
 {
   "login.title": "Login",
-  "login.username": "Username",
+  "login.email": "Email",
   "login.password": "Password",
   "login.button": "Login"
 }

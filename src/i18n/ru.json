@@ -1,6 +1,6 @@
 {
   "login.title": "Логин",
-  "login.username": "Юзер",
+  "login.email": "Имэйл",
   "login.password": "Пароль",
   "login.button": "Залогиниться"
 }

@@ -9,6 +9,7 @@ import "./App.css";
 import Dashboard from "./components/dashboard/Dashboard";
 import Login from "./components/login/Login";
 import Details from "./components/details/Details";
+import WithRedirect from './hoc/WithRedirect';
 
 function App() {
   return (
@@ -18,10 +19,14 @@ function App() {
           <Login />
         </Route>
         <Route exact path="/details/:id">
-          <Details />
+          <WithRedirect>
+            <Details />
+          </WithRedirect>
         </Route>
         <Route exact path="/">
-          <Dashboard />
+          <WithRedirect>
+            <Dashboard />
+          </WithRedirect>
         </Route>
         <Redirect from="*" to="/" />
       </Switch>

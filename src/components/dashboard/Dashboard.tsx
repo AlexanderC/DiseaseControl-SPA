@@ -5,6 +5,7 @@ import Card from './card/Card';
 const data: any[] = [];
 
 export default function Dashboard() {
+
   return (<S.Dashboard>
     <S.DashboardList>
       {
