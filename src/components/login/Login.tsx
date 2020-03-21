@@ -17,7 +17,7 @@ export default function Login() {
     if (currentUser) {
       history.push('/')
     }
-  }, [])
+  }, [history])
 
   const validate = useCallback(() => {
     return email.length > 0 && password.length > 0;
@@ -42,7 +42,7 @@ export default function Login() {
     } else {
       setInputError(true);
     }
-  }, [email, password])
+  }, [email, password, history, validate])
 
   return (<S.MainContainer>
     <S.LoginContainer>

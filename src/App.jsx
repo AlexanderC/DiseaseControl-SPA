@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 import styled from 'styled-components';
 import { Provider } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
 import "./App.css";
 import Dashboard from "./components/dashboard/Dashboard";
 import Login from "./components/login/Login";
@@ -19,20 +18,6 @@ import store from './store';
 
 const Header = styled.div`
   display: flex;
-`;
-
-const HeaderButtons = styled.div`
-  margin-left: 100px;
-`;
-
-const HeaderButton = styled.div`
-  height: 40px;
-  margin-top: 25px;
-  line-height: 40px;
-  background: #5ca1cd;
-  color: aliceblue;
-  border-radius: 5px;
-  padding: 10px 20px;
 `;
 
 function App() {

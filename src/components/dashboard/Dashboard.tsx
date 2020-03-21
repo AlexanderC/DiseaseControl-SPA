@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
-import axios from '../../services/Axios';
+import React, { useEffect } from "react";
 import * as S from './Dashboard.style';
 import * as T from '../../resources/types';
 import { useHistory } from 'react-router-dom';
-import elements from './data';
-import hospitalIcon from '../../resources/icons/hospital.png';
 import { connect } from "react-redux";
 import { getHospitals } from '../../actions/DataActions';
 
@@ -26,7 +23,7 @@ function Dashboard({ data, getHospitals } : Props) {
 
   useEffect(() => {
     getHospitals();
-  }, [])
+  }, [getHospitals])
 
   const handleDetailsClick = (id: number) => {
     history.push(`/details/${id}`)

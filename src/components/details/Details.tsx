@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useParams } from 'react-router-dom';
 import * as S from './Details.style';
-import elements from '../dashboard/data';
-import hospitalIcon from '../../resources/icons/hospital.png';
 import * as T from '../../resources/types';
 import { connect } from "react-redux";
 import { getHospitals } from '../../actions/DataActions';
@@ -23,7 +21,7 @@ function Details({ data, getHospitals }: Props) {
     } else {
       getHospitals();
     }
-  }, [data])
+  }, [data, getHospitals, params.id])
 
   return (
     <S.DetailsContainer>
