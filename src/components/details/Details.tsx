@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo } from "react";
 import { RouteComponentProps } from 'react-router-dom';
-import * as S from './Details.style';
 import { useSelector, useDispatch } from "react-redux";
 import { getHospitals } from '../../actions/DataActions';
 import { selectHospitals } from "../../reducers/Combiner";
+import { Container, ListGroup, ListGroupItem, Badge } from "reactstrap";
 
 function Details(props: RouteComponentProps<{ id: string }>) {
   const { match } = props
-  const hospitalId = parseInt(match.params.id);
+  const hospitalId = parseInt(match.params.id, 10);
   const dispatch = useDispatch()
   const hospitals = useSelector(selectHospitals)
   const details = useMemo(() => (
@@ -23,34 +23,33 @@ function Details(props: RouteComponentProps<{ id: string }>) {
   if (!details) return null
 
   return (
-    <S.DetailsContainer>
-      <S.DataContainer>
-        <S.Title>{details.name}</S.Title>
-        <S.Description>{details.description}</S.Description>
-        <S.ParametersList>
-          {details.inventory.map(p => (
-            <S.Parameter>
-              <S.ParameterTitle>{p.name}</S.ParameterTitle>
-              <S.ParameterCountContainer>
-                <S.ActionButton>-</S.ActionButton>
-                <S.Count>{p.HospitalInventory.quantity}</S.Count>
-                <S.ActionButton>+</S.ActionButton>
-              </S.ParameterCountContainer>
-            </S.Parameter>
-          ))}
-        </S.ParametersList>
-      </S.DataContainer>
+    <Container className="my-3">
+      <h1>{details.name}</h1>
+      <p>{details.description}</p>
 
-      <S.HistoryList>
-        {/* {data.events.map(e => (
-          <S.HistoryItem>
-            <S.DateTime>{e.time}</S.DateTime>
-            <S.EventTitle>{e.inventoryType}</S.EventTitle>
-            <S.EventOrigin>{e.type}</S.EventOrigin>
-          </S.HistoryItem>
-        ))} */}
-      </S.HistoryList>
-    </S.DetailsContainer>
+      <h4>Inventory</h4>
+
+      <ListGroup className="mb-4">
+        {details.inventory.length === 0 && <ListGroupItem>No items</ListGroupItem>}
+        {details.inventory.map(p => (
+          <ListGroupItem key={p.id} className="d-flex justify-content-between align-items-center">
+            {p.name}
+            <Badge>{p.HospitalInventory.quantity}</Badge>
+          </ListGroupItem>
+        ))}
+      </ListGroup>
+
+      <h4>History</h4>
+
+      <ListGroup>
+        {(details.events ?? []).length === 0 && <ListGroupItem>Empty</ListGroupItem>}
+        {(details.events ?? []).map(e => (
+          <ListGroupItem>
+            {e.time} - {e.inventoryType} - {e.type}
+          </ListGroupItem>
+        ))}
+      </ListGroup>
+    </Container>
   );
 };
 
