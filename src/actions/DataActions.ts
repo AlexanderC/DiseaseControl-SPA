@@ -3,10 +3,13 @@ import * as T from "./types";
 import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 
-const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+function getCurrentUser() {
+  return JSON.parse(localStorage.getItem('currentUser') || '{}');
+}
 
 export function getHospitals() {
   return function(dispatch: any) {
+    const currentUser = getCurrentUser();
     return axios
       .get(`/hospital?token=${currentUser.token}`)
       .then(({ data }) => {
@@ -23,6 +26,7 @@ export function getHospitals() {
 
 export function getTags() {
   return function(dispatch: any) {
+    const currentUser = getCurrentUser();
     return axios
       .get(`/tag?token=${currentUser.token}`)
       .then(({ data }) => {
@@ -43,6 +47,7 @@ export function updateInventoryItemCount(
   count: number
 ) {
   return (dispatch: Dispatch) => {
+    const currentUser = getCurrentUser();
     const url = `/hospital/${hospitalId}/inventory/${inventoryItemId}?token=${currentUser.token}`;
     return axios
       .post(url, { quantity: count })
