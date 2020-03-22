@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getHospitals } from '../../actions/DataActions';
 import { selectHospitals } from "../../reducers/Combiner";
 import { Container, ListGroup, ListGroupItem, Badge } from "reactstrap";
+import Tags from "../common/tags/Tags";
 
 function Details(props: RouteComponentProps<{ id: string }>) {
   const { match } = props
@@ -26,6 +27,7 @@ function Details(props: RouteComponentProps<{ id: string }>) {
     <Container className="my-3">
       <h1>{details.name}</h1>
       <p>{details.description}</p>
+      <Tags data={details.tags}/>
 
       <h4>Inventory</h4>
 

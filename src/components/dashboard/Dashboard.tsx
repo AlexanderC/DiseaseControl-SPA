@@ -53,9 +53,14 @@ function Dashboard() {
           tags.map(t => {
             const isSelected = selectedTags.find(tag => tag.id === t.id);
             return (
-              <Button key={t.id} className={`m-1 btn btn-${tagColors[t.id]} ${isSelected ? 'active' : ''} `} onClick={() => handleTagClick(t)}>
+              <button
+                key={t.id}
+                type="button"
+                className={`m-1 btn btn-${tagColors[t.id]} ${isSelected ? 'active' : ''} `}
+                onClick={() => handleTagClick(t)}
+              >
                 {t.description}
-              </Button>
+              </button>
             )
           })
         }
