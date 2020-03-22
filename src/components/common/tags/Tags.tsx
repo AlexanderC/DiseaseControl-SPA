@@ -13,13 +13,15 @@ export default function Tags({ data }: Props) {
   return(
     <Container>
       <Row>
-        {
-          data.map((t, i) => (
-            <Badge key={t.id} className="m-1" color={tagColors[t.id]}>
-              {t.description}
-            </Badge>
-          ))
-        }
+        <p>
+          {
+            data.map((t, i) => (
+              <Badge key={t.id} className="m-1" color={tagColors[t.id]}>
+                {t.description}
+              </Badge>
+            ))
+          }
+        </p>
       </Row>
     </Container>
   )
