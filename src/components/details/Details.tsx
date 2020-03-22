@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useCallback, useState } from "react";
 import { RouteComponentProps } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
-import { getHospitals } from '../../actions/DataActions';
+import { getHospitals, updateInventoryItemCount } from '../../actions/DataActions';
 import { selectHospitals } from "../../reducers/Combiner";
-import { Container, ListGroup, ListGroupItem, Badge } from "reactstrap";
+import { Container, ListGroup, ListGroupItem, Badge, Button } from "reactstrap";
 import Tags from "../common/tags/Tags";
 
 function Details(props: RouteComponentProps<{ id: string }>) {
@@ -21,6 +21,13 @@ function Details(props: RouteComponentProps<{ id: string }>) {
     }
   }, [dispatch, details])
 
+  const [updatingCount, setUpdatingCount] = useState(false)
+  const updateInventItemCount = useCallback((inventItemId, count) => {
+    setUpdatingCount(true)
+    dispatch(updateInventoryItemCount(hospitalId, inventItemId, count))
+      .then(() => setUpdatingCount(false))
+  }, [dispatch, hospitalId])
+
   if (!details) return null
 
   return (
@@ -31,12 +38,25 @@ function Details(props: RouteComponentProps<{ id: string }>) {
 
       <h4>Inventory</h4>
 
-      <ListGroup className="mb-4">
+      <ListGroup tag="fieldset" disabled={updatingCount} className="mb-4">
         {details.inventory.length === 0 && <ListGroupItem>No items</ListGroupItem>}
-        {details.inventory.map(p => (
-          <ListGroupItem key={p.id} className="d-flex justify-content-between align-items-center">
-            {p.name}
-            <Badge>{p.HospitalInventory.quantity}</Badge>
+        {details.inventory.map(item => (
+          <ListGroupItem key={item.id} className="d-flex justify-content-between align-items-center">
+            {item.name} ({new Date(item.updatedAt).toDateString()})
+            <div>
+              <Button
+                size="sm" color="link" className="mr-1"
+                onClick={() => updateInventItemCount(item.id, item.HospitalInventory.quantity + 1)}>
+                <span>+</span>
+              </Button>
+              <Button
+                size="sm" color="link" className="mr-1"
+                disabled={item.HospitalInventory.quantity === 0}
+                onClick={() => updateInventItemCount(item.id, item.HospitalInventory.quantity - 1)}>
+                <span>-</span>
+              </Button>
+              <Badge>{item.HospitalInventory.quantity}</Badge>
+            </div>
           </ListGroupItem>
         ))}
       </ListGroup>
