@@ -1,32 +1,22 @@
 import React, { useEffect } from "react";
-import * as T from '../../resources/types';
 import { Link } from 'react-router-dom';
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getHospitals } from '../../actions/DataActions';
 import { Container, Row, Col, Card, CardTitle, CardText, ListGroup, ListGroupItem, Badge, CardBody, Button } from "reactstrap";
+import { selectHospitals } from "../../reducers/Combiner";
 
-function sliceStringAndAppendDots(str: string, sliceAt = 15) {
-  let slicedString = str || '';
-  if (slicedString.length > sliceAt) {
-    slicedString = `${slicedString.slice(0, sliceAt)}...`;
-  }
-  return slicedString;
-}
+function Dashboard() {
+  const hospitals = useSelector(selectHospitals)
+  const dispatch = useDispatch()
 
-type Props = {
-  data: T.Data[],
-  getHospitals: () => void;
-}
-
-function Dashboard({ data, getHospitals }: Props) {
   useEffect(() => {
-    getHospitals();
-  }, [getHospitals])
+    dispatch(getHospitals());
+  }, [dispatch])
 
   return (
     <Container className="my-3">
       <Row>
-        {data.map(d => (
+        {hospitals.map(d => (
           <Col key={d.id} xs="12" sm="6" md="4" lg="3" className="mb-4">
             <Card className="h-100">
               <CardBody>
@@ -56,14 +46,12 @@ function Dashboard({ data, getHospitals }: Props) {
   )
 }
 
-const mapStateToProps = (state: any) => {
-  return {
-    data: state.data.data
+export default Dashboard;
+
+function sliceStringAndAppendDots(str: string, sliceAt = 15) {
+  let slicedString = str || '';
+  if (slicedString.length > sliceAt) {
+    slicedString = `${slicedString.slice(0, sliceAt)}...`;
   }
+  return slicedString;
 }
-
-const mapDispatchToProps = {
-  getHospitals
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

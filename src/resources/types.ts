@@ -1,26 +1,35 @@
-export type Data = {
-  id: number,
-  name: string,
-  description: string,
-  inventory: Array<{
-    id: number,
-    name: string;
-    HospitalInventory: {
-      quantity: number
-    };
-  }>,
-  events: Array<{
-    time: string;
-    type: string;
-    inventoryType: string;
-    userId: string;
-  }>
+type InventoryItem = {
+  id: number
+  name: string
+  description: string
+  createdAt: string
+  updatedAt: string
+  HospitalInventory: {
+    quantity: number
+  }
 }
 
-export const defaultData = {
-  id: 0,
-  name: '',
-  description: '',
-  inventory: [],
-  events: []
+type Tag = {
+  id: number
+  name: string
+  description: string
+  createdAt: string
+  updatedAt: string
+  HospitalTag: any
+}
+
+export type Hospital = {
+  id: number
+  name: string
+  description: string
+  createdAt: string
+  updatedAt: string
+  tags: Tag[]
+  inventory: InventoryItem[]
+  events: Array<{
+    time: string
+    type: string
+    inventoryType: string
+    userId: string
+  }>
 }

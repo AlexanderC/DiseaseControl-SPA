@@ -1,27 +1,26 @@
-import React, {useState, useEffect} from "react";
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useMemo } from "react";
+import { RouteComponentProps } from 'react-router-dom';
 import * as S from './Details.style';
-import * as T from '../../resources/types';
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getHospitals } from '../../actions/DataActions';
+import { selectHospitals } from "../../reducers/Combiner";
 
-type Props = {
-  data: T.Data[],
-  getHospitals: () => void
-}
-
-function Details({ data, getHospitals }: Props) {
-  const params: any = useParams();
-  const [details, setDetails] = useState<T.Data>(T.defaultData);
+function Details(props: RouteComponentProps<{ id: string }>) {
+  const { match } = props
+  const hospitalId = parseInt(match.params.id);
+  const dispatch = useDispatch()
+  const hospitals = useSelector(selectHospitals)
+  const details = useMemo(() => (
+    hospitals.find(d => d.id === hospitalId)
+  ), [hospitals, hospitalId]);
 
   useEffect(() => {
-    if (data && data.length) {
-      const element = data.find(d => d.id === parseInt(params.id)) || T.defaultData;
-      setDetails(element);
-    } else {
-      getHospitals();
+    if (!details) {
+      dispatch(getHospitals())
     }
-  }, [data, getHospitals, params.id])
+  }, [dispatch, details])
+
+  if (!details) return null
 
   return (
     <S.DetailsContainer>
@@ -55,10 +54,4 @@ function Details({ data, getHospitals }: Props) {
   );
 };
 
-const mapStateToProps = (state:any) => ({ data: state.data.data})
-
-const mapDispatchToProps = {
-  getHospitals
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Details);
+export default Details;
