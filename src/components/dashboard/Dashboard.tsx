@@ -54,14 +54,16 @@ function Dashboard() {
           tags.map(t => {
             const isSelected = selectedTags.includes(t);
             return (
-              <button
+              <Button
                 key={t.id}
-                type="button"
-                className={`m-1 btn btn-outline-${tagColors[t.id]} ${isSelected ? `active` : ''}`}
+                outline
+                color={tagColors[t.id]}
+                active={isSelected}
+                className="m-1"
                 onClick={() => handleTagClick(t)}
               >
                 {t.description}
-              </button>
+              </Button>
             )
           })
         }
