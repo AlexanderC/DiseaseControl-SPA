@@ -1,16 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Tag } from '../../../resources/types';
 import { Container, Row, Badge} from 'reactstrap';
+import { selectTagColors } from "../../../reducers/Combiner";
 
 type Props = {
-  data: Tag[],
-  tagColors: {
-    [s: string]: string
-  }
+  data: Tag[]
 }
 
-function Tags({ data, tagColors }: Props) {
+export default function Tags({ data }: Props) {
+  const tagColors = useSelector(selectTagColors);
   return(
     <Container>
       <Row>
@@ -25,7 +24,3 @@ function Tags({ data, tagColors }: Props) {
     </Container>
   )
 }
-
-const mapStateToProps = (state: any) => ({ tagColors: state.data.tagColors })
-
-export default connect(mapStateToProps, {})(Tags);
