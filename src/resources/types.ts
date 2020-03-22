@@ -9,7 +9,7 @@ type InventoryItem = {
   }
 }
 
-type Tag = {
+export type Tag = {
   id: number
   name: string
   description: string
@@ -32,4 +32,8 @@ export type Hospital = {
     inventoryType: string
     userId: string
   }>
+}
+
+export type TagColors = {
+  [s: string]: string
 }

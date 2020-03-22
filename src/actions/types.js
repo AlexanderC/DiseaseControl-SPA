@@ -1,1 +1,2 @@
-export const GET_HOSPITAL_DATA = "GET_HOSPITAL_DATA"
+export const GET_HOSPITAL_DATA = "GET_HOSPITAL_DATA";
+export const GET_TAGS_DATA = "GET_TAGS_DATA";
