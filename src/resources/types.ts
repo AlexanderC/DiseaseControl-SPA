@@ -14,7 +14,14 @@ export type Data = {
     type: string;
     inventoryType: string;
     userId: string;
-  }>
+  }>,
+  tags: Tag[]
+}
+
+export type Tag = {
+  id: number;
+  name: string;
+  description: string;
 }
 
 export const defaultData = {
@@ -22,5 +29,6 @@ export const defaultData = {
   name: '',
   description: '',
   inventory: [],
-  events: []
+  events: [],
+  tags: []
 }
