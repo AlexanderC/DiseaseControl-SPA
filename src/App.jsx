@@ -3,62 +3,57 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
   Link
 } from "react-router-dom";
-import styled from 'styled-components';
-import { Provider } from 'react-redux';
-import "./App.css";
+import { Navbar, NavbarBrand, Container } from "reactstrap";
+import { Provider } from "react-redux";
 import Dashboard from "./components/dashboard/Dashboard";
 import Login from "./components/login/Login";
 import Details from "./components/details/Details";
-import WithRedirect from './hoc/WithRedirect';
-import logo from './resources/img/logo.png';
-import store from './store';
-
-const Header = styled.div`
-  display: flex;
-`;
+import logo from "./resources/img/logo.png";
+import store from "./store";
+import { ProtectedRoute } from "./shared/ProtectedRoute";
 
 function App() {
   return (
     <Provider store={store}>
       <Router>
-        <div>
-          <Switch>
-            <Route exact path="/login">
-              <Login />
-            </Route>
-            <div>
-              <Header>
-                <Link to="/">
-                  <img src={logo} alt="logo" width="100px"/>
-                </Link>
-                {/* <HeaderButtons>
-                  <Link to="/" style={{textDecoration: 'none'}}>
-                    <HeaderButton>
-                      <FormattedMessage id="header.list" />
-                    </HeaderButton>
-                  </Link>
-                </HeaderButtons> */}
-              </Header>
-              <Route exact path="/details/:id">
-                <WithRedirect>
-                  <Details />
-                </WithRedirect>
-              </Route>
-              <Route exact path="/">
-                <WithRedirect>
-                  <Dashboard />
-                </WithRedirect>
-              </Route>
-            </div>
-            <Redirect from="*" to="/" />
-          </Switch>
-        </div>
+        <Header />
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <ProtectedRoute exact path="/details/:id" component={Details} />
+          <ProtectedRoute component={Dashboard} />
+        </Switch>
+        <Footer />
       </Router>
     </Provider>
   );
 }
 
 export default App;
+
+function Header() {
+  return (
+    <section className="bg-light">
+      <Container>
+        <Navbar color="light" light>
+          <NavbarBrand tag={Link} to="/" className="mr-auto">
+            <img
+              src={logo}
+              height="30"
+              className="d-inline-block align-top mr-2"
+              alt="Logo"
+            />
+            Disease Control
+          </NavbarBrand>
+        </Navbar>
+      </Container>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <section className="mt-auto p-4 text-center bg-light">https://c19md.xyz/</section>
+  );
+}
