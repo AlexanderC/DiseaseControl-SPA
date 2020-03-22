@@ -1,39 +1,40 @@
 type InventoryItem = {
-  id: number
-  name: string
-  description: string
-  createdAt: string
-  updatedAt: string
+  id: number;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
   HospitalInventory: {
-    quantity: number
-  }
-}
+    id: number;
+    quantity: number;
+  };
+};
 
 export type Tag = {
-  id: number
-  name: string
-  description: string
-  createdAt: string
-  updatedAt: string
-  HospitalTag: any
-}
+  id: number;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  HospitalTag: any;
+};
 
 export type Hospital = {
-  id: number
-  name: string
-  description: string
-  createdAt: string
-  updatedAt: string
-  tags: Tag[]
-  inventory: InventoryItem[]
+  id: number;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  tags: Tag[];
+  inventory: InventoryItem[];
   events: Array<{
-    time: string
-    type: string
-    inventoryType: string
-    userId: string
-  }>
-}
+    time: string;
+    type: string;
+    inventoryType: string;
+    userId: string;
+  }>;
+};
 
 export type TagColors = {
-  [s: string]: string
-}
+  [s: string]: string;
+};
