@@ -26,8 +26,8 @@ function Dashboard() {
   }, [hospitals]);
 
   const handleTagClick = useCallback((tag: T.Tag) => {
-    let newSelectedTags = [...selectedTags];
-    if (selectedTags.find(t => t.id === tag.id)) {
+    let newSelectedTags = selectedTags;
+    if (selectedTags.includes(tag)) {
       newSelectedTags = newSelectedTags.filter(t => t.id !== tag.id);
     } else {
       newSelectedTags.push(tag);
@@ -35,9 +35,10 @@ function Dashboard() {
 
     const selectedTagIds = newSelectedTags.map(t => t.id);
     let newFilteredData;
-
     if (selectedTagIds.length) {
-      newFilteredData = hospitals.filter(d => d.tags.map(t => t.id).some(id => selectedTagIds.includes(id)));
+      newFilteredData = hospitals.filter(d =>
+        selectedTagIds.every(id => d.tags.map(t => t.id).includes(id))
+      );
     } else {
       newFilteredData = hospitals;
     }
@@ -50,19 +51,16 @@ function Dashboard() {
     <Container className="my-3">
       <Row className="ml-1 mb-2">
         {
-          tags.map(t => {
-            const isSelected = selectedTags.find(tag => tag.id === t.id);
-            return (
-              <button
-                key={t.id}
-                type="button"
-                className={`m-1 btn btn-${tagColors[t.id]} ${isSelected ? 'active' : ''} `}
-                onClick={() => handleTagClick(t)}
-              >
-                {t.description}
-              </button>
-            )
-          })
+          tags.map(t => (
+            <button
+              key={t.id}
+              type="button"
+              className={`m-1 btn btn-${tagColors[t.id]}`}
+              onClick={() => handleTagClick(t)}
+            >
+              {t.description}
+            </button>
+          ))
         }
       </Row>
       <Row>
