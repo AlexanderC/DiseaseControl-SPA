@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import * as S from './Dashboard.style';
 import * as T from '../../resources/types';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import { getHospitals } from '../../actions/DataActions';
+import { Container, Row, Col, Card, CardTitle, CardText, ListGroup, ListGroupItem, Badge, CardBody, Button } from "reactstrap";
 
 function sliceStringAndAppendDots(str: string, sliceAt = 15) {
   let slicedString = str || '';
@@ -18,49 +18,45 @@ type Props = {
   getHospitals: () => void;
 }
 
-function Dashboard({ data, getHospitals } : Props) {
-  const history = useHistory();
-
+function Dashboard({ data, getHospitals }: Props) {
   useEffect(() => {
     getHospitals();
   }, [getHospitals])
 
-  const handleDetailsClick = (id: number) => {
-    history.push(`/details/${id}`)
-  }
+  return (
+    <Container className="my-3">
+      <Row>
+        {data.map(d => (
+          <Col key={d.id} xs="12" sm="6" md="4" lg="3" className="mb-4">
+            <Card className="h-100">
+              <CardBody>
+                <CardTitle tag="h5">
+                  {sliceStringAndAppendDots(d.name, 35)}
+                </CardTitle>
+                <CardText>
+                  {sliceStringAndAppendDots(d.description, 100)}
+                </CardText>
+                <Button color="primary" tag={Link} to={`/details/${d.id}`}>
+                  Details
+                </Button>
+              </CardBody>
+              <ListGroup flush className="mt-auto">
+                {d.inventory.map(p => (
+                  <ListGroupItem key={p.id} className="d-flex justify-content-between align-items-center">
+                    {p.name}
+                    <Badge pill>{p.HospitalInventory.quantity}</Badge>
+                  </ListGroupItem>
+                ))}
+              </ListGroup>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </Container>
+  )
+}
 
-  return (<S.Dashboard>
-    <S.DashboardList>
-      {
-        data && data.map(d => (
-          <S.DetailsContainer
-            key={d.id}
-            onClick={() => handleDetailsClick(d.id)}
-          >
-            <S.Title>
-              {sliceStringAndAppendDots(d.name, 35)}
-            </S.Title>
-            <S.Description>
-              {sliceStringAndAppendDots(d.description, 100)}
-            </S.Description>
-            <S.ParametersList>
-              {
-                d.inventory && d.inventory.map((p:any) => (
-                  <S.ParameterContainer key={p.name}>
-                    <S.ParameterTitle>{p.name}</S.ParameterTitle>
-                    <S.ParameterCount>{p.HospitalInventory.quantity}</S.ParameterCount>
-                  </S.ParameterContainer>
-                ))
-              }
-            </S.ParametersList>
-          </S.DetailsContainer>
-        ))
-      }
-    </S.DashboardList>
-  </S.Dashboard>)
-};
-
-const mapStateToProps = (state:any) => {
+const mapStateToProps = (state: any) => {
   return {
     data: state.data.data
   }
