@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Tag } from '../../../resources/types';
-import { Container, Row, Col, Badge} from 'reactstrap';
+import { Container, Row, Badge} from 'reactstrap';
 
 type Props = {
   data: Tag[],

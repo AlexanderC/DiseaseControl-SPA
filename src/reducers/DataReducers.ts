@@ -1,10 +1,9 @@
-import * as T from '../actions/types';
-
-const initialState = {
-  data: [],
-  tags: [],
-  tagColors: []
-}
+import { AnyAction } from 'redux';
+import {
+  GET_HOSPITAL_DATA,
+  GET_TAGS_DATA
+} from '../actions/types';
+import { Hospital, Tag, TagColors } from '../resources/types';
 
 const colors = [
   'primary',
@@ -15,22 +14,36 @@ const colors = [
   'info'
 ]
 
-const getTagColors = tags => {
-  const tagColors = {};
+const getTagColors = (tags: Tag[]) => {
+  const tagColors: {
+    [s: string]: string
+  } = {};
 
   tags.forEach((t, i) => tagColors[t.id] = colors[i % colors.length])
 
   return tagColors;
 }
 
-export default (state = initialState, action) => {
+type HopitalsState = {
+  data: Hospital[],
+  tags: Tag[],
+  tagColors: TagColors
+}
+
+const initialState: HopitalsState = {
+  data: [],
+  tags: [],
+  tagColors: {}
+}
+
+export default (state = initialState, action: AnyAction): HopitalsState => {
   switch(action.type) {
-    case T.GET_HOSPITAL_DATA:
+    case GET_HOSPITAL_DATA:
       return {
         ...state,
         data: action.payload
       }
-    case T.GET_TAGS_DATA:
+    case GET_TAGS_DATA:
       return {
         ...state,
         tags: action.payload,
