@@ -1,8 +1,8 @@
 import React from "react";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import { Switch, Route, Link } from "react-router-dom";
 import { Navbar, NavbarBrand, Container, Badge, Button } from "reactstrap";
-import Dashboard from "./components/dashboard/Dashboard";
+import { Dashboard } from "./components/dashboard/Dashboard";
 import Login from "./components/login/Login";
 import Details from "./components/details/Details";
 import logo from "./resources/img/logo.png";
@@ -37,7 +37,7 @@ export default App;
 
 function Header() {
   const history = useHistory();
-  const isLoggedIn = localStorage.getItem('currentUser') !== '';
+  const isLoggedIn = localStorage.getItem("currentUser") !== "";
   return (
     <section className="bg-light">
       <Container>
@@ -52,18 +52,18 @@ function Header() {
             Disease Control
           </NavbarBrand>
 
-          { isLoggedIn &&
-              (<Button
+          {isLoggedIn && (
+            <Button
               color="primary"
               className="float-right"
               onClick={() => {
-                localStorage.setItem('currentUser', '')
-                history.push('/login')
+                localStorage.setItem("currentUser", "");
+                history.push("/login");
               }}
             >
               Logout
-            </Button>)
-          }
+            </Button>
+          )}
         </Navbar>
       </Container>
     </section>
@@ -79,7 +79,8 @@ function Footer() {
         href="https://c19.md"
         target="_blank"
         rel="noopener noreferrer"
-        className="mr-2">
+        className="mr-2"
+      >
         c19.md
       </Badge>
       Instrumente open-source în contextul pandemiei Covid-19
