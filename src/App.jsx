@@ -1,6 +1,7 @@
 import React from "react";
+import { useHistory } from 'react-router-dom';
 import { Switch, Route, Link } from "react-router-dom";
-import { Navbar, NavbarBrand, Container, Badge } from "reactstrap";
+import { Navbar, NavbarBrand, Container, Badge, Button } from "reactstrap";
 import Dashboard from "./components/dashboard/Dashboard";
 import Login from "./components/login/Login";
 import Details from "./components/details/Details";
@@ -35,6 +36,8 @@ function App() {
 export default App;
 
 function Header() {
+  const history = useHistory();
+  const isLoggedIn = localStorage.getItem('currentUser') !== '';
   return (
     <section className="bg-light">
       <Container>
@@ -48,6 +51,19 @@ function Header() {
             />
             Disease Control
           </NavbarBrand>
+
+          { isLoggedIn &&
+              (<Button
+              color="primary"
+              className="float-right"
+              onClick={() => {
+                localStorage.setItem('currentUser', '')
+                history.push('/login')
+              }}
+            >
+              Logout
+            </Button>)
+          }
         </Navbar>
       </Container>
     </section>

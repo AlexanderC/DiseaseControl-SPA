@@ -3,12 +3,12 @@ import { Route, Redirect, RouteProps } from 'react-router-dom';
 
 export function ProtectedRoute(props: RouteProps) {
   const [isLoggedIn, setLoggedIn] = React.useState(
-    localStorage.getItem('currentUser') !== null
+    localStorage.getItem('currentUser') !== ''
   );
 
   React.useEffect(function () {
     const onStorageChange = () => setLoggedIn(
-      localStorage.getItem('currentUser') !== null
+      localStorage.getItem('currentUser') !== ''
     )
     // this will monitor any storage changes
     // if `currentUser` is removed user will be looged out

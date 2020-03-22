@@ -1,11 +1,13 @@
 import axios from '../services/Axios';
 import * as T from './types';
 
-
-const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+function getCurrentUser() {
+  return JSON.parse(localStorage.getItem('currentUser') || '{}');
+}
 
 export function getHospitals() {
   return function (dispatch: any) {
+    const currentUser = getCurrentUser();
     return axios.get(`/hospital?token=${currentUser.token}`).then(({data }) => {
       dispatch({
         type: T.GET_HOSPITAL_DATA,
@@ -20,6 +22,7 @@ export function getHospitals() {
 
 export function getTags() {
   return function (dispatch: any) {
+    const currentUser = getCurrentUser();
     return axios.get(`/tag?token=${currentUser.token}`).then(({data }) => {
       dispatch({
         type: T.GET_TAGS_DATA,
