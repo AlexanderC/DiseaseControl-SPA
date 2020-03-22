@@ -1,32 +1,34 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
-import { Navbar, NavbarBrand, Container } from "reactstrap";
-import { Provider } from "react-redux";
+import { Switch, Route, Link } from "react-router-dom";
+import { Navbar, NavbarBrand, Container, Badge } from "reactstrap";
 import Dashboard from "./components/dashboard/Dashboard";
 import Login from "./components/login/Login";
 import Details from "./components/details/Details";
 import logo from "./resources/img/logo.png";
-import store from "./store";
 import { ProtectedRoute } from "./shared/ProtectedRoute";
+
+const suspenseFallback = (
+  <div
+    className="d-flex align-items-center justify-content-center"
+    style={{ height: "100vh" }}
+  >
+    <div className="spinner-border" role="status">
+      <span className="sr-only">Loading...</span>
+    </div>
+  </div>
+);
 
 function App() {
   return (
-    <Provider store={store}>
-      <Router>
-        <Header />
-        <Switch>
-          <Route exact path="/login" component={Login} />
-          <ProtectedRoute exact path="/details/:id" component={Details} />
-          <ProtectedRoute component={Dashboard} />
-        </Switch>
-        <Footer />
-      </Router>
-    </Provider>
+    <React.Suspense fallback={suspenseFallback}>
+      <Header />
+      <Switch>
+        <Route exact path="/login" component={Login} />
+        <ProtectedRoute exact path="/details/:id" component={Details} />
+        <ProtectedRoute component={Dashboard} />
+      </Switch>
+      <Footer />
+    </React.Suspense>
   );
 }
 
@@ -54,6 +56,17 @@ function Header() {
 
 function Footer() {
   return (
-    <section className="mt-auto p-4 text-center bg-light">https://c19md.xyz/</section>
+    <section className="mt-auto p-4 text-center bg-light">
+      <Badge
+        tag="a"
+        color="warning"
+        href="https://c19.md"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mr-2">
+        c19.md
+      </Badge>
+      Instrumente open-source în contextul pandemiei Covid-19
+    </section>
   );
 }
