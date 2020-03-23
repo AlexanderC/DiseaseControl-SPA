@@ -4,39 +4,49 @@ import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 
 function getCurrentUser() {
-  return JSON.parse(localStorage.getItem('currentUser') || '{}');
+  return JSON.parse(localStorage.getItem("currentUser") || "{}");
+}
+
+const ERROR_CODES = [401, 403];
+function checkAndRedirectLogin(error: any) {
+  if (ERROR_CODES.includes(error.status)) {
+    localStorage.setItem("currentUser", "");
+    window.location.reload();
+  }
 }
 
 export function getHospitals() {
-  return function(dispatch: any) {
+  return function (dispatch: any) {
     const currentUser = getCurrentUser();
     return axios
       .get(`/hospital?token=${currentUser.token}`)
       .then(({ data }) => {
         dispatch({
           type: T.GET_HOSPITAL_DATA,
-          payload: data
+          payload: data,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error, "error");
+        checkAndRedirectLogin(error.response);
       });
   };
 }
 
 export function getTags() {
-  return function(dispatch: any) {
+  return function (dispatch: any) {
     const currentUser = getCurrentUser();
     return axios
       .get(`/tag?token=${currentUser.token}`)
       .then(({ data }) => {
         dispatch({
           type: T.GET_TAGS_DATA,
-          payload: data
+          payload: data,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error, "error");
+        checkAndRedirectLogin(error.response);
       });
   };
 }
@@ -54,11 +64,12 @@ export function updateInventoryItemCount(
       .then(({ data }) => {
         return dispatch({
           type: T.UPDATE_INVENTORY_ITEM_COUNT,
-          payload: data
-        })
+          payload: data,
+        });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error, "error");
+        checkAndRedirectLogin(error.response);
       });
   };
 }
