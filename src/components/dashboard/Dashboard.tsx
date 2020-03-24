@@ -100,10 +100,8 @@ export function Dashboard() {
                       truncate(d.name, 50)
                     )}
                   </CardTitle>
-                  <CardText>
-                    {d.description}
-                    <Tags data={d.tags} />
-                  </CardText>
+                  <CardText>{d.description}</CardText>
+                  <Tags data={d.tags} />
                 </CardBody>
                 <ListGroup flush className="mt-auto">
                   {d.inventory.map((p) => {
@@ -115,8 +113,11 @@ export function Dashboard() {
                         key={p.id}
                         className="d-flex justify-content-between align-items-center"
                       >
-                        {p.name}
-                        <small className="text-muted">
+                        <span>{p.name}</span>
+                        <small
+                          className="text-truncate mx-2 text-muted"
+                          title={inventUpdatedAt.toLocaleString()}
+                        >
                           {inventUpdatedAt.toLocaleString()}
                         </small>
                         <Badge pill>{p.HospitalInventory.quantity}</Badge>
