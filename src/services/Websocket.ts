@@ -2,9 +2,8 @@ let openConnections: any = {};
 
 const wsCloseAll = () => {
   Object.values(openConnections).forEach(
-    (socket: any) => socket && socket.close()
+    (socket: any) => socket && socket._close()
   );
-  openConnections = {};
 };
 
 const ws = (
@@ -23,18 +22,13 @@ const ws = (
     .replace(/^http(s?:\/)/, "ws$1/");
 
   // close open connections to this uri
-  if (!multiple && openConnections[url]) {
-    openConnections[uri].close();
-    delete openConnections[uri];
+  if (!multiple && openConnections[uri]) {
+    openConnections[uri]._close();
   }
 
   return new Promise((resolve, reject) => {
-    let error = false;
+    let skipClose = false;
     const socket = new WebSocket(uri);
-
-    if (!multiple) {
-      openConnections[uri] = socket;
-    }
 
     const ws = {
       send: (data: any) => socket.send(JSON.stringify(data)),
@@ -43,7 +37,16 @@ const ws = (
         socket.close();
         resolve();
       },
+      _close() {
+        skipClose = true;
+        delete openConnections[uri];
+        socket.close();
+      },
     };
+
+    if (!multiple) {
+      openConnections[uri] = ws;
+    }
 
     // fail on connection error
     socket.addEventListener("error", (error) => {
@@ -71,7 +74,7 @@ const ws = (
       }
 
       // error occured
-      error = true;
+      skipClose = true;
       delete openConnections[uri];
       socket.close();
       reject(data);
@@ -79,7 +82,7 @@ const ws = (
 
     // handle close on no error
     socket.addEventListener("close", () => {
-      if (error) {
+      if (skipClose) {
         return;
       }
 
