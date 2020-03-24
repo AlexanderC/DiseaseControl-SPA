@@ -1,12 +1,13 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Link } from "react-router-dom";
 import { Navbar, NavbarBrand, Container, Badge, Button } from "reactstrap";
 import { Dashboard } from "./components/dashboard/Dashboard";
 import Login from "./components/login/Login";
 import Details from "./components/details/Details";
 import logo from "./resources/img/logo.png";
 import { ProtectedRoute } from "./shared/ProtectedRoute";
+import { PublicRoute } from "./shared/PublicRoute";
 
 const suspenseFallback = (
   <div
@@ -24,9 +25,9 @@ function App() {
     <React.Suspense fallback={suspenseFallback}>
       <Header />
       <Switch>
-        <Route exact path="/login" component={Login} />
+        <PublicRoute exact path="/login" component={Login} />
+        <ProtectedRoute exact path="/" component={Dashboard} />
         <ProtectedRoute exact path="/details/:id" component={Details} />
-        <ProtectedRoute component={Dashboard} />
       </Switch>
       <Footer />
     </React.Suspense>

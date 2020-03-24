@@ -1,89 +1,64 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useHistory } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
-import { Form, FormGroup, Input, Label, Container, Row, Col, Button, FormFeedback, Alert } from 'reactstrap';
-import logo from '../../resources/img/logo.png';
-import axios from '../../services/Axios';
+import React, { useCallback } from "react";
+import { useHistory } from "react-router";
+import { Form as FinalForm, Field } from "react-final-form";
+import { FORM_ERROR } from "final-form";
+import { Form, Container, Row, Col, Button, Alert } from "reactstrap";
+import logo from "../../resources/img/logo.png";
+import axios from "../../services/Axios";
+import { TextField, required, useFormatMessage } from "../../shared";
 
 export default function Login() {
+  const l10n = useFormatMessage();
   const history = useHistory();
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [loginError, setLoginError] = useState<boolean>(false);
-  const [inputError, setInputError] = useState<boolean>(false);
 
-  useEffect(() => {
-    const currentUser = localStorage.getItem('currentUser');
-    if (currentUser) {
-      history.push('/')
-    }
-  }, [history])
-
-  const validate = useCallback(() => {
-    return email.length > 0 && password.length > 0;
-  }, [email, password])
-
-  const handleLogin = useCallback(() => {
-    setInputError(false);
-    setLoginError(false);
-
-    const isValid = validate();
-
-    if (isValid) {
-      axios.post('/identity/login', {
-        username: email,
-        password
-      }).then(({ data }) => {
-        localStorage.setItem('currentUser', JSON.stringify(data));
-        history.push('/');
-      }).catch(() => {
-        setLoginError(true);
-      })
-    } else {
-      setInputError(true);
-    }
-  }, [email, password, history, validate])
+  const onSubmit = useCallback(
+    async (values) => {
+      try {
+        const { data } = await axios.post("/identity/login", values);
+        localStorage.setItem("currentUser", JSON.stringify(data));
+        history.push("/");
+      } catch (e) {
+        return { [FORM_ERROR]: "login.error" };
+      }
+    },
+    [history]
+  );
 
   return (
     <Container className="my-3">
       <Row className="justify-content-center">
         <Col sm="8" lg="6">
           <div className="text-center m-3">
-            <img src={logo} alt="" style={{ width: '35%' }} />
+            <img src={logo} alt="" style={{ width: "30%" }} />
           </div>
-          <Form>
-            <FormGroup>
-              <Label>
-                <FormattedMessage id="login.email" />
-              </Label>
-              <Input
-                type="email"
-                value={email}
-                onChange={(e: any) => setEmail(e.target.value)}
-              />
-              {inputError && (
-                <FormFeedback valid={false} className="d-block">
-                  <FormattedMessage id="login.inputError" />
-                </FormFeedback>
-              )}
-            </FormGroup>
-            <FormGroup>
-              <Label>
-                <FormattedMessage id="login.password" />
-              </Label>
-              <Input type="password" value={password} onChange={(e: any) => setPassword(e.target.value)} />
-            </FormGroup>
-            {loginError && (
-              <Alert color="danger">
-                <FormattedMessage id="login.error" />
-              </Alert>
+          <FinalForm onSubmit={onSubmit}>
+            {(form) => (
+              <Form onSubmit={form.handleSubmit}>
+                <Field
+                  name="username"
+                  type="email"
+                  label="login.email"
+                  autoComplete="email"
+                  component={TextField}
+                  validate={required}
+                />
+                <Field
+                  name="password"
+                  type="password"
+                  label="login.password"
+                  autoComplete="current-password"
+                  component={TextField}
+                  validate={required}
+                />
+                {form.submitError && (
+                  <Alert color="danger">{l10n(form.submitError)}</Alert>
+                )}
+                <Button>{l10n("login.button")}</Button>
+              </Form>
             )}
-            <Button onClick={handleLogin}>
-              <FormattedMessage id="login.button" />
-            </Button>
-          </Form>
+          </FinalForm>
         </Col>
       </Row>
-    </Container >
-  )
-};
+    </Container>
+  );
+}
