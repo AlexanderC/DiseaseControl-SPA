@@ -2,6 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { Switch, Link } from "react-router-dom";
 import { Navbar, NavbarBrand, Container, Badge, Button } from "reactstrap";
+import { NotificationContainer } from "react-notifications";
 import { Dashboard } from "./components/dashboard/Dashboard";
 import Login from "./components/login/Login";
 import Details from "./components/details/Details";
@@ -30,6 +31,7 @@ function App() {
         <ProtectedRoute exact path="/details/:id" component={Details} />
       </Switch>
       <Footer />
+      <NotificationContainer />
     </React.Suspense>
   );
 }

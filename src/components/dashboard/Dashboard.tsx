@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import * as T from "../../resources/types";
 import { useSelector, useDispatch } from "react-redux";
-import { getHospitals, getTags } from "../../actions/DataActions";
+import { getHospitalsLive, getTags } from "../../actions/DataActions";
 import {
   Container,
   Row,
@@ -33,7 +33,7 @@ export function Dashboard() {
   const [filteredData, setFilteredData] = useState<T.Hospital[]>([]);
 
   useEffect(() => {
-    dispatch(getHospitals());
+    dispatch(getHospitalsLive());
     dispatch(getTags());
   }, [dispatch]);
 
