@@ -101,7 +101,7 @@ export function Dashboard() {
                     )}
                   </CardTitle>
                   <CardText>
-                    {truncate(d.description, 150)}
+                    {d.description}
                     <Tags data={d.tags} />
                   </CardText>
                 </CardBody>
