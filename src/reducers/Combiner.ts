@@ -1,21 +1,25 @@
-import { combineReducers } from 'redux';
-import data from './DataReducers';
-import { Hospital, Tag, TagColors } from '../resources/types';
+import { combineReducers } from "redux";
+import data from "./DataReducers";
+import { Hospital, Tag, TagColors } from "../resources/types";
 
 const rootReducer = combineReducers({ data });
 
-export type AppState = ReturnType<typeof rootReducer>
+export type AppState = ReturnType<typeof rootReducer>;
 
 export function selectHospitals(state: AppState): Hospital[] {
-    return state.data.data
+  return state.data.data;
 }
 
 export function selectTags(state: AppState): Tag[] {
-    return state.data.tags
+  return state.data.tags;
 }
 
 export function selectTagColors(state: AppState): TagColors {
-    return state.data.tagColors
+  return state.data.tagColors;
+}
+
+export function selectUserProfile(state: AppState): any {
+  return state.data.user;
 }
 
 export default rootReducer;

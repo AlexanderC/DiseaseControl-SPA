@@ -8,6 +8,9 @@ import Details from "./components/details/Details";
 import logo from "./resources/img/logo.png";
 import { ProtectedRoute } from "./shared/ProtectedRoute";
 import { PublicRoute } from "./shared/PublicRoute";
+import { AdminRoute } from "./shared";
+import { AdminDashboard } from "./components/admin-dashboard";
+import { EditTags } from "./components/edit-tags";
 
 const suspenseFallback = (
   <div
@@ -28,6 +31,9 @@ function App() {
         <PublicRoute exact path="/login" component={Login} />
         <ProtectedRoute exact path="/" component={Dashboard} />
         <ProtectedRoute exact path="/details/:id" component={Details} />
+        <AdminRoute exact path="/admin" component={AdminDashboard} />
+        <AdminRoute exact path="/admin/tags" component={EditTags} />
+        <AdminRoute exact path="/admin/inventory" component={AdminDashboard} />
       </Switch>
       <Footer />
     </React.Suspense>
