@@ -7,6 +7,8 @@ type InventoryItem = {
   HospitalInventory: {
     id: number;
     quantity: number;
+    createdAt: string;
+    updatedAt: string;
   };
 };
 
@@ -27,12 +29,6 @@ export type Hospital = {
   updatedAt: string;
   tags: Tag[];
   inventory: InventoryItem[];
-  events: Array<{
-    time: string;
-    type: string;
-    inventoryType: string;
-    userId: string;
-  }>;
 };
 
 export type TagColors = {

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useCallback, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+
 import {
   getHospitals,
   updateInventoryItemCount,
@@ -57,7 +58,9 @@ function Details(props: RouteComponentProps<{ id: string }>) {
           <ListGroupItem>No items</ListGroupItem>
         )}
         {hospital.inventory.map((inventory) => {
-          const inventUpdatedAt = new Date(inventory.updatedAt);
+          const inventUpdatedAt = new Date(
+            inventory.HospitalInventory.updatedAt
+          );
           return (
             <ListGroupItem
               key={inventory.id}
@@ -66,8 +69,7 @@ function Details(props: RouteComponentProps<{ id: string }>) {
               <div>
                 <div>{inventory.name}</div>
                 <small className="text-muted">
-                  Last updated: {inventUpdatedAt.toLocaleDateString()} -{" "}
-                  {inventUpdatedAt.toLocaleTimeString()}
+                  {inventUpdatedAt.toLocaleString()}
                 </small>
               </div>
               <div>
@@ -103,19 +105,6 @@ function Details(props: RouteComponentProps<{ id: string }>) {
             </ListGroupItem>
           );
         })}
-      </ListGroup>
-
-      <h4>History</h4>
-
-      <ListGroup>
-        {(hospital.events ?? []).length === 0 && (
-          <ListGroupItem>Empty</ListGroupItem>
-        )}
-        {(hospital.events ?? []).map((e) => (
-          <ListGroupItem>
-            {e.time} - {e.inventoryType} - {e.type}
-          </ListGroupItem>
-        ))}
       </ListGroup>
     </Container>
   );

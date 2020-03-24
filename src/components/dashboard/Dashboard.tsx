@@ -88,7 +88,6 @@ export function Dashboard() {
       </div>
       <Row>
         {filteredData.map((d) => {
-          const updatedAt = new Date(d.updatedAt);
           return (
             <Col key={d.id} xs="12" sm="6" md="6" lg="3" className="mb-4">
               <Card className="h-100">
@@ -96,25 +95,29 @@ export function Dashboard() {
                   <CardTitle tag="h4">
                     <Link to={`/details/${d.id}`}>{truncate(d.name, 35)}</Link>
                   </CardTitle>
-                  <CardSubtitle tag="small" className="text-muted">
-                    {updatedAt.toLocaleDateString()} -{" "}
-                    {updatedAt.toLocaleTimeString()}
-                  </CardSubtitle>
                   <CardText>
-                    {truncate(d.description, 100)}
+                    {truncate(d.description, 150)}
                     <Tags data={d.tags} />
                   </CardText>
                 </CardBody>
                 <ListGroup flush className="mt-auto">
-                  {d.inventory.map((p) => (
-                    <ListGroupItem
-                      key={p.id}
-                      className="d-flex justify-content-between align-items-center"
-                    >
-                      {p.name}
-                      <Badge pill>{p.HospitalInventory.quantity}</Badge>
-                    </ListGroupItem>
-                  ))}
+                  {d.inventory.map((p) => {
+                    const inventUpdatedAt = new Date(
+                      p.HospitalInventory.updatedAt
+                    );
+                    return (
+                      <ListGroupItem
+                        key={p.id}
+                        className="d-flex justify-content-between align-items-center"
+                      >
+                        {p.name}
+                        <small className="text-muted">
+                          {inventUpdatedAt.toLocaleString()}
+                        </small>
+                        <Badge pill>{p.HospitalInventory.quantity}</Badge>
+                      </ListGroupItem>
+                    );
+                  })}
                 </ListGroup>
               </Card>
             </Col>
