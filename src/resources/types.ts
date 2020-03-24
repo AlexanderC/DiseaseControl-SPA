@@ -12,6 +12,10 @@ type InventoryItem = {
   };
 };
 
+type SupervisorItem = {
+  id: number;
+};
+
 export type Tag = {
   id: number;
   name: string;
@@ -27,7 +31,9 @@ export type Hospital = {
   description: string;
   createdAt: string;
   updatedAt: string;
+  canManage: boolean;
   tags: Tag[];
+  supervisors: SupervisorItem[];
   inventory: InventoryItem[];
 };
 

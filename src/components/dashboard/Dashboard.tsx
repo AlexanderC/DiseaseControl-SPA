@@ -15,7 +15,6 @@ import {
   Badge,
   CardBody,
   Button,
-  CardSubtitle,
 } from "reactstrap";
 import {
   selectHospitals,
@@ -93,7 +92,13 @@ export function Dashboard() {
               <Card className="h-100">
                 <CardBody>
                   <CardTitle tag="h4">
-                    <Link to={`/details/${d.id}`}>{truncate(d.name, 35)}</Link>
+                    {d.canManage ? (
+                      <Link to={`/details/${d.id}`}>
+                        {truncate(d.name, 50)}
+                      </Link>
+                    ) : (
+                      truncate(d.name, 50)
+                    )}
                   </CardTitle>
                   <CardText>
                     {truncate(d.description, 150)}
