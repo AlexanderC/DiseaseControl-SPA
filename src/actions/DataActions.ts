@@ -1,6 +1,6 @@
 import axios from "../services/Axios";
 import Notify from "../services/Notify";
-import ws from "../services/Websocket";
+import { ws, wsCloseAll } from "../services/Websocket";
 import * as T from "./types";
 import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
@@ -12,6 +12,7 @@ function getCurrentUser() {
 const ERROR_CODES = [401, 403];
 function checkAndRedirectLogin(error: any) {
   if (ERROR_CODES.includes(error.status)) {
+    wsCloseAll();
     localStorage.setItem("currentUser", "");
     window.location.reload();
   }
@@ -48,7 +49,7 @@ export function getHospitalsLive() {
 
     // catch errors, e.g. 401 or 403
     socket.catch((error) => {
-      console.log(error, "error");
+      console.error(error);
       checkAndRedirectLogin(error);
     });
   };
@@ -66,7 +67,7 @@ export function getHospitals() {
         });
       })
       .catch((error) => {
-        console.log(error, "error");
+        console.error(error);
         checkAndRedirectLogin(error.response);
       });
   };
@@ -84,7 +85,7 @@ export function getTags() {
         });
       })
       .catch((error) => {
-        console.log(error, "error");
+        console.error(error);
         checkAndRedirectLogin(error.response);
       });
   };
@@ -107,7 +108,7 @@ export function updateInventoryItemCount(
         });
       })
       .catch((error) => {
-        console.log(error, "error");
+        console.error(error);
         checkAndRedirectLogin(error.response);
       });
   };

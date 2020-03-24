@@ -9,6 +9,7 @@ import Details from "./components/details/Details";
 import logo from "./resources/img/logo.png";
 import { ProtectedRoute } from "./shared/ProtectedRoute";
 import { PublicRoute } from "./shared/PublicRoute";
+import { wsCloseAll } from "./services/Websocket";
 
 const suspenseFallback = (
   <div
@@ -60,6 +61,7 @@ function Header() {
               color="primary"
               className="float-right"
               onClick={() => {
+                wsCloseAll();
                 localStorage.setItem("currentUser", "");
                 history.push("/login");
               }}

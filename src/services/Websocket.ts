@@ -1,4 +1,11 @@
-const openConnections: any = {};
+let openConnections: any = {};
+
+const wsCloseAll = () => {
+  Object.values(openConnections).forEach(
+    (socket: any) => socket && socket.close()
+  );
+  openConnections = {};
+};
 
 const ws = (
   url: string,
@@ -83,4 +90,4 @@ const ws = (
   });
 };
 
-export default ws;
+export { ws, wsCloseAll };
