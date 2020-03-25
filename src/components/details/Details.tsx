@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useCallback, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
+import Notify from "../../services/Notify";
 import {
   getHospitals,
   updateInventoryItemCount,
@@ -94,7 +95,10 @@ function InventoryItemRow(props: InventoryItemProps) {
     setUpdating(true);
     dispatch(
       updateInventoryItemCount(HospitalId, id, parseInt(inputQuantity, 10))
-    ).then(() => setUpdating(false));
+    ).then(() => {
+      Notify.info("Saved!"); // TODO: add i18n
+      setUpdating(false);
+    });
   }, [dispatch, HospitalId, id, inputQuantity]);
 
   return (
