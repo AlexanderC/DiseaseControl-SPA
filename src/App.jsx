@@ -88,7 +88,29 @@ function Footer() {
       >
         c19.md
       </Badge>
-      Instrumente open-source în contextul pandemiei Covid-19
+      Instrument open-source în contextul pandemiei Covid-19 realizat cu ❤ de
+      Moldoveni p-tru Moldoveni. Cod sursa{" "}
+      <Badge
+        tag="a"
+        color="info"
+        href="https://github.com/AlexanderC/DiseaseControl"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mr-1"
+      >
+        &lt; aici /&gt;
+      </Badge>{" "}
+      si{" "}
+      <Badge
+        tag="a"
+        color="info"
+        href="https://github.com/AlexanderC/DiseaseControl-SPA"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mr-1"
+      >
+        &lt; aici /&gt;
+      </Badge>
     </section>
   );
 }
