@@ -3,6 +3,8 @@ import { getCurrentUser } from "../../actions/DataActions";
 import { AdminDashboardLayout } from "../../layouts/AdminDashboardLayout";
 import axiosInstance from "../../services/Axios";
 import { useFormatMessage } from "../../shared";
+import { Row, Col, Button } from "reactstrap";
+import { ManageItemCard } from "../manage-item-card";
 
 type ManageInventoryProps = {};
 
@@ -24,8 +26,31 @@ export const ManageInventory: FunctionComponent<ManageInventoryProps> = (
   const i10n = useFormatMessage();
 
   return (
-    <AdminDashboardLayout title={i10n("tag.list")}>
-      {JSON.stringify(inventory)}
+    <AdminDashboardLayout title={"Inventory"}>
+      <Row>
+        {inventory.map((inventoryItem) => (
+          <Col
+            key={inventoryItem.name}
+            xl={3}
+            lg={4}
+            md={6}
+            xs={12}
+            className="mb-4"
+          >
+            <ManageItemCard
+              description={inventoryItem.description}
+              name={inventoryItem.name}
+              onEditClick={() => {}}
+              onDeleteClick={() => {}}
+            />
+          </Col>
+        ))}
+        <Col xl={3} lg={4} md={6} xs={12} className="mb-4">
+          <Button color="primary" onClick={() => {}}>
+            New Item
+          </Button>
+        </Col>
+      </Row>
     </AdminDashboardLayout>
   );
 };

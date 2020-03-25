@@ -1,45 +1,14 @@
-import React, { FunctionComponent, useState, useEffect } from "react";
-import { AdminDashboardLayout } from "../../layouts/AdminDashboardLayout";
-import axiosInstance from "../../services/Axios";
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { Button, Col, Row } from "reactstrap";
 import { getCurrentUser } from "../../actions/DataActions";
-import {
-  Card,
-  CardTitle,
-  CardText,
-  Row,
-  Col,
-  CardBody,
-  Button,
-} from "reactstrap";
-import { useFormatMessage } from "../../shared";
-import { BaseModal } from "../../modals/BaseModal";
-import { useModal } from "../../shared/useModal";
 import { TagForm } from "../../forms/TagForm";
+import { AdminDashboardLayout } from "../../layouts/AdminDashboardLayout";
+import { BaseModal } from "../../modals/BaseModal";
+import axiosInstance from "../../services/Axios";
+import { useFormatMessage } from "../../shared";
+import { useModal } from "../../shared/useModal";
 import { Confirmation } from "../confirmation";
-
-type TagCardProp = {
-  name: string;
-  description: string;
-  onEditClick: () => any;
-  onDeleteClick: () => any;
-};
-
-const TagCard: FunctionComponent<TagCardProp> = (props) => {
-  const i10n = useFormatMessage();
-
-  return (
-    <Card>
-      <CardBody>
-        <CardTitle tag="h5">{props.name}</CardTitle>
-        <CardText>{props.description}</CardText>
-        <Button onClick={props.onEditClick}>{i10n("tag.edit")}</Button>
-        <Button color="danger" className="ml-1" onClick={props.onDeleteClick}>
-          {i10n("tag.delete")}
-        </Button>
-      </CardBody>
-    </Card>
-  );
-};
+import { ManageItemCard } from "../manage-item-card";
 
 type ManageTagsProps = {};
 
@@ -146,7 +115,7 @@ export const ManageTags: FunctionComponent<ManageTagsProps> = (props) => {
       <Row>
         {tags.map((tag) => (
           <Col key={tag.name} xl={3} lg={4} md={6} xs={12} className="mb-4">
-            <TagCard
+            <ManageItemCard
               description={tag.description}
               name={tag.name}
               onEditClick={() => open(tag)}
