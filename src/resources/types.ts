@@ -1,15 +1,19 @@
-type InventoryItem = {
+export type HospitalInventory = {
+  id: number;
+  quantity: number;
+  createdAt: string;
+  updatedAt: string;
+  HospitalId: number;
+  InventoryId: number;
+};
+
+export type InventoryItem = {
   id: number;
   name: string;
   description: string;
   createdAt: string;
   updatedAt: string;
-  HospitalInventory: {
-    id: number;
-    quantity: number;
-    createdAt: string;
-    updatedAt: string;
-  };
+  HospitalInventory: HospitalInventory;
 };
 
 type SupervisorItem = {
