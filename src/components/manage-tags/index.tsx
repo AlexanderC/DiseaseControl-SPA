@@ -41,9 +41,9 @@ const TagCard: FunctionComponent<TagCardProp> = (props) => {
   );
 };
 
-type EditTagsProps = {};
+type ManageTagsProps = {};
 
-export const EditTags: FunctionComponent<EditTagsProps> = (props) => {
+export const ManageTags: FunctionComponent<ManageTagsProps> = (props) => {
   const user = getCurrentUser();
   const emptyTag = {
     name: "",
