@@ -1,7 +1,7 @@
 import React from "react";
-import { useFormatMessage } from "./useFormatMessage";
-import { FormGroup, Label, Input, FormFeedback } from "reactstrap";
 import { FieldRenderProps } from "react-final-form";
+import { FormFeedback, FormGroup, Input, Label } from "reactstrap";
+import { useFormatMessage } from "../i18n/i18n.service";
 
 export function TextField(
   props: FieldRenderProps<string | undefined, HTMLInputElement>
