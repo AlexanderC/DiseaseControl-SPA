@@ -12,5 +12,10 @@
   "tag.submit": "Trimite",
   "tag.reset": "Inchide",
   "tag.list": "Lista de Tag-uri",
+  "tag.edit": "Modifica",
+  "tag.delete": "Sterge",
+  "tag.deleteTitle": "Sterge Tag-ul:",
+  "confirm.yes": "Da",
+  "confirm.no": "Nu",
   "required.error": "Acest camp este obligatoriu"
 }

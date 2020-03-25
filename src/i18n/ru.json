@@ -12,5 +12,10 @@
   "tag.submit": "Отправить",
   "tag.reset": "Закрыть",
   "tag.list": "Список Тэгов",
+  "tag.edit": "Изменить",
+  "tag.delete": "Удалить",
+  "tag.deleteTitle": "Удаление тэга: ",
+  "confirm.yes": "Да",
+  "confirm.no": "Нет",
   "required.error": "Это поле обязательно для заполнения"
 }
