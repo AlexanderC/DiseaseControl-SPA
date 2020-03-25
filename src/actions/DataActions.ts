@@ -1,4 +1,6 @@
 import axios from "../services/Axios";
+import Notify from "../services/Notify";
+import { ws, wsCloseAll } from "../services/Websocket";
 import * as T from "./types";
 import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
@@ -10,9 +12,47 @@ export function getCurrentUser() {
 const ERROR_CODES = [401, 403];
 function checkAndRedirectLogin(error: any) {
   if (ERROR_CODES.includes(error.status)) {
+    wsCloseAll();
     localStorage.setItem("currentUser", "");
     window.location.reload();
   }
+}
+
+export function getHospitalsLive() {
+  return function (dispatch: any) {
+    let first = true;
+    const currentUser = getCurrentUser();
+
+    const socket = ws(
+      `/hospital/live?token=${currentUser.token}`,
+      (ws: any) => ws.send({}), // send empty frame when open
+      () => setTimeout(() => getHospitalsLive()(dispatch), 1000), // on close reconnect in a second
+      (payload: any) => {
+        if (first) {
+          first = false;
+        } else {
+          Notify.info("Information updated!"); // TODO: add i18n!
+        }
+
+        dispatch({
+          // on frame received
+          type: T.GET_HOSPITAL_DATA,
+          payload,
+        });
+      }
+    );
+
+    // call regular endpoint if websocket not available
+    if (!socket) {
+      return getHospitals()(dispatch);
+    }
+
+    // catch errors, e.g. 401 or 403
+    socket.catch((error) => {
+      console.error(error);
+      checkAndRedirectLogin(error);
+    });
+  };
 }
 
 export function getHospitals() {
@@ -27,7 +67,7 @@ export function getHospitals() {
         });
       })
       .catch((error) => {
-        console.log(error, "error");
+        console.error(error);
         checkAndRedirectLogin(error.response);
       });
   };
@@ -45,7 +85,7 @@ export function getTags() {
         });
       })
       .catch((error) => {
-        console.log(error, "error");
+        console.error(error);
         checkAndRedirectLogin(error.response);
       });
   };
@@ -68,7 +108,7 @@ export function updateInventoryItemCount(
         });
       })
       .catch((error) => {
-        console.log(error, "error");
+        console.error(error);
         checkAndRedirectLogin(error.response);
       });
   };

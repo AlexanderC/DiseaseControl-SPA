@@ -2,6 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { Switch, Link } from "react-router-dom";
 import { Navbar, NavbarBrand, Container, Badge, Button } from "reactstrap";
+import { NotificationContainer } from "react-notifications";
 import { Dashboard } from "./components/dashboard/Dashboard";
 import Login from "./components/login/Login";
 import Details from "./components/details/Details";
@@ -12,6 +13,7 @@ import { AdminRoute } from "./shared";
 import { AdminDashboard } from "./components/admin-dashboard";
 import { ManageTags } from "./components/manage-tags";
 import { ManageInventory } from "./components/manage-inventory";
+import { wsCloseAll } from "./services/Websocket";
 
 const suspenseFallback = (
   <div
@@ -38,6 +40,7 @@ function App() {
         <AdminRoute exact path="/admin/hospitals" component={AdminDashboard} />
       </Switch>
       <Footer />
+      <NotificationContainer />
     </React.Suspense>
   );
 }
@@ -66,6 +69,7 @@ function Header() {
               color="primary"
               className="float-right"
               onClick={() => {
+                wsCloseAll();
                 localStorage.setItem("currentUser", "");
                 history.push("/login");
               }}
@@ -92,7 +96,29 @@ function Footer() {
       >
         c19.md
       </Badge>
-      Instrumente open-source în contextul pandemiei Covid-19
+      Instrument open-source în contextul pandemiei Covid-19 realizat cu ❤ de
+      Moldoveni p-tru Moldoveni. Cod sursa{" "}
+      <Badge
+        tag="a"
+        color="info"
+        href="https://github.com/AlexanderC/DiseaseControl"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mr-1"
+      >
+        &lt; aici /&gt;
+      </Badge>{" "}
+      si{" "}
+      <Badge
+        tag="a"
+        color="info"
+        href="https://github.com/AlexanderC/DiseaseControl-SPA"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mr-1"
+      >
+        &lt; aici /&gt;
+      </Badge>
     </section>
   );
 }

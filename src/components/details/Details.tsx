@@ -2,13 +2,23 @@ import React, { useEffect, useMemo, useCallback, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
+import Notify from "../../services/Notify";
 import {
   getHospitals,
   updateInventoryItemCount,
 } from "../../actions/DataActions";
 import { selectHospitals } from "../../reducers/Combiner";
-import { Container, ListGroup, ListGroupItem, Badge, Button } from "reactstrap";
+import {
+  Container,
+  ListGroup,
+  ListGroupItem,
+  Button,
+  InputGroup,
+  InputGroupAddon,
+  Input,
+} from "reactstrap";
 import { Tags } from "../common/tags/Tags";
+import { InventoryItem } from "../../resources/types";
 
 function Details(props: RouteComponentProps<{ id: string }>) {
   const { match } = props;
@@ -26,17 +36,6 @@ function Details(props: RouteComponentProps<{ id: string }>) {
     }
   }, [dispatch, hospital]);
 
-  const [updatingCount, setUpdatingCount] = useState(false);
-  const updateInventItemCount = useCallback(
-    (inventItemId, count) => {
-      setUpdatingCount(true);
-      dispatch(
-        updateInventoryItemCount(hospitalId, inventItemId, count)
-      ).then(() => setUpdatingCount(false));
-    },
-    [dispatch, hospitalId]
-  );
-
   if (!hospital) return null;
 
   const updatedAt = new Date(hospital.updatedAt);
@@ -49,65 +48,82 @@ function Details(props: RouteComponentProps<{ id: string }>) {
         {updatedAt.toLocaleTimeString()}
       </small>
       <p>{hospital.description}</p>
-      <Tags data={hospital.tags} />
+
+      <div className="mb-2">
+        <Tags data={hospital.tags} />
+      </div>
 
       <h4>Inventory</h4>
 
-      <ListGroup tag="fieldset" disabled={updatingCount} className="mb-4">
+      <ListGroup className="mb-4">
         {hospital.inventory.length === 0 && (
           <ListGroupItem>No items</ListGroupItem>
         )}
-        {hospital.inventory.map((inventory) => {
-          const inventUpdatedAt = new Date(
-            inventory.HospitalInventory.updatedAt
-          );
-          return (
-            <ListGroupItem
-              key={inventory.id}
-              className="d-flex justify-content-between align-items-center"
-            >
-              <div>
-                <div>{inventory.name}</div>
-                <small className="text-muted">
-                  {inventUpdatedAt.toLocaleString()}
-                </small>
-              </div>
-              <div>
-                <Button
-                  size="sm"
-                  color="link"
-                  className="mr-1"
-                  onClick={() =>
-                    updateInventItemCount(
-                      inventory.HospitalInventory.id,
-                      inventory.HospitalInventory.quantity + 1
-                    )
-                  }
-                >
-                  <span>+</span>
-                </Button>
-                <Button
-                  size="sm"
-                  color="link"
-                  className="mr-1"
-                  disabled={inventory.HospitalInventory.quantity === 0}
-                  onClick={() =>
-                    updateInventItemCount(
-                      inventory.HospitalInventory.id,
-                      inventory.HospitalInventory.quantity - 1
-                    )
-                  }
-                >
-                  <span>-</span>
-                </Button>
-                <Badge>{inventory.HospitalInventory.quantity}</Badge>
-              </div>
-            </ListGroupItem>
-          );
-        })}
+        {hospital.inventory.map((inventoryItem) => (
+          <InventoryItemRow
+            key={inventoryItem.id}
+            inventoryItem={inventoryItem}
+          />
+        ))}
       </ListGroup>
     </Container>
   );
 }
 
 export default Details;
+
+type InventoryItemProps = {
+  inventoryItem: InventoryItem;
+};
+
+function InventoryItemRow(props: InventoryItemProps) {
+  const { inventoryItem } = props;
+  const {
+    HospitalId,
+    updatedAt,
+    quantity,
+    id,
+  } = inventoryItem.HospitalInventory;
+  const inventUpdatedAt = new Date(updatedAt);
+  const dispatch = useDispatch();
+  const [inputQuantity, setInputQuantity] = useState<string>(
+    quantity.toString()
+  );
+  const [updating, setUpdating] = useState(false);
+
+  const save = useCallback(() => {
+    setUpdating(true);
+    dispatch(
+      updateInventoryItemCount(HospitalId, id, parseInt(inputQuantity, 10))
+    ).then(() => {
+      Notify.info("Saved!"); // TODO: add i18n
+      setUpdating(false);
+    });
+  }, [dispatch, HospitalId, id, inputQuantity]);
+
+  return (
+    <ListGroupItem
+      key={inventoryItem.id}
+      className="d-flex justify-content-between align-items-center"
+    >
+      <div>
+        <div>{inventoryItem.name}</div>
+        <small className="text-muted">{inventUpdatedAt.toLocaleString()}</small>
+      </div>
+      <InputGroup size="sm" style={{ width: "100px" }}>
+        <Input
+          type="number"
+          min="0"
+          disabled={updating}
+          value={inputQuantity}
+          onChange={(e) => setInputQuantity(e.target.value)}
+        />
+        <InputGroupAddon addonType="append">
+          <Button color="success" disabled={updating} onClick={save}>
+            ✓
+          </Button>
+        </InputGroupAddon>
+      </InputGroup>
+    </ListGroupItem>
+  );
+}

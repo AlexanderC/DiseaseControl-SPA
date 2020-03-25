@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import * as T from "../../resources/types";
 import { useSelector, useDispatch } from "react-redux";
-import { getHospitals, getTags } from "../../actions/DataActions";
+import { getHospitalsLive, getTags } from "../../actions/DataActions";
 import {
   Container,
   Row,
@@ -15,7 +15,6 @@ import {
   Badge,
   CardBody,
   Button,
-  CardSubtitle,
 } from "reactstrap";
 import {
   selectHospitals,
@@ -34,7 +33,7 @@ export function Dashboard() {
   const [filteredData, setFilteredData] = useState<T.Hospital[]>([]);
 
   useEffect(() => {
-    dispatch(getHospitals());
+    dispatch(getHospitalsLive());
     dispatch(getTags());
   }, [dispatch]);
 
@@ -93,12 +92,16 @@ export function Dashboard() {
               <Card className="h-100">
                 <CardBody>
                   <CardTitle tag="h4">
-                    <Link to={`/details/${d.id}`}>{truncate(d.name, 35)}</Link>
+                    {d.canManage ? (
+                      <Link to={`/details/${d.id}`}>
+                        {truncate(d.name, 50)}
+                      </Link>
+                    ) : (
+                      truncate(d.name, 50)
+                    )}
                   </CardTitle>
-                  <CardText>
-                    {truncate(d.description, 150)}
-                    <Tags data={d.tags} />
-                  </CardText>
+                  <CardText>{d.description}</CardText>
+                  <Tags data={d.tags} />
                 </CardBody>
                 <ListGroup flush className="mt-auto">
                   {d.inventory.map((p) => {
@@ -110,8 +113,11 @@ export function Dashboard() {
                         key={p.id}
                         className="d-flex justify-content-between align-items-center"
                       >
-                        {p.name}
-                        <small className="text-muted">
+                        <span>{p.name}</span>
+                        <small
+                          className="text-truncate mx-2 text-muted"
+                          title={inventUpdatedAt.toLocaleString()}
+                        >
                           {inventUpdatedAt.toLocaleString()}
                         </small>
                         <Badge pill>{p.HospitalInventory.quantity}</Badge>

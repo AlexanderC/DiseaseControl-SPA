@@ -9,6 +9,10 @@ import { Hospital, Tag, TagColors } from "../resources/types";
 
 const colors = ["primary", "secondary", "warning", "success", "danger", "info"];
 
+function getCurrentUser() {
+  return JSON.parse(localStorage.getItem("currentUser") || "{}");
+}
+
 const getTagColors = (tags: Tag[]) => {
   const tagColors: {
     [s: string]: string;
@@ -34,11 +38,19 @@ const initialState: HopitalsState = {
 };
 
 export default (state = initialState, action: AnyAction): HopitalsState => {
+  const { type, id } = getCurrentUser();
+
   switch (action.type) {
     case GET_HOSPITAL_DATA:
       return {
         ...state,
-        data: action.payload,
+        data: action.payload.map((hospital: Hospital) => {
+          hospital.canManage =
+            type === "admin" ||
+            hospital.supervisors.map((s) => s.id).includes(id);
+
+          return hospital;
+        }),
       };
 
     case GET_TAGS_DATA:
