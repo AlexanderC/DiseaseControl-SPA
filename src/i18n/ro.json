@@ -5,5 +5,12 @@
   "login.button": "Login",
   "login.error": "Ati introdus email sau parola incorecte",
   "login.inputError": "Cimpurile email si parola nu pot fi goale ",
-  "header.list": "Lista spitale"
+  "header.list": "Lista spitale",
+  "tag.description": "Descriere",
+  "tag.name": "Denumire",
+  "tag.addNew": "Adauga Tag nou",
+  "tag.submit": "Trimite",
+  "tag.reset": "Inchide",
+  "tag.list": "Lista de Tag-uri",
+  "required.error": "Acest camp este obligatoriu"
 }

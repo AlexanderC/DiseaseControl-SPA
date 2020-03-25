@@ -11,20 +11,22 @@ import {
   CardBody,
   Button,
 } from "reactstrap";
-import { EditTagModal } from "./EditTagModal";
+import { TagFormModal } from "./../../modals/TagFormModal";
+import { useFormatMessage } from "../../shared";
 
 type TagCardProp = {
-  tag: any;
-  onEditClick: (tag: any) => any;
+  name: string;
+  description: string;
+  onEditClick: () => any;
 };
 
 const TagCard: FunctionComponent<TagCardProp> = (props) => {
   return (
     <Card>
       <CardBody>
-        <CardTitle tag="h5">{props.tag.name}</CardTitle>
-        <CardText>{props.tag.description}</CardText>
-        <Button onClick={() => props.onEditClick(props.tag)}>Edit</Button>
+        <CardTitle tag="h5">{props.name}</CardTitle>
+        <CardText>{props.description}</CardText>
+        <Button onClick={() => props.onEditClick()}>Edit</Button>
       </CardBody>
     </Card>
   );
@@ -33,10 +35,15 @@ const TagCard: FunctionComponent<TagCardProp> = (props) => {
 type EditTagsProps = {};
 
 export const EditTags: FunctionComponent<EditTagsProps> = (props) => {
-  const [tags, setTags] = useState<Array<any>>([]);
   const user = getCurrentUser();
+  const emptyTag = {
+    name: "",
+    description: "",
+  };
 
-  const [editModal, setEditModal] = useState(false);
+  const [tags, setTags] = useState<Array<any>>([]);
+  const [editModal, setEditModal] = useState<boolean>(false);
+  const [activeTag, setActiveTag] = useState(null);
 
   const openModal = (data: any) => {
     setActiveTag(data);
@@ -45,23 +52,67 @@ export const EditTags: FunctionComponent<EditTagsProps> = (props) => {
 
   const closeModal = () => setEditModal(false);
 
-  const [activeTag, setActiveTag] = useState(null);
-
-  useEffect(() => {
+  const fetchTags = () => {
     axiosInstance
       .get(`/tag?token=${user.token}`)
       .then(({ data }) => setTags(data));
-  }, []);
+  };
+
+  const onEditTag = async (tag: any) => {
+    await axiosInstance.post(
+      `/admin/tag?token=${user.token}`,
+      tags.map((t) => {
+        if (t.id === tag.id) {
+          return tag;
+        }
+        return t;
+      })
+    );
+    closeModal();
+    fetchTags();
+  };
+
+  const onAddTag = async (tag: any) => {
+    await axiosInstance.post(`/admin/tag?token=${user.token}`, [...tags, tag]);
+    closeModal();
+    fetchTags();
+  };
+
+  const onFormSubmit = async (tag: any) => {
+    // if (tag.id) {
+    //   await onEditTag(tag);
+    // } else {
+    //   await onAddTag(tag);
+    // }
+  };
+
+  useEffect(fetchTags, []);
+
+  const i10n = useFormatMessage();
 
   return (
-    <AdminDashboardLayout title="Edit Tags">
-      <EditTagModal open={editModal} onClose={closeModal} tag={activeTag} />
+    <AdminDashboardLayout title={i10n("tag.list")}>
+      <TagFormModal
+        open={editModal}
+        onClose={closeModal}
+        tag={activeTag}
+        onSubmit={onFormSubmit}
+      />
       <Row>
         {tags.map((tag) => (
           <Col key={tag.name} xl={3} lg={4} md={6} xs={12} className="mb-4">
-            <TagCard tag={tag} onEditClick={openModal} />
+            <TagCard
+              description={tag.description}
+              name={tag.name}
+              onEditClick={() => openModal(tag)}
+            />
           </Col>
         ))}
+        <Col xl={3} lg={4} md={6} xs={12} className="mb-4">
+          <Button color="primary" onClick={() => openModal(emptyTag)}>
+            {i10n("tag.addNew")}
+          </Button>
+        </Col>
       </Row>
     </AdminDashboardLayout>
   );
