@@ -4,11 +4,14 @@
   "login.password": "Parola",
   "login.button": "Logare",
   "login.error": "Ati introdus email sau parola incorecte",
-  "login.inputError": "Cimpurile email si parola nu pot fi goale ",
+  "login.inputError": "Cîmpurile email si parola nu pot fi goale ",
   "header.list": "Lista spitale",
   "language": "Limba",
   "language.romanian": "Română",
-  "language.russian": "Rusă",
+  "language.russian": "Русский",
+  "language.english": "English",
   "footer": "Instrumente open-source în contextul pandemiei COVID-19",
-  "logout": "Ieșire"
+  "logout": "Ieșire",
+  "inventory": "Inventar",
+  "notif.saved": "Salvat!"
 }

@@ -54,6 +54,7 @@ export function Header() {
             <DropdownMenu right>
               <DropdownItem onClick={() => i18n.changeLanguage("ro")}>{l10n("language.romanian")}</DropdownItem>
               <DropdownItem onClick={() => i18n.changeLanguage("ru")}>{l10n("language.russian")}</DropdownItem>
+              <DropdownItem onClick={() => i18n.changeLanguage("en")}>{l10n("language.english")}</DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
         </Collapse>

@@ -1,0 +1,17 @@
+{
+  "login.title": "Login",
+  "login.email": "Email",
+  "login.password": "Password",
+  "login.button": "Login",
+  "login.error": "Wrong email or password",
+  "login.inputError": "Email and password cannot be empty",
+  "header.list": "Hospitals List",
+  "language": "Language",
+  "language.romanian": "Română",
+  "language.russian": "Русский",
+  "language.english": "English",
+  "footer": "Open source tools in the context of COVID-19 pandemic",
+  "logout": "Exit",
+  "inventory": "Inventory",
+  "notif.saved": "Saved!"
+}

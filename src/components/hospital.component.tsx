@@ -5,10 +5,12 @@ import { Button, Container, Input, InputGroup, InputGroupAddon, ListGroup, ListG
 import { getHospitals, updateInventoryItemCount } from "../actions/DataActions";
 import { selectHospitals } from "../reducers/Combiner";
 import { InventoryItem } from "../resources/types";
+import { useFormatMessage } from "../i18n/i18n.service";
 import Notify from "../services/Notify";
 import { Tags } from "../shared/tags.component";
 
 export function Hospital(props: RouteComponentProps<{ id: string }>) {
+  const l10n = useFormatMessage();
   const { match } = props;
   const hospitalId = parseInt(match.params.id, 10);
   const dispatch = useDispatch();
@@ -29,7 +31,7 @@ export function Hospital(props: RouteComponentProps<{ id: string }>) {
     <Container className="my-3">
       <h1>{hospital.name}</h1>
       <small className="text-muted">
-        Last updated: {updatedAt.toLocaleDateString()} - {updatedAt.toLocaleTimeString()}
+        {updatedAt.toLocaleDateString()} - {updatedAt.toLocaleTimeString()}
       </small>
       <p>{hospital.description}</p>
 
@@ -37,10 +39,9 @@ export function Hospital(props: RouteComponentProps<{ id: string }>) {
         <Tags data={hospital.tags} />
       </div>
 
-      <h4>Inventory</h4>
+      <h4>{l10n("inventory")}</h4>
 
       <ListGroup className="mb-4">
-        {hospital.inventory.length === 0 && <ListGroupItem>No items</ListGroupItem>}
         {hospital.inventory.map((inventoryItem) => (
           <InventoryItemRow key={inventoryItem.id} inventoryItem={inventoryItem} />
         ))}
@@ -54,6 +55,7 @@ type InventoryItemProps = {
 };
 
 function InventoryItemRow(props: InventoryItemProps) {
+  const l10n = useFormatMessage();
   const { inventoryItem } = props;
   const { HospitalId, updatedAt, quantity, id } = inventoryItem.HospitalInventory;
   const inventUpdatedAt = new Date(updatedAt);
@@ -64,7 +66,7 @@ function InventoryItemRow(props: InventoryItemProps) {
   const save = useCallback(() => {
     setUpdating(true);
     dispatch(updateInventoryItemCount(HospitalId, id, parseInt(inputQuantity, 10))).then(() => {
-      Notify.info("Saved!"); // TODO: add i18n
+      Notify.info(l10n("notif.saved"));
       setUpdating(false);
     });
   }, [dispatch, HospitalId, id, inputQuantity]);

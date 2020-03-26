@@ -1,24 +1,15 @@
-import React, {
-  PropsWithChildren,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
-import {
-  createIntl,
-  createIntlCache,
-  RawIntlProvider,
-  useIntl,
-} from "react-intl";
+import React, { PropsWithChildren, useCallback, useContext, useMemo, useState } from "react";
+import { createIntl, createIntlCache, RawIntlProvider, useIntl } from "react-intl";
 import messagesRO from "./l10n/ro.json";
 import messagesRU from "./l10n/ru.json";
+import messagesEN from "./l10n/en.json";
 
 const cache = createIntlCache();
 
 const languages = {
   ro: createIntl({ locale: "ro", messages: messagesRO }, cache),
   ru: createIntl({ locale: "ru", messages: messagesRU }, cache),
+  en: createIntl({ locale: "en", messages: messagesEN }, cache),
 };
 
 type ChangeLanguage = (lng: keyof typeof languages) => void;
