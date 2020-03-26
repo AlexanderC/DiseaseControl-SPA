@@ -74,7 +74,7 @@ function InventoryItemRow(props: InventoryItemProps) {
   return (
     <ListGroupItem key={inventoryItem.id} className="d-flex justify-content-between align-items-center">
       <div>
-        <div>{inventoryItem.name}</div>
+        <div className="text-uppercase">{inventoryItem.name}</div>
         <small className="text-muted">{inventUpdatedAt.toLocaleString()}</small>
       </div>
       <InputGroup size="sm" style={{ width: "100px" }}>

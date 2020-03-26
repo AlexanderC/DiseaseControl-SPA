@@ -95,12 +95,18 @@ export function HospitalList() {
                   {d.inventory.map((p) => {
                     const inventUpdatedAt = new Date(p.HospitalInventory.updatedAt);
                     return (
-                      <ListGroupItem key={p.id} className="d-flex justify-content-between align-items-center">
-                        <span>{p.name}</span>
-                        <small className="text-truncate mx-2 text-muted" title={inventUpdatedAt.toLocaleString()}>
-                          {inventUpdatedAt.toLocaleString()}
-                        </small>
-                        <Badge pill>{p.HospitalInventory.quantity}</Badge>
+                      <ListGroupItem key={p.id}>
+                        <Badge
+                          color="warning"
+                          className="border border-info d-flex justify-content-between align-items-center"
+                        >
+                          <span className="text-uppercase">{p.name}</span>
+
+                          <small className="text-truncate mx-2 text-muted" title={inventUpdatedAt.toLocaleString()}>
+                            {inventUpdatedAt.toLocaleString()}
+                          </small>
+                          <Badge pill>{p.HospitalInventory.quantity}</Badge>
+                        </Badge>
                       </ListGroupItem>
                     );
                   })}
