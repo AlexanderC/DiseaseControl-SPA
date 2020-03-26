@@ -5,7 +5,7 @@ import { TextField, useFormatMessage } from "../shared";
 import { Form, Button } from "reactstrap";
 import { getRequiredValidation } from "../shared/validators";
 
-type TagFormTypes = {
+type ItemFormTypes = {
   tag: {
     name: string;
     description: string;
@@ -14,7 +14,7 @@ type TagFormTypes = {
   onReset: () => any;
 };
 
-export const TagForm: FunctionComponent<TagFormTypes> = (props) => {
+export const ItemForm: FunctionComponent<ItemFormTypes> = (props) => {
   const [loading, setLoading] = useState(false);
   const i10n = useFormatMessage();
 
@@ -37,19 +37,19 @@ export const TagForm: FunctionComponent<TagFormTypes> = (props) => {
           <Field
             name="name"
             type="text"
-            label="tag.name"
+            label="name"
             component={TextField}
             validate={required}
           />
           <Field
             name="description"
             type="description"
-            label="tag.description"
+            label="description"
             component={TextField}
             validate={required}
           />
           <Button type="submit" className="mr-3" disabled={loading}>
-            {i10n("tag.submit")}
+            {i10n("submit")}
           </Button>
           <Button
             type="reset"
@@ -57,7 +57,7 @@ export const TagForm: FunctionComponent<TagFormTypes> = (props) => {
             onClick={props.onReset}
             disabled={loading}
           >
-            {i10n("tag.reset")}
+            {i10n("reset")}
           </Button>
         </Form>
       )}

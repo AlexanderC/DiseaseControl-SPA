@@ -19,9 +19,9 @@ export const ManageItemCard: FunctionComponent<ManageItemCardProp> = (
       <CardBody>
         <CardTitle tag="h5">{props.name}</CardTitle>
         <CardText>{props.description}</CardText>
-        <Button onClick={props.onEditClick}>{i10n("tag.edit")}</Button>
+        <Button onClick={props.onEditClick}>{i10n("edit")}</Button>
         <Button color="danger" className="ml-1" onClick={props.onDeleteClick}>
-          {i10n("tag.delete")}
+          {i10n("delete")}
         </Button>
       </CardBody>
     </Card>

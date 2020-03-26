@@ -4,13 +4,15 @@ import { BaseModal } from "../modals/BaseModal";
 import { useFormatMessage } from "../shared";
 import { ItemForm } from "../forms/ItemForm";
 
-type TagFormModalProps = {
-  tag: any;
+type InventoryFormModalProps = {
+  inventory: any;
   onClose: any;
   onSubmit: any;
 };
 
-export const TagFormModal: FunctionComponent<TagFormModalProps> = (props) => {
+export const InventoryFormModal: FunctionComponent<InventoryFormModalProps> = (
+  props
+) => {
   const { isOpen, open, close } = useModal(false);
 
   const closeModal = () => {
@@ -18,18 +20,18 @@ export const TagFormModal: FunctionComponent<TagFormModalProps> = (props) => {
     props.onClose();
   };
 
-  const editTag = async (tag: any) => {
-    await props.onSubmit(tag);
+  const onEdit = async (inventory: any) => {
+    await props.onSubmit(inventory);
     close();
   };
 
   useEffect(() => {
-    if (props.tag) {
+    if (props.inventory) {
       open();
     } else {
       close();
     }
-  }, [props.tag, open, close]);
+  }, [props.inventory, open, close]);
 
   const i10n = useFormatMessage();
 
@@ -37,9 +39,9 @@ export const TagFormModal: FunctionComponent<TagFormModalProps> = (props) => {
     <BaseModal
       isOpen={isOpen}
       close={closeModal}
-      header={props.tag?.name || i10n("tag.addNew")}
+      header={props.inventory?.name || i10n("tag.addNew")}
     >
-      <ItemForm tag={props.tag} onReset={closeModal} onSubmit={editTag} />
+      <ItemForm tag={props.inventory} onReset={closeModal} onSubmit={onEdit} />
     </BaseModal>
   );
 };
