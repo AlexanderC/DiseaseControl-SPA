@@ -30,5 +30,11 @@
   "inventory.deleteTitle": "Удалить инвентарь:",
   "hospitals": "Госпитали",
   "users": "Пользователи",
-  "supervisors": "Супервизор"
+  "supervisors": "Супервизор",
+  "action": "Действие",
+  "options": "Действия",
+  "edit.tags": "Редактирвать Тэги",
+  "edit.inventory": "Редактировать Инвентарь",
+  "hospital.addNew": "Добавить Госпиталь",
+  "hospital.delete": "Удалить Госпиталь"
 }

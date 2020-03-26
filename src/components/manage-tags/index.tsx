@@ -35,6 +35,7 @@ export const ManageTags: FunctionComponent<ManageTagsProps> = (props) => {
       })
     );
     setEditableTag(null);
+    fetchTags();
   };
 
   const [blankTag, setBlankTag] = useState<any>(null);
@@ -42,6 +43,7 @@ export const ManageTags: FunctionComponent<ManageTagsProps> = (props) => {
   const onAddNewSubmit = async (tag: any) => {
     await postTags([...tags, tag]);
     setBlankTag(null);
+    fetchTags();
   };
 
   const [tagToDelete, setTagToDelete] = useState<any>(null);

@@ -27,8 +27,14 @@
   "confirm.no": "Nu",
   "required.error": "Acest camp este obligatoriu",
   "inventory.addNew": "Adauga Inventar",
-  "inventory.deleteTitle": "Sterve Inventarul:",
+  "inventory.deleteTitle": "Sterge Inventarul:",
   "hospitals": "Spitale",
   "users": "Utilizatori",
-  "supervisors": "Supervisors"
+  "supervisors": "Supervisors",
+  "action": "Modifica",
+  "options": "Optiuni",
+  "edit.tags": "Modifica Taguri",
+  "edit.inventory": "Modifica Inventar",
+  "hospital.addNew": "Adauga Spital Nou",
+  "hospital.delete": "Sterge Spitalul"
 }

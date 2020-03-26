@@ -29,6 +29,13 @@
   "required.error": "This field is required",
   "inventory.addNew": "Add Inventory",
   "inventory.deleteTitle": "Delete Inventory:",
+  "hospitals": "Hospitals",
   "supervisors": "Supervisors",
-  "users": "Users"
+  "users": "Users",
+  "action": "Action",
+  "options": "Options",
+  "edit.tags": "Edit Tags",
+  "edit.inventory": "Edit Inventory",
+  "hospital.addNew": "Add Hospital",
+  "hospital.delete": "Delete Hospital"
 }
