@@ -19,12 +19,15 @@
   "reset": "Inchide",
   "edit": "Modifica",
   "delete": "Sterge",
+  "tags": "Tag-uri",
   "tag.addNew": "Adauga Tag nou",
-  "tag.list": "Lista de Tag-uri",
   "tag.deleteTitle": "Sterge Tag-ul:",
   "confirm.yes": "Da",
   "confirm.no": "Nu",
   "required.error": "Acest camp este obligatoriu",
   "inventory.addNew": "Adauga Inventar",
-  "inventory.deleteTitle": "Sterve Inventarul: "
+  "inventory.deleteTitle": "Sterve Inventarul:",
+  "hospitals": "Spitale",
+  "users": "Utilizatori",
+  "supervisors": "Supervisors"
 }

@@ -56,7 +56,7 @@ export const ManageTags: FunctionComponent<ManageTagsProps> = (props) => {
   const i10n = useFormatMessage();
 
   return (
-    <AdminDashboardLayout title={i10n("tag.list")}>
+    <AdminDashboardLayout title={i10n("tags")}>
       <ConfirmationModal
         open={!!tagToDelete}
         onAccept={deleteTag}

@@ -1,33 +1,27 @@
 import React, { FunctionComponent, useState } from "react";
 import { NavLink } from "react-router-dom";
-import {
-  Collapse,
-  Container,
-  Nav,
-  Navbar,
-  NavbarToggler,
-  NavItem,
-} from "reactstrap";
+import { Collapse, Container, Nav, Navbar, NavbarToggler, NavItem } from "reactstrap";
+import { useFormatMessage } from "../i18n/i18n.service";
 
 const links = [
   {
-    text: "Tags",
+    text: "tags",
     to: "/admin/tags",
   },
   {
-    text: "Inventory",
+    text: "inventory",
     to: "/admin/inventory",
   },
   {
-    text: "Hospitals",
+    text: "hospitals",
     to: "/admin/hospitals",
   },
   {
-    text: "Users",
+    text: "users",
     to: "/admin/users",
   },
   {
-    text: "Supervisors",
+    text: "supervisors",
     to: "/admin/supervisors",
   },
 ];
@@ -38,14 +32,11 @@ type NavLinkItemProps = {
 };
 
 const NavLinkItem: FunctionComponent<NavLinkItemProps> = (props) => {
+  const i10n = useFormatMessage();
   return (
     <NavItem>
-      <NavLink
-        to={props.to}
-        className="mx-2"
-        activeClassName="font-weight-bold"
-      >
-        {props.text}
+      <NavLink to={props.to} className="mx-2" activeClassName="font-weight-bold">
+        {i10n(props.text as any)}
       </NavLink>
     </NavItem>
   );
@@ -56,9 +47,7 @@ type AdminDashboardLayoutProps = {
   title?: string;
 };
 
-export const AdminDashboardLayout: FunctionComponent<AdminDashboardLayoutProps> = (
-  props
-) => {
+export const AdminDashboardLayout: FunctionComponent<AdminDashboardLayoutProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);

@@ -58,7 +58,7 @@ export const ManageInventory: FunctionComponent<ManageInventoryProps> = (props) 
   const i10n = useFormatMessage();
 
   return (
-    <AdminDashboardLayout title={"Inventory"}>
+    <AdminDashboardLayout title={i10n("inventory")}>
       <ItemFormModal
         item={editableInventory || blankInventory}
         onSubmit={editableInventory ? onEditSubmit : onAddNewSubmit}

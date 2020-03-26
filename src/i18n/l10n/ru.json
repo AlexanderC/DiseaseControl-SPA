@@ -20,11 +20,14 @@
   "delete": "Удалить",
   "edit": "Изменить",
   "tag.addNew": "Добавить Тэг",
-  "tag.list": "Список Тэгов",
+  "tags": "Тэги",
   "tag.deleteTitle": "Удаление тэга: ",
   "confirm.yes": "Да",
   "confirm.no": "Нет",
   "required.error": "Это поле обязательно для заполнения",
   "inventory.addNew": "Добавить Инвентарь",
-  "inventory.deleteTitle": "Удалить инвентарь:"
+  "inventory.deleteTitle": "Удалить инвентарь:",
+  "hospitals": "Госпитали",
+  "users": "Пользователи",
+  "supervisors": "Супервизор"
 }
