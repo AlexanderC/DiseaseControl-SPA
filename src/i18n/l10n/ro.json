@@ -24,5 +24,7 @@
   "tag.deleteTitle": "Sterge Tag-ul:",
   "confirm.yes": "Da",
   "confirm.no": "Nu",
-  "required.error": "Acest camp este obligatoriu"
+  "required.error": "Acest camp este obligatoriu",
+  "inventory.addNew": "Adauga Inventar",
+  "inventory.deleteTitle": "Sterve Inventarul: "
 }

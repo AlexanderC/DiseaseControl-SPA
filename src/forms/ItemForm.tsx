@@ -7,7 +7,7 @@ import { getRequiredValidation } from "../shared/validators";
 import { useFormatMessage } from "../i18n/i18n.service";
 
 type ItemFormTypes = {
-  tag: {
+  item: {
     name: string;
     description: string;
   };
@@ -32,7 +32,7 @@ export const ItemForm: FunctionComponent<ItemFormTypes> = (props) => {
   const required = getRequiredValidation("required.error");
 
   return (
-    <FinalForm onSubmit={onSubmit} initialValues={props.tag}>
+    <FinalForm onSubmit={onSubmit} initialValues={props.item}>
       {(form) => (
         <Form onSubmit={form.handleSubmit}>
           <Field name="name" type="text" label="name" component={TextField} validate={required} />

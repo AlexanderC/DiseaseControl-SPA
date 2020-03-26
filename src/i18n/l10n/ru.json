@@ -24,5 +24,7 @@
   "tag.deleteTitle": "Удаление тэга: ",
   "confirm.yes": "Да",
   "confirm.no": "Нет",
-  "required.error": "Это поле обязательно для заполнения"
+  "required.error": "Это поле обязательно для заполнения",
+  "inventory.addNew": "Добавить Инвентарь",
+  "inventory.deleteTitle": "Удалить инвентарь:"
 }

@@ -3,10 +3,10 @@ import { Button, Col, Row } from "reactstrap";
 import { getCurrentUser } from "../../actions/DataActions";
 import { AdminDashboardLayout } from "../../layouts/AdminDashboardLayout";
 import { ConfirmationModal } from "../../modals/ConfirmationModal";
-import { TagFormModal } from "../../modals/TagFormModal";
 import axiosInstance from "../../services/Axios";
 import { ManageItemCard } from "../manage-item-card";
 import { useFormatMessage } from "../../i18n/i18n.service";
+import { ItemFormModal } from "../../modals/ItemFormModal";
 
 type ManageTagsProps = {};
 
@@ -63,8 +63,12 @@ export const ManageTags: FunctionComponent<ManageTagsProps> = (props) => {
         onDismiss={() => setTagToDelete(null)}
         title={i10n("tag.deleteTitle") + " " + tagToDelete?.name}
       />
-      <TagFormModal tag={editableTag} onClose={onEditClose} onSubmit={onEditSubmit} />
-      <TagFormModal tag={blankTag} onClose={onAddNewClose} onSubmit={onAddNewSubmit} />
+      <ItemFormModal
+        item={editableTag || blankTag}
+        onClose={editableTag ? onEditClose : onAddNewClose}
+        onSubmit={editableTag ? onEditSubmit : onAddNewSubmit}
+        blankTitle={i10n("tag.addNew")}
+      />
       <Row>
         {tags.map((tag) => (
           <Col key={tag.name} xl={3} lg={4} md={6} xs={12} className="mb-4">
