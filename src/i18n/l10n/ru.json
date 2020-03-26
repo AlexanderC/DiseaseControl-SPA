@@ -7,6 +7,7 @@
   "login.inputError": "Поля емэйл и пароль не могут быть пустыми",
   "header.list": "Список госпиталей",
   "language": "Язык",
+  "admin": "Управление",
   "language.romanian": "Română",
   "language.russian": "Русский",
   "language.english": "English",
