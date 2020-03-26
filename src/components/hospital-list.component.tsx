@@ -85,28 +85,24 @@ export function HospitalList() {
             <Col key={d.id} xs="12" sm="6" md="6" lg="3" className="mb-4">
               <Card className="h-100">
                 <CardBody>
-                  <CardTitle tag="h4">
-                    {d.canManage ? <Link to={`/details/${d.id}`}>{truncate(d.name, 50)}</Link> : truncate(d.name, 50)}
-                  </CardTitle>
+                  <CardTitle tag="h4">{d.canManage ? <Link to={`/details/${d.id}`}>{d.name}</Link> : d.name}</CardTitle>
                   <CardText>{d.description}</CardText>
                   <Tags data={d.tags} />
                 </CardBody>
-                <ListGroup flush className="mt-auto">
+                <ListGroup className="mt-auto">
                   {d.inventory.map((p) => {
                     const inventUpdatedAt = new Date(p.HospitalInventory.updatedAt);
                     return (
-                      <ListGroupItem key={p.id}>
-                        <Badge
-                          color="warning"
-                          className="border border-info d-flex justify-content-between align-items-center"
-                        >
-                          <span className="text-uppercase">{p.name}</span>
-
-                          <small className="text-truncate mx-2 text-muted" title={inventUpdatedAt.toLocaleString()}>
-                            {inventUpdatedAt.toLocaleString()}
-                          </small>
-                          <Badge pill>{p.HospitalInventory.quantity}</Badge>
-                        </Badge>
+                      <ListGroupItem
+                        color="info"
+                        className="d-flex align-items-center justify-content-between"
+                        key={p.id}
+                      >
+                        <small className="text-capitalize">{p.description}</small>
+                        <small className="mx-1 text-muted" title={inventUpdatedAt.toLocaleString()}>
+                          {inventUpdatedAt.toLocaleString()}
+                        </small>
+                        <Badge pill>{p.HospitalInventory.quantity}</Badge>
                       </ListGroupItem>
                     );
                   })}
@@ -118,8 +114,4 @@ export function HospitalList() {
       </Row>
     </Container>
   );
-}
-
-function truncate(text: string = "", sliceAt = 15) {
-  return text.length > sliceAt ? `${text.slice(0, sliceAt)}...` : text;
 }

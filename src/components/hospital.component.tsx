@@ -55,13 +55,13 @@ type InventoryItemProps = {
 };
 
 function InventoryItemRow(props: InventoryItemProps) {
-  const l10n = useFormatMessage();
   const { inventoryItem } = props;
   const { HospitalId, updatedAt, quantity, id } = inventoryItem.HospitalInventory;
   const inventUpdatedAt = new Date(updatedAt);
   const dispatch = useDispatch();
   const [inputQuantity, setInputQuantity] = useState<string>(quantity.toString());
   const [updating, setUpdating] = useState(false);
+  const l10n = useFormatMessage();
 
   const save = useCallback(() => {
     setUpdating(true);
@@ -69,7 +69,7 @@ function InventoryItemRow(props: InventoryItemProps) {
       Notify.info(l10n("notif.saved"));
       setUpdating(false);
     });
-  }, [dispatch, HospitalId, id, inputQuantity]);
+  }, [dispatch, HospitalId, id, inputQuantity, l10n]);
 
   return (
     <ListGroupItem key={inventoryItem.id} className="d-flex justify-content-between align-items-center">
