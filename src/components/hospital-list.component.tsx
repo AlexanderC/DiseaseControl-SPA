@@ -1,29 +1,25 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import * as T from "../../resources/types";
-import { useSelector, useDispatch } from "react-redux";
-import { getHospitalsLive, getTags } from "../../actions/DataActions";
 import {
-  Container,
-  Row,
-  Col,
+  Badge,
+  Button,
   Card,
-  CardTitle,
+  CardBody,
   CardText,
+  CardTitle,
+  Col,
+  Container,
   ListGroup,
   ListGroupItem,
-  Badge,
-  CardBody,
-  Button,
+  Row,
 } from "reactstrap";
-import {
-  selectHospitals,
-  selectTags,
-  selectTagColors,
-} from "../../reducers/Combiner";
-import { Tags } from "../common/tags/Tags";
+import { getHospitalsLive, getTags } from "../actions/DataActions";
+import { selectHospitals, selectTagColors, selectTags } from "../reducers/Combiner";
+import * as T from "../resources/types";
+import { Tags } from "../shared/tags.component";
 
-export function Dashboard() {
+export function HospitalList() {
   const hospitals = useSelector(selectHospitals);
   const tags = useSelector(selectTags);
   const tagColors = useSelector(selectTagColors);
@@ -53,9 +49,7 @@ export function Dashboard() {
       const selectedTagIds = newSelectedTags.map((t) => t.id);
       let newFilteredData;
       if (selectedTagIds.length) {
-        newFilteredData = hospitals.filter((d) =>
-          selectedTagIds.every((id) => d.tags.map((t) => t.id).includes(id))
-        );
+        newFilteredData = hospitals.filter((d) => selectedTagIds.every((id) => d.tags.map((t) => t.id).includes(id)));
       } else {
         newFilteredData = hospitals;
       }
@@ -91,33 +85,21 @@ export function Dashboard() {
             <Col key={d.id} xs="12" sm="6" md="6" lg="3" className="mb-4">
               <Card className="h-100">
                 <CardBody>
-                  <CardTitle tag="h4">
-                    {d.canManage ? (
-                      <Link to={`/details/${d.id}`}>
-                        {truncate(d.name, 50)}
-                      </Link>
-                    ) : (
-                      truncate(d.name, 50)
-                    )}
-                  </CardTitle>
+                  <CardTitle tag="h4">{d.canManage ? <Link to={`/details/${d.id}`}>{d.name}</Link> : d.name}</CardTitle>
                   <CardText>{d.description}</CardText>
                   <Tags data={d.tags} />
                 </CardBody>
-                <ListGroup flush className="mt-auto">
+                <ListGroup className="mt-auto">
                   {d.inventory.map((p) => {
-                    const inventUpdatedAt = new Date(
-                      p.HospitalInventory.updatedAt
-                    );
+                    const inventUpdatedAt = new Date(p.HospitalInventory.updatedAt);
                     return (
                       <ListGroupItem
+                        color="info"
+                        className="d-flex align-items-center justify-content-between"
                         key={p.id}
-                        className="d-flex justify-content-between align-items-center"
                       >
-                        <span>{p.name}</span>
-                        <small
-                          className="text-truncate mx-2 text-muted"
-                          title={inventUpdatedAt.toLocaleString()}
-                        >
+                        <small className="text-capitalize">{p.description}</small>
+                        <small className="mx-1 text-muted" title={inventUpdatedAt.toLocaleString()}>
                           {inventUpdatedAt.toLocaleString()}
                         </small>
                         <Badge pill>{p.HospitalInventory.quantity}</Badge>
@@ -132,8 +114,4 @@ export function Dashboard() {
       </Row>
     </Container>
   );
-}
-
-function truncate(text: string = "", sliceAt = 15) {
-  return text.length > sliceAt ? `${text.slice(0, sliceAt)}...` : text;
 }

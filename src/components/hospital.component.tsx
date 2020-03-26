@@ -1,34 +1,21 @@
-import React, { useEffect, useMemo, useCallback, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { Button, Container, Input, InputGroup, InputGroupAddon, ListGroup, ListGroupItem } from "reactstrap";
+import { getHospitals, updateInventoryItemCount } from "../actions/DataActions";
+import { selectHospitals } from "../reducers/Combiner";
+import { InventoryItem } from "../resources/types";
+import { useFormatMessage } from "../i18n/i18n.service";
+import Notify from "../services/Notify";
+import { Tags } from "../shared/tags.component";
 
-import Notify from "../../services/Notify";
-import {
-  getHospitals,
-  updateInventoryItemCount,
-} from "../../actions/DataActions";
-import { selectHospitals } from "../../reducers/Combiner";
-import {
-  Container,
-  ListGroup,
-  ListGroupItem,
-  Button,
-  InputGroup,
-  InputGroupAddon,
-  Input,
-} from "reactstrap";
-import { Tags } from "../common/tags/Tags";
-import { InventoryItem } from "../../resources/types";
-
-function Details(props: RouteComponentProps<{ id: string }>) {
+export function Hospital(props: RouteComponentProps<{ id: string }>) {
+  const l10n = useFormatMessage();
   const { match } = props;
   const hospitalId = parseInt(match.params.id, 10);
   const dispatch = useDispatch();
   const hospitals = useSelector(selectHospitals);
-  const hospital = useMemo(() => hospitals.find((d) => d.id === hospitalId), [
-    hospitals,
-    hospitalId,
-  ]);
+  const hospital = useMemo(() => hospitals.find((d) => d.id === hospitalId), [hospitals, hospitalId]);
 
   useEffect(() => {
     if (!hospital) {
@@ -44,8 +31,7 @@ function Details(props: RouteComponentProps<{ id: string }>) {
     <Container className="my-3">
       <h1>{hospital.name}</h1>
       <small className="text-muted">
-        Last updated: {updatedAt.toLocaleDateString()} -{" "}
-        {updatedAt.toLocaleTimeString()}
+        {updatedAt.toLocaleDateString()} - {updatedAt.toLocaleTimeString()}
       </small>
       <p>{hospital.description}</p>
 
@@ -53,24 +39,16 @@ function Details(props: RouteComponentProps<{ id: string }>) {
         <Tags data={hospital.tags} />
       </div>
 
-      <h4>Inventory</h4>
+      <h4>{l10n("inventory")}</h4>
 
       <ListGroup className="mb-4">
-        {hospital.inventory.length === 0 && (
-          <ListGroupItem>No items</ListGroupItem>
-        )}
         {hospital.inventory.map((inventoryItem) => (
-          <InventoryItemRow
-            key={inventoryItem.id}
-            inventoryItem={inventoryItem}
-          />
+          <InventoryItemRow key={inventoryItem.id} inventoryItem={inventoryItem} />
         ))}
       </ListGroup>
     </Container>
   );
 }
-
-export default Details;
 
 type InventoryItemProps = {
   inventoryItem: InventoryItem;
@@ -78,36 +56,25 @@ type InventoryItemProps = {
 
 function InventoryItemRow(props: InventoryItemProps) {
   const { inventoryItem } = props;
-  const {
-    HospitalId,
-    updatedAt,
-    quantity,
-    id,
-  } = inventoryItem.HospitalInventory;
+  const { HospitalId, updatedAt, quantity, id } = inventoryItem.HospitalInventory;
   const inventUpdatedAt = new Date(updatedAt);
   const dispatch = useDispatch();
-  const [inputQuantity, setInputQuantity] = useState<string>(
-    quantity.toString()
-  );
+  const [inputQuantity, setInputQuantity] = useState<string>(quantity.toString());
   const [updating, setUpdating] = useState(false);
+  const l10n = useFormatMessage();
 
   const save = useCallback(() => {
     setUpdating(true);
-    dispatch(
-      updateInventoryItemCount(HospitalId, id, parseInt(inputQuantity, 10))
-    ).then(() => {
-      Notify.info("Saved!"); // TODO: add i18n
+    dispatch(updateInventoryItemCount(HospitalId, id, parseInt(inputQuantity, 10))).then(() => {
+      Notify.info(l10n("notif.saved"));
       setUpdating(false);
     });
-  }, [dispatch, HospitalId, id, inputQuantity]);
+  }, [dispatch, HospitalId, id, inputQuantity, l10n]);
 
   return (
-    <ListGroupItem
-      key={inventoryItem.id}
-      className="d-flex justify-content-between align-items-center"
-    >
+    <ListGroupItem key={inventoryItem.id} className="d-flex justify-content-between align-items-center">
       <div>
-        <div>{inventoryItem.name}</div>
+        <div className="text-uppercase">{inventoryItem.name}</div>
         <small className="text-muted">{inventUpdatedAt.toLocaleString()}</small>
       </div>
       <InputGroup size="sm" style={{ width: "100px" }}>

@@ -1,0 +1,16 @@
+{
+  "login.title": "Logare",
+  "login.email": "Email",
+  "login.password": "Parola",
+  "login.button": "Logare",
+  "login.error": "Ati introdus email sau parola incorecte",
+  "login.inputError": "Cîmpurile email si parola nu pot fi goale ",
+  "header.list": "Lista spitale",
+  "language": "Limba",
+  "language.romanian": "Română",
+  "language.russian": "Русский",
+  "language.english": "English",
+  "logout": "Ieșire",
+  "inventory": "Inventar",
+  "notif.saved": "Salvat!"
+}
