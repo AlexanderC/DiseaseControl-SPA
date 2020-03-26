@@ -16,11 +16,15 @@ import { useFormatMessage, useI18n } from "../i18n/i18n.service";
 import logo from "../resources/img/logo.png";
 import { wsCloseAll } from "../services/Websocket";
 
+export function getCurrentUser() {
+  return JSON.parse(localStorage.getItem("currentUser") || "{}");
+}
+
 export function Header() {
   const history = useHistory();
   const i18n = useI18n();
   const l10n = useFormatMessage();
-  const isLoggedIn = localStorage.getItem("currentUser") !== "";
+  const currentUser = getCurrentUser();
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
@@ -35,7 +39,7 @@ export function Header() {
         <Collapse isOpen={isOpen} navbar>
           {/* push to right other elements */}
           <div className="mr-auto" />
-          {isLoggedIn && (
+          {currentUser.id && (
             <Button
               color="link"
               onClick={() => {
@@ -45,6 +49,16 @@ export function Header() {
               }}
             >
               {l10n("logout")}
+            </Button>
+          )}
+          {currentUser.type === "admin" && (
+            <Button
+              color="link"
+              onClick={() => {
+                history.push("/admin");
+              }}
+            >
+              {l10n("admin")}
             </Button>
           )}
           <UncontrolledDropdown>

@@ -7,6 +7,7 @@
   "login.inputError": "Email and password cannot be empty",
   "header.list": "Hospitals List",
   "language": "Language",
+  "admin": "Administration",
   "language.romanian": "Română",
   "language.russian": "Русский",
   "language.english": "English",
