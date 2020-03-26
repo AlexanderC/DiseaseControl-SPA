@@ -5,7 +5,7 @@ import * as T from "./types";
 import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 
-function getCurrentUser() {
+export function getCurrentUser() {
   return JSON.parse(localStorage.getItem("currentUser") || "{}");
 }
 
@@ -109,6 +109,23 @@ export function updateInventoryItemCount(
       })
       .catch((error) => {
         console.error(error);
+        checkAndRedirectLogin(error.response);
+      });
+  };
+}
+
+export function getUserProfile() {
+  return function (dispatch: any) {
+    const currentUser = getCurrentUser();
+    return axios
+      .get(`/identity/me?token=${currentUser.token}`)
+      .then(({ data }) => {
+        dispatch({
+          type: T.GET_USER_PROFILE,
+          payload: { ...data },
+        });
+      })
+      .catch((error) => {
         checkAndRedirectLogin(error.response);
       });
   };

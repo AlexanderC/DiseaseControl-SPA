@@ -12,5 +12,22 @@
   "language.english": "English",
   "logout": "Ieșire",
   "inventory": "Inventar",
-  "notif.saved": "Salvat!"
+  "notif.saved": "Salvat!",
+  "description": "Descriere",
+  "name": "Denumire",
+  "submit": "Trimite",
+  "reset": "Inchide",
+  "edit": "Modifica",
+  "delete": "Sterge",
+  "tags": "Tag-uri",
+  "tag.addNew": "Adauga Tag nou",
+  "tag.deleteTitle": "Sterge Tag-ul:",
+  "confirm.yes": "Da",
+  "confirm.no": "Nu",
+  "required.error": "Acest camp este obligatoriu",
+  "inventory.addNew": "Adauga Inventar",
+  "inventory.deleteTitle": "Sterve Inventarul:",
+  "hospitals": "Spitale",
+  "users": "Utilizatori",
+  "supervisors": "Supervisors"
 }

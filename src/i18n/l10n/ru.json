@@ -12,5 +12,22 @@
   "language.english": "English",
   "logout": "Выход",
   "inventory": "Инвентарь",
-  "notif.saved": "Сохранено!"
+  "notif.saved": "Сохранено!",
+  "description": "Описание",
+  "name": "Название",
+  "submit": "Отправить",
+  "reset": "Закрыть",
+  "delete": "Удалить",
+  "edit": "Изменить",
+  "tag.addNew": "Добавить Тэг",
+  "tags": "Тэги",
+  "tag.deleteTitle": "Удаление тэга: ",
+  "confirm.yes": "Да",
+  "confirm.no": "Нет",
+  "required.error": "Это поле обязательно для заполнения",
+  "inventory.addNew": "Добавить Инвентарь",
+  "inventory.deleteTitle": "Удалить инвентарь:",
+  "hospitals": "Госпитали",
+  "users": "Пользователи",
+  "supervisors": "Супервизор"
 }

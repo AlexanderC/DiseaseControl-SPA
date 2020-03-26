@@ -3,6 +3,7 @@ import {
   GET_HOSPITAL_DATA,
   GET_TAGS_DATA,
   UPDATE_INVENTORY_ITEM_COUNT,
+  GET_USER_PROFILE,
 } from "../actions/types";
 import { Hospital, Tag, TagColors } from "../resources/types";
 
@@ -26,12 +27,14 @@ type HopitalsState = {
   data: Hospital[];
   tags: Tag[];
   tagColors: TagColors;
+  user: Object | null;
 };
 
 const initialState: HopitalsState = {
   data: [],
   tags: [],
   tagColors: {},
+  user: null,
 };
 
 export default (state = initialState, action: AnyAction): HopitalsState => {
@@ -63,6 +66,12 @@ export default (state = initialState, action: AnyAction): HopitalsState => {
         data: state.data.map((h) =>
           action.payload.id === h.id ? action.payload : h
         ),
+      };
+
+    case GET_USER_PROFILE:
+      return {
+        ...state,
+        user: action.payload,
       };
 
     default:
