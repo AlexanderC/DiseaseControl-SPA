@@ -1,51 +1,19 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Button, Col, Row } from "reactstrap";
 import { getCurrentUser } from "../../actions/DataActions";
-import { TagForm } from "../../forms/TagForm";
 import { AdminDashboardLayout } from "../../layouts/AdminDashboardLayout";
-import { BaseModal } from "../../modals/BaseModal";
+import { ConfirmationModal } from "../../modals/ConfirmationModal";
+import { TagFormModal } from "../../modals/TagFormModal";
 import axiosInstance from "../../services/Axios";
 import { useFormatMessage } from "../../shared";
-import { useModal } from "../../shared/useModal";
-import { Confirmation } from "../confirmation";
 import { ManageItemCard } from "../manage-item-card";
 
 type ManageTagsProps = {};
 
 export const ManageTags: FunctionComponent<ManageTagsProps> = (props) => {
   const user = getCurrentUser();
-  const emptyTag = {
-    name: "",
-    description: "",
-  };
 
   const [tags, setTags] = useState<Array<any>>([]);
-
-  const {
-    isOpen: editModalOpen,
-    close: closeEditModal,
-    open: openEditModal,
-  } = useModal();
-
-  const [activeTag, setActiveTag] = useState<any>(null);
-
-  const open = (tag: any) => {
-    setActiveTag(tag);
-    openEditModal();
-  };
-
-  const {
-    isOpen: deleteModalOpen,
-    close: closeDeleteModal,
-    open: openDeleteModal,
-  } = useModal();
-
-  const [tagToDelete, setTagToDelete] = useState<any>(null);
-
-  const onDelete = (tag: any) => {
-    setTagToDelete(tag);
-    openDeleteModal();
-  };
 
   const fetchTags = () => {
     axiosInstance
@@ -57,7 +25,9 @@ export const ManageTags: FunctionComponent<ManageTagsProps> = (props) => {
     return axiosInstance.post(`/admin/tag?token=${user.token}`, tags);
   };
 
-  const editTag = async (tag: any) => {
+  const [editableTag, setEditableTag] = useState<any>(null);
+  const onEditClose = () => setEditableTag(null);
+  const onEditSubmit = async (tag: any) => {
     await postTags(
       tags.map((t) => {
         if (t.id === tag.id) {
@@ -66,25 +36,20 @@ export const ManageTags: FunctionComponent<ManageTagsProps> = (props) => {
         return t;
       })
     );
+    setEditableTag(null);
   };
 
-  const addTag = async (tag: any) => {
+  const [blankTag, setBlankTag] = useState<any>(null);
+  const onAddNewClose = () => setBlankTag(null);
+  const onAddNewSubmit = async (tag: any) => {
     await postTags([...tags, tag]);
+    setBlankTag(null);
   };
 
+  const [tagToDelete, setTagToDelete] = useState<any>(null);
   const deleteTag = async () => {
     await postTags(tags.filter((t) => t.id !== tagToDelete.id));
-    closeDeleteModal();
-    fetchTags();
-  };
-
-  const onFormSubmit = async (tag: any) => {
-    if (tag.id) {
-      await editTag(tag);
-    } else {
-      await addTag(tag);
-    }
-    closeEditModal();
+    setTagToDelete(null);
     fetchTags();
   };
 
@@ -94,37 +59,38 @@ export const ManageTags: FunctionComponent<ManageTagsProps> = (props) => {
 
   return (
     <AdminDashboardLayout title={i10n("tag.list")}>
-      <BaseModal
-        isOpen={editModalOpen}
-        close={closeEditModal}
-        header={activeTag?.name || i10n("tag.addNew")}
-      >
-        <TagForm
-          onSubmit={onFormSubmit}
-          tag={activeTag}
-          onReset={closeEditModal}
-        />
-      </BaseModal>
-      <BaseModal
-        isOpen={deleteModalOpen}
-        close={closeDeleteModal}
-        header={i10n("tag.deleteTitle") + " " + tagToDelete?.name}
-      >
-        <Confirmation onAccept={deleteTag} onDecline={closeDeleteModal} />
-      </BaseModal>
+      <ConfirmationModal
+        open={!!tagToDelete}
+        onAccept={deleteTag}
+        onDismiss={() => setTagToDelete(null)}
+        title={i10n("tag.deleteTitle") + " " + tagToDelete?.name}
+      />
+      <TagFormModal
+        tag={editableTag}
+        onClose={onEditClose}
+        onSubmit={onEditSubmit}
+      />
+      <TagFormModal
+        tag={blankTag}
+        onClose={onAddNewClose}
+        onSubmit={onAddNewSubmit}
+      />
       <Row>
         {tags.map((tag) => (
           <Col key={tag.name} xl={3} lg={4} md={6} xs={12} className="mb-4">
             <ManageItemCard
               description={tag.description}
               name={tag.name}
-              onEditClick={() => open(tag)}
-              onDeleteClick={() => onDelete(tag)}
+              onEditClick={() => setEditableTag(tag)}
+              onDeleteClick={() => setTagToDelete(tag)}
             />
           </Col>
         ))}
         <Col xl={3} lg={4} md={6} xs={12} className="mb-4">
-          <Button color="primary" onClick={() => open(emptyTag)}>
+          <Button
+            color="primary"
+            onClick={() => setBlankTag({ name: "", description: "" })}
+          >
             {i10n("tag.addNew")}
           </Button>
         </Col>
