@@ -5,8 +5,8 @@ import { AdminDashboardLayout } from "../../layouts/AdminDashboardLayout";
 import { ConfirmationModal } from "../../modals/ConfirmationModal";
 import { TagFormModal } from "../../modals/TagFormModal";
 import axiosInstance from "../../services/Axios";
-import { useFormatMessage } from "../../shared";
 import { ManageItemCard } from "../manage-item-card";
+import { useFormatMessage } from "../../i18n/i18n.service";
 
 type ManageTagsProps = {};
 
@@ -16,9 +16,7 @@ export const ManageTags: FunctionComponent<ManageTagsProps> = (props) => {
   const [tags, setTags] = useState<Array<any>>([]);
 
   const fetchTags = () => {
-    axiosInstance
-      .get(`/tag?token=${user.token}`)
-      .then(({ data }) => setTags(data));
+    axiosInstance.get(`/tag?token=${user.token}`).then(({ data }) => setTags(data));
   };
 
   const postTags = (tags: Array<any>) => {
@@ -65,16 +63,8 @@ export const ManageTags: FunctionComponent<ManageTagsProps> = (props) => {
         onDismiss={() => setTagToDelete(null)}
         title={i10n("tag.deleteTitle") + " " + tagToDelete?.name}
       />
-      <TagFormModal
-        tag={editableTag}
-        onClose={onEditClose}
-        onSubmit={onEditSubmit}
-      />
-      <TagFormModal
-        tag={blankTag}
-        onClose={onAddNewClose}
-        onSubmit={onAddNewSubmit}
-      />
+      <TagFormModal tag={editableTag} onClose={onEditClose} onSubmit={onEditSubmit} />
+      <TagFormModal tag={blankTag} onClose={onAddNewClose} onSubmit={onAddNewSubmit} />
       <Row>
         {tags.map((tag) => (
           <Col key={tag.name} xl={3} lg={4} md={6} xs={12} className="mb-4">
@@ -87,10 +77,7 @@ export const ManageTags: FunctionComponent<ManageTagsProps> = (props) => {
           </Col>
         ))}
         <Col xl={3} lg={4} md={6} xs={12} className="mb-4">
-          <Button
-            color="primary"
-            onClick={() => setBlankTag({ name: "", description: "" })}
-          >
+          <Button color="primary" onClick={() => setBlankTag({ name: "", description: "" })}>
             {i10n("tag.addNew")}
           </Button>
         </Col>

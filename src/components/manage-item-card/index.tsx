@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Button, Card, CardBody, CardText, CardTitle } from "reactstrap";
-import { useFormatMessage } from "../../shared";
+import { useFormatMessage } from "../../i18n/i18n.service";
 
 type ManageItemCardProp = {
   name: string;
@@ -9,9 +9,7 @@ type ManageItemCardProp = {
   onDeleteClick: () => any;
 };
 
-export const ManageItemCard: FunctionComponent<ManageItemCardProp> = (
-  props
-) => {
+export const ManageItemCard: FunctionComponent<ManageItemCardProp> = (props) => {
   const i10n = useFormatMessage();
 
   return (

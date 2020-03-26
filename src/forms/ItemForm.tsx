@@ -1,9 +1,10 @@
 import React, { FunctionComponent, useState } from "react";
 import { Form as FinalForm, Field } from "react-final-form";
 import { FORM_ERROR } from "final-form";
-import { TextField, useFormatMessage } from "../shared";
+import { TextField } from "../shared";
 import { Form, Button } from "reactstrap";
 import { getRequiredValidation } from "../shared/validators";
+import { useFormatMessage } from "../i18n/i18n.service";
 
 type ItemFormTypes = {
   tag: {
@@ -34,29 +35,12 @@ export const ItemForm: FunctionComponent<ItemFormTypes> = (props) => {
     <FinalForm onSubmit={onSubmit} initialValues={props.tag}>
       {(form) => (
         <Form onSubmit={form.handleSubmit}>
-          <Field
-            name="name"
-            type="text"
-            label="name"
-            component={TextField}
-            validate={required}
-          />
-          <Field
-            name="description"
-            type="description"
-            label="description"
-            component={TextField}
-            validate={required}
-          />
+          <Field name="name" type="text" label="name" component={TextField} validate={required} />
+          <Field name="description" type="description" label="description" component={TextField} validate={required} />
           <Button type="submit" className="mr-3" disabled={loading}>
             {i10n("submit")}
           </Button>
-          <Button
-            type="reset"
-            color="danger"
-            onClick={props.onReset}
-            disabled={loading}
-          >
+          <Button type="reset" color="danger" onClick={props.onReset} disabled={loading}>
             {i10n("reset")}
           </Button>
         </Form>

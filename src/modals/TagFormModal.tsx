@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useEffect } from "react";
 import { useModal } from "../shared/useModal";
 import { BaseModal } from "../modals/BaseModal";
-import { useFormatMessage } from "../shared";
 import { ItemForm } from "../forms/ItemForm";
+import { useFormatMessage } from "../i18n/i18n.service";
 
 type TagFormModalProps = {
   tag: any;
@@ -34,11 +34,7 @@ export const TagFormModal: FunctionComponent<TagFormModalProps> = (props) => {
   const i10n = useFormatMessage();
 
   return (
-    <BaseModal
-      isOpen={isOpen}
-      close={closeModal}
-      header={props.tag?.name || i10n("tag.addNew")}
-    >
+    <BaseModal isOpen={isOpen} close={closeModal} header={props.tag?.name || i10n("tag.addNew")}>
       <ItemForm tag={props.tag} onReset={closeModal} onSubmit={editTag} />
     </BaseModal>
   );

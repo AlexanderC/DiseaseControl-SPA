@@ -13,5 +13,17 @@
   "footer": "Open source tools in the context of COVID-19 pandemic",
   "logout": "Exit",
   "inventory": "Inventory",
-  "notif.saved": "Saved!"
+  "notif.saved": "Saved!",
+  "description": "Description",
+  "name": "Name",
+  "submit": "Submit",
+  "reset": "Close",
+  "edit": "Update",
+  "delete": "Delete",
+  "tag.addNew": "Add new tag",
+  "tag.list": "Tags list",
+  "tag.deleteTitle": "Delete tag:",
+  "confirm.yes": "Yes",
+  "confirm.no": "No",
+  "required.error": "This field is required"
 }

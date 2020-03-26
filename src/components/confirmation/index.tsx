@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Button } from "reactstrap";
-import { useFormatMessage } from "../../shared";
+import { useFormatMessage } from "../../i18n/i18n.service";
 
 type ConfirmationProps = {
   onAccept: any;

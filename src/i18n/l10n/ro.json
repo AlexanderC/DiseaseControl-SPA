@@ -12,5 +12,17 @@
   "language.english": "English",
   "logout": "Ieșire",
   "inventory": "Inventar",
-  "notif.saved": "Salvat!"
+  "notif.saved": "Salvat!",
+  "description": "Descriere",
+  "name": "Denumire",
+  "submit": "Trimite",
+  "reset": "Inchide",
+  "edit": "Modifica",
+  "delete": "Sterge",
+  "tag.addNew": "Adauga Tag nou",
+  "tag.list": "Lista de Tag-uri",
+  "tag.deleteTitle": "Sterge Tag-ul:",
+  "confirm.yes": "Da",
+  "confirm.no": "Nu",
+  "required.error": "Acest camp este obligatoriu"
 }
