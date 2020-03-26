@@ -1,13 +1,14 @@
-import React, { useCallback } from "react";
-import { useHistory } from "react-router";
-import { Form as FinalForm, Field } from "react-final-form";
 import { FORM_ERROR } from "final-form";
-import { Form, Container, Row, Col, Button, Alert } from "reactstrap";
-import logo from "../../resources/img/logo.png";
-import axios from "../../services/Axios";
-import { TextField, required, useFormatMessage } from "../../shared";
+import React, { useCallback } from "react";
+import { Field, Form as FinalForm } from "react-final-form";
+import { useHistory } from "react-router";
+import { Alert, Button, Col, Container, Form, Row } from "reactstrap";
+import { useFormatMessage } from "../i18n/i18n.service";
+import logo from "../resources/img/logo.png";
+import axios from "../services/Axios";
+import { required, TextField } from "../shared";
 
-export default function Login() {
+export function Login() {
   const l10n = useFormatMessage();
   const history = useHistory();
 
@@ -50,9 +51,7 @@ export default function Login() {
                   component={TextField}
                   validate={required}
                 />
-                {form.submitError && (
-                  <Alert color="danger">{l10n(form.submitError)}</Alert>
-                )}
+                {form.submitError && <Alert color="danger">{l10n(form.submitError)}</Alert>}
                 <Button>{l10n("login.button")}</Button>
               </Form>
             )}
