@@ -1,4 +1,6 @@
 {
+  "user": "пользователь",
+  "in-development": "В Разработке...",
   "login.title": "Логин",
   "login.email": "Емэйл",
   "login.password": "Пароль",
@@ -30,7 +32,7 @@
   "inventory.deleteTitle": "Удалить инвентарь:",
   "hospitals": "Госпитали",
   "users": "Пользователи",
-  "supervisors": "Супервизор",
+  "supervisors": "Ответственные",
   "action": "Действие",
   "options": "Действия",
   "edit.tags": "Редактирвать Тэги",

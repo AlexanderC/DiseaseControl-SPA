@@ -164,7 +164,7 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
                 <ListGroup flush>
                   {h.supervisors.map((i: any) => (
                     <ListGroupItem className="p-0" key={i.id} tag="a" href={"/admin/users/" + i.id}>
-                      {i.id}
+                      {i10n("user")}:{i.id}
                     </ListGroupItem>
                   ))}
                 </ListGroup>

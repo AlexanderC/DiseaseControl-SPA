@@ -14,15 +14,11 @@ export function AdminRoute(props: RouteProps) {
     if (!userProfile) {
       dispatch(getUserProfile());
     }
-  }, []);
+  }, [userProfile, dispatch]);
 
   if (!userProfile) {
     return null;
   }
 
-  return userProfile.type === "admin" ? (
-    <ProtectedRoute {...props} />
-  ) : (
-    <Redirect to="/" />
-  );
+  return userProfile.type === "admin" ? <ProtectedRoute {...props} /> : <Redirect to="/" />;
 }

@@ -6,9 +6,7 @@ import { getUserProfile } from "../actions/DataActions";
 import { selectUserProfile } from "../reducers/Combiner";
 
 export function ProtectedRoute(props: RouteProps) {
-  const [isLoggedIn, setLoggedIn] = useState(
-    localStorage.getItem("currentUser") !== ""
-  );
+  const [isLoggedIn, setLoggedIn] = useState(localStorage.getItem("currentUser") !== "");
 
   const userProfile = useSelector(selectUserProfile);
   const dispatch = useDispatch();
@@ -25,20 +23,15 @@ export function ProtectedRoute(props: RouteProps) {
     } else {
       setUserLoaded(true);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, userProfile, dispatch]);
 
   useEffect(function () {
-    const onStorageChange = () =>
-      setLoggedIn(localStorage.getItem("currentUser") !== "");
+    const onStorageChange = () => setLoggedIn(localStorage.getItem("currentUser") !== "");
     // this will monitor any storage changes
     // if `currentUser` is removed user will be looged out
     window.addEventListener("storage", onStorageChange);
     return () => window.removeEventListener("storage", onStorageChange);
   }, []);
 
-  return !userLoaded ? null : userProfile ? (
-    <Route {...props} />
-  ) : (
-    <Redirect to="/login" />
-  );
+  return !userLoaded ? null : userProfile ? <Route {...props} /> : <Redirect to="/login" />;
 }

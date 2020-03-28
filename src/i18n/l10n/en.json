@@ -1,4 +1,6 @@
 {
+  "user": "user",
+  "in-development": "Coming Soon...",
   "login.title": "Login",
   "login.email": "Email",
   "login.password": "Password",

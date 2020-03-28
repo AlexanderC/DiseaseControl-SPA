@@ -78,7 +78,7 @@ export const ManageInventory: FunctionComponent<ManageInventoryProps> = (props) 
               description={inventoryItem.description}
               name={inventoryItem.name}
               onEditClick={() => setEditableInventory(inventoryItem)}
-              onDeleteClick={() => {}}
+              onDeleteClick={() => setInventoryToDelete(inventoryItem)}
             />
           </Col>
         ))}

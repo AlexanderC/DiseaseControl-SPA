@@ -1,4 +1,6 @@
 {
+  "user": "utilizator",
+  "in-development": "În Dezvoltare...",
   "login.title": "Logare",
   "login.email": "Email",
   "login.password": "Parola",
@@ -30,7 +32,7 @@
   "inventory.deleteTitle": "Sterge Inventarul:",
   "hospitals": "Spitale",
   "users": "Utilizatori",
-  "supervisors": "Supervisors",
+  "supervisors": "Supervisori",
   "action": "Modifica",
   "options": "Optiuni",
   "edit.tags": "Modifica Taguri",
