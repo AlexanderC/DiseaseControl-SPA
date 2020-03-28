@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
-import { ListGroup, ListGroupItem, Button, Row, Col } from "reactstrap";
+import { ListGroup, ListGroupItem, Button } from "reactstrap";
 import { useFormatMessage } from "../i18n/i18n.service";
 
 type HospitalItemsFormType = {
@@ -13,7 +13,7 @@ export const HospitalItemsForm: FunctionComponent<HospitalItemsFormType> = (prop
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
 
   useEffect(() => {
-    setSelectedItems(Array.from(props.selectedItems));
+    setSelectedItems(props.selectedItems ? Array.from(props.selectedItems) : []);
   }, [props.selectedItems]);
 
   const itemIsActive = (item: any) => {

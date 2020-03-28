@@ -67,18 +67,25 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
   };
 
   const patchHospital = (hospitalId: any, body: any) => {
-    return axiosInstance.patch("/admin/hospital/" + hospitalId, body);
+    return axiosInstance.patch("/admin/hospital/" + hospitalId + "?token=" + user.token, body);
   };
 
   const onFormSubmit = async (items: any) => {
-    if (actionType === "edit-tags") {
-      await patchHospital(selectedHospital.id, { tags: items });
-    } else if (actionType === "edit-inventory") {
-      await patchHospital(selectedHospital.id, { inventory: items });
+    try {
+      if (actionType === "edit-tags") {
+        await patchHospital(selectedHospital.id, { tags: items.map((i: any) => i.name) });
+      } else if (actionType === "edit-inventory") {
+        console.log(items);
+
+        await patchHospital(selectedHospital.id, { inventory: items.map((i: any) => i.name) });
+      }
+    } catch (e) {
+      // show some notification
+    } finally {
+      setSelectedHospital(null);
+      close();
+      fetchHospitals();
     }
-    setSelectedHospital(null);
-    close();
-    fetchHospitals();
   };
 
   const dismissModal = () => {
@@ -87,10 +94,29 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
     close();
   };
 
+  const hospitalObjectToBody = ({ tags, description, inventory, supervisors }: any) => {
+    return {
+      tags: tags.map((t: any) => t.name),
+      inventory: inventory.map((i: any) => i.name),
+      description,
+      ...(supervisors.length ? { supervisor: supervisors[0].id } : {}),
+    };
+  };
+
   const deleteSelectedHospital = async () => {
-    await axiosInstance.delete("/admin/hospital/" + selectedHospital.id);
-    dismissModal();
-    fetchHospitals();
+    try {
+      console.log(selectedHospital);
+      console.log(user.token);
+
+      await axiosInstance.delete("/admin/hospital/" + selectedHospital.id + "?token=" + user.token, {
+        data: hospitalObjectToBody(selectedHospital),
+      });
+    } catch (e) {
+      // show some notification
+    } finally {
+      dismissModal();
+      fetchHospitals();
+    }
   };
 
   const i10n = useFormatMessage();
