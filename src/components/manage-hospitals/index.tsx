@@ -75,8 +75,6 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
       if (actionType === "edit-tags") {
         await patchHospital(selectedHospital.id, { tags: items.map((i: any) => i.name) });
       } else if (actionType === "edit-inventory") {
-        console.log(items);
-
         await patchHospital(selectedHospital.id, { inventory: items.map((i: any) => i.name) });
       }
     } catch (e) {
@@ -105,9 +103,6 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
 
   const deleteSelectedHospital = async () => {
     try {
-      console.log(selectedHospital);
-      console.log(user.token);
-
       await axiosInstance.delete("/admin/hospital/" + selectedHospital.id + "?token=" + user.token, {
         data: hospitalObjectToBody(selectedHospital),
       });
