@@ -27,7 +27,7 @@ export const HospitalItemsForm: FunctionComponent<HospitalItemsFormType> = (prop
       setSelectedItems(selectedItems.filter((i) => i.id !== item.id));
     } else {
       if (selectedItems.length < (props.maxItems ?? Infinity)) {
-        setSelectedItems(Array.from([...selectedItems, item]));
+        setSelectedItems([...selectedItems, item]);
       }
     }
   };
