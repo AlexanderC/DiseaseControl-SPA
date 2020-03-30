@@ -43,5 +43,12 @@
   "total": "Total",
   "quantity": "Cantitate",
   "defaultErrorMessage": "In timpul operatiunii s-a produs o eroare",
-  "defaultSuccessMessage": "Succes!"
+  "defaultSuccessMessage": "Succes!",
+  "type": "Tip",
+  "dateCreated": "Data Crearii",
+  "username": "Nume Utilizator",
+  "addUser": "Adauga utilizator",
+  "deleteUser": "Sterge utilizator",
+  "password": "Parola",
+  "role": "Categoria"
 }
