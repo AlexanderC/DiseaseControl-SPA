@@ -7,6 +7,8 @@ type HospitalItemsFormType = {
   onDismiss: any;
   selectedItems: any[];
   availableItems: any[];
+  displayItemValue?: (value: any) => string;
+  maxItems?: number;
 };
 
 export const HospitalItemsForm: FunctionComponent<HospitalItemsFormType> = (props) => {
@@ -24,7 +26,9 @@ export const HospitalItemsForm: FunctionComponent<HospitalItemsFormType> = (prop
     if (itemIsActive(item)) {
       setSelectedItems(selectedItems.filter((i) => i.id !== item.id));
     } else {
-      setSelectedItems(Array.from([...selectedItems, item]));
+      if (selectedItems.length < (props.maxItems ?? Infinity)) {
+        setSelectedItems([...selectedItems, item]);
+      }
     }
   };
 
@@ -42,7 +46,7 @@ export const HospitalItemsForm: FunctionComponent<HospitalItemsFormType> = (prop
               active={itemIsActive(item)}
               onClick={() => toggleItem(item)}
             >
-              {item.name}
+              {props?.displayItemValue ? props.displayItemValue(item) : item.name}
             </ListGroupItem>
           );
         })}

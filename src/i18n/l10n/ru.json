@@ -37,6 +37,7 @@
   "options": "Действия",
   "edit.tags": "Редактирвать Тэги",
   "edit.inventory": "Редактировать Инвентарь",
+  "edit.supervisor": "Выбрать Управляющего",
   "hospital.addNew": "Добавить Госпиталь",
   "hospital.delete": "Удалить Госпиталь"
 }
