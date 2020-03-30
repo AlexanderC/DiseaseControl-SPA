@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useState, useMemo } from "react";
 import {
   DropdownItem,
   DropdownMenu,
@@ -21,7 +21,7 @@ import { AddHospital } from "../add-hospital";
 
 type ManageHospitalsProps = {};
 
-type HospitalAction = "delete" | "edit-tags" | "edit-inventory" | null;
+type HospitalAction = "delete" | "edit-tags" | "edit-inventory" | "edit-supervisors" | null;
 
 export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) => {
   const user = getCurrentUser();
@@ -29,6 +29,7 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
   const [hospitals, setHospitals] = useState<Array<any>>([]);
   const [tags, setTags] = useState<Array<any>>([]);
   const [inventories, setInventories] = useState<Array<any>>([]);
+  const [supervisors, setSupervisors] = useState<Array<any>>([]);
 
   const [actionType, setActionType] = useState<HospitalAction>();
   const [selectedHospital, setSelectedHospital] = useState<any>();
@@ -45,10 +46,17 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
     axiosInstance.get(`/inventory?token=${user.token}`).then(({ data }) => setInventories(data));
   };
 
+  const fetchSupervisors = () => {
+    axiosInstance
+      .get(`/admin/identity?token=${user.token}&paginate=100&page=1&limit=100`)
+      .then(({ data }) => setSupervisors(data.results));
+  };
+
   const fetchInitialData = () => {
     fetchHospitals();
     fetchTags();
     fetchInventories();
+    fetchSupervisors();
   };
 
   useEffect(fetchInitialData, []);
@@ -70,26 +78,32 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
     return axiosInstance.patch("/admin/hospital/" + hospitalId + "?token=" + user.token, body);
   };
 
-  const onFormSubmit = async (items: any) => {
-    try {
-      if (actionType === "edit-tags") {
-        await patchHospital(selectedHospital.id, { tags: items.map((i: any) => i.name) });
-      } else if (actionType === "edit-inventory") {
-        await patchHospital(selectedHospital.id, { inventory: items.map((i: any) => i.name) });
-      }
-    } catch (e) {
-      // show some notification
-    } finally {
-      setSelectedHospital(null);
-      close();
-      fetchHospitals();
-    }
-  };
-
   const dismissModal = () => {
     setActionType(null);
     setSelectedHospital(null);
     close();
+  };
+
+  const onFormSubmit = async (items: any) => {
+    try {
+      switch (actionType) {
+        case "edit-tags":
+          await patchHospital(selectedHospital.id, { tags: items.map((i: any) => i.name) });
+          break;
+        case "edit-inventory":
+          await patchHospital(selectedHospital.id, { inventory: items.map((i: any) => i.name) });
+          break;
+        case "edit-supervisors":
+          if (items.length) {
+            await patchHospital(selectedHospital.id, { supervisor: items[0].id });
+          }
+      }
+    } catch (e) {
+      // show some notification
+    } finally {
+      dismissModal();
+      fetchHospitals();
+    }
   };
 
   const hospitalObjectToBody = ({ tags, description, inventory, supervisors }: any) => {
@@ -116,15 +130,41 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
 
   const i10n = useFormatMessage();
 
+  const formProps = useMemo(() => {
+    switch (actionType) {
+      case "edit-inventory": {
+        return {
+          availableItems: inventories,
+          selectedItems: selectedHospital?.inventory,
+        };
+      }
+      case "edit-tags": {
+        return {
+          availableItems: tags,
+          selectedItems: selectedHospital?.tags,
+        };
+      }
+      case "edit-supervisors": {
+        return {
+          availableItems: supervisors,
+          selectedItems: selectedHospital.supervisors,
+          displayItemValue: (item: any) => item.username,
+          maxItems: 1,
+        };
+      }
+      default: {
+        return {
+          availableItems: [],
+          selectedItems: [],
+        };
+      }
+    }
+  }, [selectedHospital, actionType, tags, inventories, supervisors]);
+
   return (
     <AdminDashboardLayout title={i10n("hospitals")}>
       <BaseModal isOpen={isOpen} close={close} header={i10n("edit")}>
-        <HospitalItemsForm
-          onSubmit={onFormSubmit}
-          onDismiss={dismissModal}
-          availableItems={actionType === "edit-inventory" ? inventories : tags}
-          selectedItems={actionType === "edit-inventory" ? selectedHospital?.inventory : selectedHospital?.tags}
-        />
+        <HospitalItemsForm onSubmit={onFormSubmit} onDismiss={dismissModal} {...formProps} />
       </BaseModal>
       <ConfirmationModal
         title={`${i10n("hospital.delete")} ${selectedHospital?.name}`}
@@ -178,6 +218,9 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
                     <DropdownItem onClick={() => openItemsModal("edit-tags", h)}>{i10n("edit.tags")}</DropdownItem>
                     <DropdownItem onClick={() => openItemsModal("edit-inventory", h)}>
                       {i10n("edit.inventory")}
+                    </DropdownItem>
+                    <DropdownItem onClick={() => openItemsModal("edit-supervisors", h)}>
+                      {i10n("edit.supervisor")}
                     </DropdownItem>
                     <DropdownItem onClick={() => openDeleteModal(h)}>{i10n("delete")}</DropdownItem>
                   </DropdownMenu>

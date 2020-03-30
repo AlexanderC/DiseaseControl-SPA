@@ -38,6 +38,7 @@
   "options": "Options",
   "edit.tags": "Edit Tags",
   "edit.inventory": "Edit Inventory",
+  "edit.supervisor": "Edit Supervisor",
   "hospital.addNew": "Add Hospital",
   "hospital.delete": "Delete Hospital"
 }

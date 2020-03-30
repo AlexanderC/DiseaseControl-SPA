@@ -37,6 +37,7 @@
   "options": "Optiuni",
   "edit.tags": "Modifica Taguri",
   "edit.inventory": "Modifica Inventar",
+  "edit.supervisor": "Modifica Supervisor",
   "hospital.addNew": "Adauga Spital Nou",
   "hospital.delete": "Sterge Spitalul"
 }
