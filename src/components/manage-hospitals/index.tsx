@@ -200,13 +200,7 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
                     <ListGroup flush>
                       {h.inventory.map((i: any) => (
                         <ListGroupItem className="p-0" key={i.id} onClick={() => setSelectedHospital(h)}>
-                          <Link
-                            to="#"
-                            role="button"
-                            className="p-0 text-primary bg-transparent"
-                            style={{ cursor: "pointer" }}
-                            onClick={() => openInventoryForm(h, i)}
-                          >
+                          <Link to="#" role="button" onClick={() => openInventoryForm(h, i)}>
                             <span>
                               {i.name} ({i.HospitalInventory.quantity}/{i.HospitalInventory.total})
                             </span>
