@@ -102,7 +102,10 @@ export function HospitalList() {
                         <small className="mx-1 text-muted" title={inventUpdatedAt.toLocaleString()}>
                           {inventUpdatedAt.toLocaleString()}
                         </small>
-                        <Badge pill>{p.HospitalInventory.quantity}</Badge>
+                        <Badge pill>
+                          <span className="text-warning">{p.HospitalInventory.quantity}</span> /{" "}
+                          {p.HospitalInventory.total}
+                        </Badge>
                       </ListGroupItem>
                     );
                   })}

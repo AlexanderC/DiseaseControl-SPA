@@ -1,6 +1,7 @@
 export type HospitalInventory = {
   id: number;
   quantity: number;
+  total: number;
   createdAt: string;
   updatedAt: string;
   HospitalId: number;

@@ -56,7 +56,7 @@ type InventoryItemProps = {
 
 function InventoryItemRow(props: InventoryItemProps) {
   const { inventoryItem } = props;
-  const { HospitalId, updatedAt, quantity, id } = inventoryItem.HospitalInventory;
+  const { HospitalId, updatedAt, quantity, id, total } = inventoryItem.HospitalInventory;
   const inventUpdatedAt = new Date(updatedAt);
   const dispatch = useDispatch();
   const [inputQuantity, setInputQuantity] = useState<string>(quantity.toString());
@@ -74,16 +74,27 @@ function InventoryItemRow(props: InventoryItemProps) {
   return (
     <ListGroupItem key={inventoryItem.id} className="d-flex justify-content-between align-items-center">
       <div>
-        <div className="text-uppercase">{inventoryItem.name}</div>
+        <div className="text-uppercase">
+          {inventoryItem.name} ({total})
+        </div>
         <small className="text-muted">{inventUpdatedAt.toLocaleString()}</small>
       </div>
       <InputGroup size="sm" style={{ width: "100px" }}>
         <Input
           type="number"
           min="0"
+          max={total}
           disabled={updating}
           value={inputQuantity}
-          onChange={(e) => setInputQuantity(e.target.value)}
+          onChange={(e) => {
+            let value = parseInt(e.target.value, 10);
+
+            if (value > total) {
+              value = total;
+            }
+
+            setInputQuantity(value.toString());
+          }}
         />
         <InputGroupAddon addonType="append">
           <Button color="success" disabled={updating} onClick={save}>
