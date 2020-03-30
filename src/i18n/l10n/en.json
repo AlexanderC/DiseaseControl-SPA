@@ -40,5 +40,9 @@
   "edit.inventory": "Edit Inventory",
   "edit.supervisor": "Edit Supervisor",
   "hospital.addNew": "Add Hospital",
-  "hospital.delete": "Delete Hospital"
+  "hospital.delete": "Delete Hospital",
+  "total": "Total",
+  "quantity": "Quantity",
+  "defaultErrorMessage": "Something went wrong",
+  "defaultSuccessMessage": "Success!"
 }

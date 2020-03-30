@@ -39,5 +39,9 @@
   "edit.inventory": "Редактировать Инвентарь",
   "edit.supervisor": "Выбрать Управляющего",
   "hospital.addNew": "Добавить Госпиталь",
-  "hospital.delete": "Удалить Госпиталь"
+  "hospital.delete": "Удалить Госпиталь",
+  "total": "Всего",
+  "quantity": "Количество",
+  "defaultErrorMessage": "Произошла ошибка при обработке данных",
+  "defaultSuccessMessage": "Выполнено!"
 }
