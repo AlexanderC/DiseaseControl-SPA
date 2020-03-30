@@ -94,9 +94,7 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
           await patchHospital(selectedHospital.id, { inventory: items.map((i: any) => i.name) });
           break;
         case "edit-supervisors":
-          if (items.length) {
-            await patchHospital(selectedHospital.id, { supervisor: items[0].id });
-          }
+          await patchHospital(selectedHospital.id, { supervisor: items.length ? items[0].id : null });
       }
     } catch (e) {
       // show some notification
