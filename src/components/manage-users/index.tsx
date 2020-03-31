@@ -40,7 +40,6 @@ export const ManageUsers: FunctionComponent<ManageUsersProps> = (props) => {
       Notify.success(l10n("defaultSuccessMessage"));
     } catch (e) {
       Notify.error(e?.response?.data?.message ?? l10n("defaultErrorMessage"));
-    } finally {
     }
   };
 
