@@ -15,6 +15,7 @@ export const ManageUsers: FunctionComponent<ManageUsersProps> = (props) => {
   const l10n = useFormatMessage();
 
   const [users, setUsers] = useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [pagination, setPagination] = useState<any>();
 
   const fetchUsers = () => {
