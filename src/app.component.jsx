@@ -12,6 +12,7 @@ import { ManageTags } from "./components/manage-tags";
 import { AdminDashboard } from "./components/admin-dashboard";
 import { ManageInventory } from "./components/manage-inventory";
 import { ManageHospitals } from "./components/manage-hospitals";
+import { ManageUsers } from "./components/manage-users";
 
 export function AppComponent() {
   return (
@@ -25,7 +26,7 @@ export function AppComponent() {
         <AdminRoute exact path="/admin/tags" component={ManageTags} />
         <AdminRoute exact path="/admin/inventory" component={ManageInventory} />
         <AdminRoute exact path="/admin/hospitals" component={ManageHospitals} />
-        <AdminRoute exact path="/admin/ysers" component={AdminDashboard} />
+        <AdminRoute exact path="/admin/users" component={ManageUsers} />
       </Switch>
       <Footer />
       <NotificationContainer />

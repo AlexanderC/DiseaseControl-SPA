@@ -44,5 +44,12 @@
   "total": "Total",
   "quantity": "Quantity",
   "defaultErrorMessage": "Something went wrong",
-  "defaultSuccessMessage": "Success!"
+  "defaultSuccessMessage": "Success!",
+  "type": "Type",
+  "dateCreated": "Date Created",
+  "username": "Username",
+  "addUser": "Add User",
+  "deleteUser": "Delete User",
+  "password": "Password",
+  "role": "Role"
 }

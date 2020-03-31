@@ -210,10 +210,10 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
                   </td>
                   <td>
                     <ListGroup flush>
-                      {h.supervisors.map((i: any) => (
-                        <ListGroupItem className="p-0" key={i.id} tag="a" href={"/admin/users/" + i.id}>
-                          {l10n("user")}:{i.id}
-                        </ListGroupItem>
+                      {h.supervisors.map((i: any, index: number) => (
+                        <span key={index}>
+                          {l10n("user")} #{i.id}
+                        </span>
                       ))}
                     </ListGroup>
                   </td>

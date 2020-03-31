@@ -43,5 +43,12 @@
   "total": "Всего",
   "quantity": "Количество",
   "defaultErrorMessage": "Произошла ошибка при обработке данных",
-  "defaultSuccessMessage": "Выполнено!"
+  "defaultSuccessMessage": "Выполнено!",
+  "type": "Тип",
+  "dateCreated": "Дата Создания",
+  "username": "Имя Пользователя",
+  "addUser": "Добавить Пользователя",
+  "deleteUser": "Удалить Пользователя",
+  "password": "Пароль",
+  "role": "Категория"
 }

@@ -18,13 +18,7 @@ const links = [
   },
   {
     text: "users",
-    to: "#",
-    // to: "/admin/users",
-  },
-  {
-    text: "supervisors",
-    to: "#",
-    // to: "/admin/supervisors",
+    to: "/admin/users",
   },
 ];
 
