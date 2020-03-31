@@ -39,5 +39,9 @@
   "edit.inventory": "Modifica Inventar",
   "edit.supervisor": "Modifica Supervisor",
   "hospital.addNew": "Adauga Spital Nou",
-  "hospital.delete": "Sterge Spitalul"
+  "hospital.delete": "Sterge Spitalul",
+  "total": "Total",
+  "quantity": "Cantitate",
+  "defaultErrorMessage": "In timpul operatiunii s-a produs o eroare",
+  "defaultSuccessMessage": "Succes!"
 }

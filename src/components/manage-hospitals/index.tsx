@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useEffect, useState, useMemo } from "react";
+import React, { FunctionComponent, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   DropdownItem,
   DropdownMenu,
@@ -9,14 +10,16 @@ import {
   UncontrolledDropdown,
 } from "reactstrap";
 import { getCurrentUser } from "../../actions/DataActions";
+import { HospitalItemsForm } from "../../forms/HospitalItemsForm";
 import { useFormatMessage } from "../../i18n/i18n.service";
 import { AdminDashboardLayout } from "../../layouts/AdminDashboardLayout";
-import axiosInstance from "../../services/Axios";
-import { Tags } from "../../shared/tags.component";
 import { BaseModal } from "../../modals/BaseModal";
-import { useModal } from "../../shared/useModal";
-import { HospitalItemsForm } from "../../forms/HospitalItemsForm";
 import { ConfirmationModal } from "../../modals/ConfirmationModal";
+import { InventoryAmountModal } from "../../modals/InventoryAmountModal";
+import axiosInstance from "../../services/Axios";
+import Notify from "../../services/Notify";
+import { Tags } from "../../shared/tags.component";
+import { useModal } from "../../shared/useModal";
 import { AddHospital } from "../add-hospital";
 
 type ManageHospitalsProps = {};
@@ -25,6 +28,7 @@ type HospitalAction = "delete" | "edit-tags" | "edit-inventory" | "edit-supervis
 
 export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) => {
   const user = getCurrentUser();
+  const l10n = useFormatMessage();
 
   const [hospitals, setHospitals] = useState<Array<any>>([]);
   const [tags, setTags] = useState<Array<any>>([]);
@@ -96,8 +100,9 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
         case "edit-supervisors":
           await patchHospital(selectedHospital.id, { supervisor: items.length ? items[0].id : null });
       }
+      Notify.success(l10n("defaultSuccessMessage"));
     } catch (e) {
-      // show some notification
+      Notify.error(l10n("defaultErrorMessage"));
     } finally {
       dismissModal();
       fetchHospitals();
@@ -118,15 +123,14 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
       await axiosInstance.delete("/admin/hospital/" + selectedHospital.id + "?token=" + user.token, {
         data: hospitalObjectToBody(selectedHospital),
       });
+      Notify.success(l10n("defaultSuccessMessage"));
     } catch (e) {
-      // show some notification
+      Notify.error(l10n("defaultErrorMessage"));
     } finally {
       dismissModal();
       fetchHospitals();
     }
   };
-
-  const i10n = useFormatMessage();
 
   const formProps = useMemo(() => {
     switch (actionType) {
@@ -160,12 +164,12 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
   }, [selectedHospital, actionType, tags, inventories, supervisors]);
 
   return (
-    <AdminDashboardLayout title={i10n("hospitals")}>
-      <BaseModal isOpen={isOpen} close={close} header={i10n("edit")}>
+    <AdminDashboardLayout title={l10n("hospitals")}>
+      <BaseModal isOpen={isOpen} close={close} header={l10n("edit")}>
         <HospitalItemsForm onSubmit={onFormSubmit} onDismiss={dismissModal} {...formProps} />
       </BaseModal>
       <ConfirmationModal
-        title={`${i10n("hospital.delete")} ${selectedHospital?.name}`}
+        title={`${l10n("hospital.delete")} ${selectedHospital?.name}`}
         open={actionType === "delete"}
         onAccept={deleteSelectedHospital}
         onDismiss={dismissModal}
@@ -174,59 +178,67 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
         <thead>
           <tr>
             <th>#</th>
-            <th>{i10n("name")}</th>
-            <th>{i10n("tags")}</th>
-            <th>{i10n("inventory")}</th>
-            <th>{i10n("supervisors")}</th>
-            <th>{i10n("action")}</th>
+            <th>{l10n("name")}</th>
+            <th>{l10n("tags")}</th>
+            <th>{l10n("inventory")}</th>
+            <th>{l10n("supervisors")}</th>
+            <th>{l10n("action")}</th>
           </tr>
         </thead>
-        <tbody>
-          {hospitals.map((h) => (
-            <tr key={h.id}>
-              <th scope="row">{h.id}</th>
-              <td>{h.name}</td>
-              <td>
-                <Tags data={h.tags} />
-              </td>
-              <td>
-                <ListGroup flush>
-                  {h.inventory.map((i: any) => (
-                    <ListGroupItem className="p-0" key={i.id}>
-                      {i.name}
-                    </ListGroupItem>
-                  ))}
-                </ListGroup>
-              </td>
-              <td>
-                <ListGroup flush>
-                  {h.supervisors.map((i: any) => (
-                    <ListGroupItem className="p-0" key={i.id} tag="a" href={"/admin/users/" + i.id}>
-                      {i10n("user")}:{i.id}
-                    </ListGroupItem>
-                  ))}
-                </ListGroup>
-              </td>
-              <td>
-                <UncontrolledDropdown setActiveFromChild>
-                  <DropdownToggle color="light" caret>
-                    {i10n("options")}
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    <DropdownItem onClick={() => openItemsModal("edit-tags", h)}>{i10n("edit.tags")}</DropdownItem>
-                    <DropdownItem onClick={() => openItemsModal("edit-inventory", h)}>
-                      {i10n("edit.inventory")}
-                    </DropdownItem>
-                    <DropdownItem onClick={() => openItemsModal("edit-supervisors", h)}>
-                      {i10n("edit.supervisor")}
-                    </DropdownItem>
-                    <DropdownItem onClick={() => openDeleteModal(h)}>{i10n("delete")}</DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+        <InventoryAmountModal afterSubmit={fetchHospitals}>
+          {({ openInventoryForm }: any) => (
+            <tbody>
+              {hospitals.map((h) => (
+                <tr key={h.id}>
+                  <th scope="row">{h.id}</th>
+                  <td>{h.name}</td>
+                  <td>
+                    <Tags data={h.tags} />
+                  </td>
+                  <td>
+                    <ListGroup flush>
+                      {h.inventory.map((i: any) => (
+                        <ListGroupItem className="p-0" key={i.id} onClick={() => setSelectedHospital(h)}>
+                          <Link to="#" role="button" onClick={() => openInventoryForm(h, i)}>
+                            <span>
+                              {i.name} ({i.HospitalInventory.quantity}/{i.HospitalInventory.total})
+                            </span>
+                          </Link>
+                        </ListGroupItem>
+                      ))}
+                    </ListGroup>
+                  </td>
+                  <td>
+                    <ListGroup flush>
+                      {h.supervisors.map((i: any) => (
+                        <ListGroupItem className="p-0" key={i.id} tag="a" href={"/admin/users/" + i.id}>
+                          {l10n("user")}:{i.id}
+                        </ListGroupItem>
+                      ))}
+                    </ListGroup>
+                  </td>
+                  <td>
+                    <UncontrolledDropdown setActiveFromChild>
+                      <DropdownToggle color="light" caret>
+                        {l10n("options")}
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        <DropdownItem onClick={() => openItemsModal("edit-tags", h)}>{l10n("edit.tags")}</DropdownItem>
+                        <DropdownItem onClick={() => openItemsModal("edit-inventory", h)}>
+                          {l10n("edit.inventory")}
+                        </DropdownItem>
+                        <DropdownItem onClick={() => openItemsModal("edit-supervisors", h)}>
+                          {l10n("edit.supervisor")}
+                        </DropdownItem>
+                        <DropdownItem onClick={() => openDeleteModal(h)}>{l10n("delete")}</DropdownItem>
+                      </DropdownMenu>
+                    </UncontrolledDropdown>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          )}
+        </InventoryAmountModal>
       </Table>
       <AddHospital onUpdate={() => fetchHospitals()} />
     </AdminDashboardLayout>
