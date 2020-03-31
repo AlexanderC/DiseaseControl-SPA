@@ -32,7 +32,7 @@ export const HospitalItemsForm: FunctionComponent<HospitalItemsFormType> = (prop
     }
   };
 
-  const i10n = useFormatMessage();
+  const l10n = useFormatMessage();
 
   return (
     <div>
@@ -53,10 +53,10 @@ export const HospitalItemsForm: FunctionComponent<HospitalItemsFormType> = (prop
       </ListGroup>
       <div className="mt-3">
         <Button type="submit" className="mr-3" onClick={() => props.onSubmit(selectedItems)}>
-          {i10n("submit")}
+          {l10n("submit")}
         </Button>
         <Button type="reset" color="danger" onClick={props.onDismiss}>
-          {i10n("reset")}
+          {l10n("reset")}
         </Button>
       </div>
     </div>

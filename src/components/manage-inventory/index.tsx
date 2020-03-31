@@ -55,21 +55,21 @@ export const ManageInventory: FunctionComponent<ManageInventoryProps> = (props) 
 
   useEffect(fetchInventory, []);
 
-  const i10n = useFormatMessage();
+  const l10n = useFormatMessage();
 
   return (
-    <AdminDashboardLayout title={i10n("inventory")}>
+    <AdminDashboardLayout title={l10n("inventory")}>
       <ItemFormModal
         item={editableInventory || blankInventory}
         onSubmit={editableInventory ? onEditSubmit : onAddNewSubmit}
         onClose={editableInventory ? onEditClose : onAddNewClose}
-        blankTitle={i10n("inventory.addNew")}
+        blankTitle={l10n("inventory.addNew")}
       />
       <ConfirmationModal
         open={!!inventoryToDelete}
         onAccept={deleteInventory}
         onDismiss={() => setInventoryToDelete(null)}
-        title={i10n("inventory.deleteTitle") + " " + inventoryToDelete?.name}
+        title={l10n("inventory.deleteTitle") + " " + inventoryToDelete?.name}
       />
       <Row>
         {inventories.map((inventoryItem) => (
@@ -84,7 +84,7 @@ export const ManageInventory: FunctionComponent<ManageInventoryProps> = (props) 
         ))}
         <Col xl={3} lg={4} md={6} xs={12} className="mb-4">
           <Button color="primary" onClick={() => setBlankInventory({ name: "", description: "" })}>
-            {i10n("inventory.addNew")}
+            {l10n("inventory.addNew")}
           </Button>
         </Col>
       </Row>

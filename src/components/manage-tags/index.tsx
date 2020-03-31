@@ -55,21 +55,21 @@ export const ManageTags: FunctionComponent<ManageTagsProps> = (props) => {
 
   useEffect(fetchTags, []);
 
-  const i10n = useFormatMessage();
+  const l10n = useFormatMessage();
 
   return (
-    <AdminDashboardLayout title={i10n("tags")}>
+    <AdminDashboardLayout title={l10n("tags")}>
       <ConfirmationModal
         open={!!tagToDelete}
         onAccept={deleteTag}
         onDismiss={() => setTagToDelete(null)}
-        title={i10n("tag.deleteTitle") + " " + tagToDelete?.name}
+        title={l10n("tag.deleteTitle") + " " + tagToDelete?.name}
       />
       <ItemFormModal
         item={editableTag || blankTag}
         onClose={editableTag ? onEditClose : onAddNewClose}
         onSubmit={editableTag ? onEditSubmit : onAddNewSubmit}
-        blankTitle={i10n("tag.addNew")}
+        blankTitle={l10n("tag.addNew")}
       />
       <Row>
         {tags.map((tag) => (
@@ -84,7 +84,7 @@ export const ManageTags: FunctionComponent<ManageTagsProps> = (props) => {
         ))}
         <Col xl={3} lg={4} md={6} xs={12} className="mb-4">
           <Button color="primary" onClick={() => setBlankTag({ name: "", description: "" })}>
-            {i10n("tag.addNew")}
+            {l10n("tag.addNew")}
           </Button>
         </Col>
       </Row>

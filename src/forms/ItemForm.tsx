@@ -17,7 +17,7 @@ type ItemFormTypes = {
 
 export const ItemForm: FunctionComponent<ItemFormTypes> = (props) => {
   const [loading, setLoading] = useState(false);
-  const i10n = useFormatMessage();
+  const l10n = useFormatMessage();
 
   const onSubmit = async (values: any) => {
     setLoading(true);
@@ -38,10 +38,10 @@ export const ItemForm: FunctionComponent<ItemFormTypes> = (props) => {
           <Field name="name" type="text" label="name" component={TextField} validate={required} />
           <Field name="description" type="description" label="description" component={TextField} validate={required} />
           <Button type="submit" className="mr-3" disabled={loading}>
-            {i10n("submit")}
+            {l10n("submit")}
           </Button>
           <Button type="reset" color="danger" onClick={props.onReset} disabled={loading}>
-            {i10n("reset")}
+            {l10n("reset")}
           </Button>
         </Form>
       )}

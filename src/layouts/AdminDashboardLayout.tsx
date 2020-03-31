@@ -28,11 +28,11 @@ type NavLinkItemProps = {
 };
 
 const NavLinkItem: FunctionComponent<NavLinkItemProps> = (props) => {
-  const i10n = useFormatMessage();
+  const l10n = useFormatMessage();
   return (
     <NavItem>
       <NavLink to={props.to} className="mx-2" activeClassName="font-weight-bold">
-        {i10n(props.text as any)}
+        {l10n(props.text as any)}
       </NavLink>
     </NavItem>
   );

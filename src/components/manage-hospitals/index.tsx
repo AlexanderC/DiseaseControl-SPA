@@ -28,6 +28,7 @@ type HospitalAction = "delete" | "edit-tags" | "edit-inventory" | "edit-supervis
 
 export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) => {
   const user = getCurrentUser();
+  const l10n = useFormatMessage();
 
   const [hospitals, setHospitals] = useState<Array<any>>([]);
   const [tags, setTags] = useState<Array<any>>([]);
@@ -99,9 +100,9 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
         case "edit-supervisors":
           await patchHospital(selectedHospital.id, { supervisor: items.length ? items[0].id : null });
       }
-      Notify.success(i10n("defaultSuccessMessage"));
+      Notify.success(l10n("defaultSuccessMessage"));
     } catch (e) {
-      Notify.error(i10n("defaultErrorMessage"));
+      Notify.error(l10n("defaultErrorMessage"));
     } finally {
       dismissModal();
       fetchHospitals();
@@ -122,16 +123,14 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
       await axiosInstance.delete("/admin/hospital/" + selectedHospital.id + "?token=" + user.token, {
         data: hospitalObjectToBody(selectedHospital),
       });
-      Notify.success(i10n("defaultSuccessMessage"));
+      Notify.success(l10n("defaultSuccessMessage"));
     } catch (e) {
-      Notify.error(i10n("defaultErrorMessage"));
+      Notify.error(l10n("defaultErrorMessage"));
     } finally {
       dismissModal();
       fetchHospitals();
     }
   };
-
-  const i10n = useFormatMessage();
 
   const formProps = useMemo(() => {
     switch (actionType) {
@@ -165,12 +164,12 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
   }, [selectedHospital, actionType, tags, inventories, supervisors]);
 
   return (
-    <AdminDashboardLayout title={i10n("hospitals")}>
-      <BaseModal isOpen={isOpen} close={close} header={i10n("edit")}>
+    <AdminDashboardLayout title={l10n("hospitals")}>
+      <BaseModal isOpen={isOpen} close={close} header={l10n("edit")}>
         <HospitalItemsForm onSubmit={onFormSubmit} onDismiss={dismissModal} {...formProps} />
       </BaseModal>
       <ConfirmationModal
-        title={`${i10n("hospital.delete")} ${selectedHospital?.name}`}
+        title={`${l10n("hospital.delete")} ${selectedHospital?.name}`}
         open={actionType === "delete"}
         onAccept={deleteSelectedHospital}
         onDismiss={dismissModal}
@@ -179,11 +178,11 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
         <thead>
           <tr>
             <th>#</th>
-            <th>{i10n("name")}</th>
-            <th>{i10n("tags")}</th>
-            <th>{i10n("inventory")}</th>
-            <th>{i10n("supervisors")}</th>
-            <th>{i10n("action")}</th>
+            <th>{l10n("name")}</th>
+            <th>{l10n("tags")}</th>
+            <th>{l10n("inventory")}</th>
+            <th>{l10n("supervisors")}</th>
+            <th>{l10n("action")}</th>
           </tr>
         </thead>
         <InventoryAmountModal afterSubmit={fetchHospitals}>
@@ -213,7 +212,7 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
                     <ListGroup flush>
                       {h.supervisors.map((i: any) => (
                         <ListGroupItem className="p-0" key={i.id} tag="a" href={"/admin/users/" + i.id}>
-                          {i10n("user")}:{i.id}
+                          {l10n("user")}:{i.id}
                         </ListGroupItem>
                       ))}
                     </ListGroup>
@@ -221,17 +220,17 @@ export const ManageHospitals: FunctionComponent<ManageHospitalsProps> = (props) 
                   <td>
                     <UncontrolledDropdown setActiveFromChild>
                       <DropdownToggle color="light" caret>
-                        {i10n("options")}
+                        {l10n("options")}
                       </DropdownToggle>
                       <DropdownMenu>
-                        <DropdownItem onClick={() => openItemsModal("edit-tags", h)}>{i10n("edit.tags")}</DropdownItem>
+                        <DropdownItem onClick={() => openItemsModal("edit-tags", h)}>{l10n("edit.tags")}</DropdownItem>
                         <DropdownItem onClick={() => openItemsModal("edit-inventory", h)}>
-                          {i10n("edit.inventory")}
+                          {l10n("edit.inventory")}
                         </DropdownItem>
                         <DropdownItem onClick={() => openItemsModal("edit-supervisors", h)}>
-                          {i10n("edit.supervisor")}
+                          {l10n("edit.supervisor")}
                         </DropdownItem>
-                        <DropdownItem onClick={() => openDeleteModal(h)}>{i10n("delete")}</DropdownItem>
+                        <DropdownItem onClick={() => openDeleteModal(h)}>{l10n("delete")}</DropdownItem>
                       </DropdownMenu>
                     </UncontrolledDropdown>
                   </td>

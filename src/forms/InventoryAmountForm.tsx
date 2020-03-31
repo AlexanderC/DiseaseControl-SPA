@@ -24,7 +24,7 @@ type InventoryAmountFormTypes = {
 
 export const InventoryAmountForm: FunctionComponent<InventoryAmountFormTypes> = (props) => {
   const [loading, setLoading] = useState(false);
-  const i10n = useFormatMessage();
+  const l10n = useFormatMessage();
   const user = getCurrentUser();
 
   const patchHospital = async (body: any) => {
@@ -39,10 +39,10 @@ export const InventoryAmountForm: FunctionComponent<InventoryAmountFormTypes> = 
     try {
       const { quantity, total }: any = formValue;
       await patchHospital({ total: Math.trunc(total), quantity: Math.trunc(quantity) });
-      Notify.success(i10n("defaultSuccessMessage"));
+      Notify.success(l10n("defaultSuccessMessage"));
       props.afterSubmit();
     } catch (e) {
-      Notify.error(e?.response?.data?.message ?? i10n("defaultErrorMessage"));
+      Notify.error(e?.response?.data?.message ?? l10n("defaultErrorMessage"));
 
       setLoading(false);
       return { [FORM_ERROR]: "required.error" };
@@ -60,10 +60,10 @@ export const InventoryAmountForm: FunctionComponent<InventoryAmountFormTypes> = 
           <Field name="total" type="number" min="0" label="total" component={TextField} validate={required} />
           <Field name="quantity" type="number" min="0" label="quantity" component={TextField} validate={required} />
           <Button type="submit" className="mr-3" disabled={loading}>
-            {i10n("submit")}
+            {l10n("submit")}
           </Button>
           <Button type="reset" color="danger" onClick={props.onDismiss} disabled={loading}>
-            {i10n("reset")}
+            {l10n("reset")}
           </Button>
         </Form>
       )}
