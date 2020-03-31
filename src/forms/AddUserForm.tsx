@@ -58,7 +58,6 @@ export const AddUserForm: FunctionComponent<AddUserFormTypes> = (props) => {
           <Field name="password" type="text" label="password" component={TextField} validate={requiredValidation} />
           <Field
             name="role"
-            type="text"
             label="role"
             component={SelectField}
             validate={requiredValidation}
