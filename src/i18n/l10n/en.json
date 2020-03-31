@@ -48,8 +48,10 @@
   "type": "Type",
   "dateCreated": "Date Created",
   "username": "Username",
+  "email": "Email",
   "addUser": "Add User",
   "deleteUser": "Delete User",
   "password": "Password",
-  "role": "Role"
+  "role": "Role",
+  "email.error": "Please provide a vaild email address"
 }

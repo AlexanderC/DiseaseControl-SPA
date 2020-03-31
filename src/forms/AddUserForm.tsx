@@ -3,11 +3,14 @@ import { Form as FinalForm, Field } from "react-final-form";
 import { FORM_ERROR } from "final-form";
 import { TextField } from "../shared";
 import { Form, Button } from "reactstrap";
-import { getRequiredValidation } from "../shared/validators";
+import { getRequiredValidation, getEmailValidation, composeValidations } from "../shared/validators";
 import { useFormatMessage } from "../i18n/i18n.service";
 import axiosInstance from "../services/Axios";
 import { getCurrentUser } from "../actions/DataActions";
 import Notify from "../services/Notify";
+import { SelectField } from "../shared/SelectField";
+
+const AVAILABLE_USER_ROLES = ["user", "supervisor", "admin"];
 
 type AddUserFormTypes = {
   value: {
@@ -18,6 +21,9 @@ type AddUserFormTypes = {
   afterSubmit: () => any;
   onDismiss: () => any;
 };
+
+const requiredValidation = getRequiredValidation("required.error");
+const emailValidation = composeValidations(requiredValidation, getEmailValidation());
 
 export const AddUserForm: FunctionComponent<AddUserFormTypes> = (props) => {
   const [loading, setLoading] = useState(false);
@@ -44,15 +50,20 @@ export const AddUserForm: FunctionComponent<AddUserFormTypes> = (props) => {
     }
   };
 
-  const required = getRequiredValidation("required.error");
-
   return (
     <FinalForm onSubmit={onSubmit} initialValues={props.value}>
       {(form) => (
         <Form onSubmit={form.handleSubmit}>
-          <Field name="username" type="text" label="username" component={TextField} validate={required} />
-          <Field name="password" type="text" label="password" component={TextField} validate={required} />
-          <Field name="role" type="text" label="role" component={TextField} validate={required} />
+          <Field name="username" type="text" label="email" component={TextField} validate={emailValidation} />
+          <Field name="password" type="text" label="password" component={TextField} validate={requiredValidation} />
+          <Field
+            name="role"
+            type="text"
+            label="role"
+            component={SelectField}
+            validate={requiredValidation}
+            options={AVAILABLE_USER_ROLES}
+          />
           <Button type="submit" className="mr-3" disabled={loading}>
             {l10n("submit")}
           </Button>
