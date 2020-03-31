@@ -12,6 +12,7 @@ type ManageUsersProps = {};
 
 export const ManageUsers: FunctionComponent<ManageUsersProps> = (props) => {
   const user = getCurrentUser();
+  const l10n = useFormatMessage();
 
   const [users, setUsers] = useState<any[]>([]);
   const [pagination, setPagination] = useState<any>();
@@ -36,22 +37,20 @@ export const ManageUsers: FunctionComponent<ManageUsersProps> = (props) => {
       await axiosInstance.delete(`/admin/identity/${deleteUser.id}?token=${user.token}&limit=100`);
       setDeleteUser(null);
       fetchInitialData();
-      Notify.success(i10n("defaultSuccessMessage"));
+      Notify.success(l10n("defaultSuccessMessage"));
     } catch (e) {
-      Notify.error(e?.response?.data?.message ?? i10n("defaultErrorMessage"));
+      Notify.error(e?.response?.data?.message ?? l10n("defaultErrorMessage"));
     } finally {
     }
   };
 
-  const i10n = useFormatMessage();
-
   return (
-    <AdminDashboardLayout title={i10n("users")}>
+    <AdminDashboardLayout title={l10n("users")}>
       <ConfirmationModal
         onAccept={onDeleteUser}
         open={deleteUser}
         onDismiss={() => setDeleteUser(null)}
-        title={`${i10n("deleteUser")} ${deleteUser?.username}`}
+        title={`${l10n("deleteUser")} ${deleteUser?.username}`}
       />
       <AddUserModal afterSubmit={fetchInitialData}>
         {({ openModal }: any) => (
@@ -59,9 +58,9 @@ export const ManageUsers: FunctionComponent<ManageUsersProps> = (props) => {
             <Table>
               <thead>
                 <tr>
-                  <th>{i10n("name")}</th>
-                  <th>{i10n("type")}</th>
-                  <th>{i10n("dateCreated")}</th>
+                  <th>{l10n("name")}</th>
+                  <th>{l10n("type")}</th>
+                  <th>{l10n("dateCreated")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -72,7 +71,7 @@ export const ManageUsers: FunctionComponent<ManageUsersProps> = (props) => {
                     <td>{u.createdAt}</td>
                     <td>
                       <Button color="danger" onClick={() => setDeleteUser(u)}>
-                        {i10n("delete")}
+                        {l10n("delete")}
                       </Button>
                     </td>
                   </tr>
@@ -80,7 +79,7 @@ export const ManageUsers: FunctionComponent<ManageUsersProps> = (props) => {
               </tbody>
             </Table>
             <Button color="primary" onClick={openModal}>
-              {i10n("addUser")}
+              {l10n("addUser")}
             </Button>
           </div>
         )}

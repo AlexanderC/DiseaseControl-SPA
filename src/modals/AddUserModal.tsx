@@ -21,13 +21,13 @@ export const AddUserModal: FunctionComponent<AddUserModalProps> = (props) => {
   const dismissModal = () => {
     close();
   };
-  const i10n = useFormatMessage();
+  const l10n = useFormatMessage();
 
   const Child = props.children;
   return (
     <>
       <Child openModal={open} />
-      <BaseModal isOpen={isOpen} close={dismissModal} header={i10n("addUser")}>
+      <BaseModal isOpen={isOpen} close={dismissModal} header={l10n("addUser")}>
         <AddUserForm value={initialData.current} afterSubmit={afterSubmit} onDismiss={dismissModal} />
       </BaseModal>
     </>

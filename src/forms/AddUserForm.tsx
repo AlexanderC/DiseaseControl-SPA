@@ -21,7 +21,7 @@ type AddUserFormTypes = {
 
 export const AddUserForm: FunctionComponent<AddUserFormTypes> = (props) => {
   const [loading, setLoading] = useState(false);
-  const i10n = useFormatMessage();
+  const l10n = useFormatMessage();
   const user = getCurrentUser();
 
   const submitUser = async (body: any) => {
@@ -32,10 +32,10 @@ export const AddUserForm: FunctionComponent<AddUserFormTypes> = (props) => {
     setLoading(true);
     try {
       await submitUser(formValue);
-      Notify.success(i10n("defaultSuccessMessage"));
+      Notify.success(l10n("defaultSuccessMessage"));
       props.afterSubmit();
     } catch (e) {
-      Notify.error(e?.response?.data?.message ?? i10n("defaultErrorMessage"));
+      Notify.error(e?.response?.data?.message ?? l10n("defaultErrorMessage"));
 
       setLoading(false);
       return { [FORM_ERROR]: "required.error" };
@@ -54,10 +54,10 @@ export const AddUserForm: FunctionComponent<AddUserFormTypes> = (props) => {
           <Field name="password" type="text" label="password" component={TextField} validate={required} />
           <Field name="role" type="text" label="role" component={TextField} validate={required} />
           <Button type="submit" className="mr-3" disabled={loading}>
-            {i10n("submit")}
+            {l10n("submit")}
           </Button>
           <Button type="reset" color="danger" onClick={props.onDismiss} disabled={loading}>
-            {i10n("reset")}
+            {l10n("reset")}
           </Button>
         </Form>
       )}
