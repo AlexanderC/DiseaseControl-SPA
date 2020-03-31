@@ -19,18 +19,18 @@ export const AddHospital: FunctionComponent<AddHospitalProps> = (props) => {
     props.onUpdate();
   };
 
-  const i10n = useFormatMessage();
+  const l10n = useFormatMessage();
 
   return (
     <>
       <ItemFormModal
         item={blankItem}
-        blankTitle={i10n("hospital.addNew")}
+        blankTitle={l10n("hospital.addNew")}
         onClose={() => setBlankItem(null)}
         onSubmit={onSubmit}
       />
       <Button color="primary" onClick={() => setBlankItem({ name: "", description: "" })}>
-        {i10n("hospital.addNew")}
+        {l10n("hospital.addNew")}
       </Button>
     </>
   );

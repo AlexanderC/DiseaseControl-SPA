@@ -10,16 +10,16 @@ type ManageItemCardProp = {
 };
 
 export const ManageItemCard: FunctionComponent<ManageItemCardProp> = (props) => {
-  const i10n = useFormatMessage();
+  const l10n = useFormatMessage();
 
   return (
     <Card>
       <CardBody>
         <CardTitle tag="h5">{props.name}</CardTitle>
         <CardText>{props.description}</CardText>
-        <Button onClick={props.onEditClick}>{i10n("edit")}</Button>
+        <Button onClick={props.onEditClick}>{l10n("edit")}</Button>
         <Button color="danger" className="ml-1" onClick={props.onDeleteClick}>
-          {i10n("delete")}
+          {l10n("delete")}
         </Button>
       </CardBody>
     </Card>
