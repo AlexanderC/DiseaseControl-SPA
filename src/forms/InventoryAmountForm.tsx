@@ -22,6 +22,8 @@ type InventoryAmountFormTypes = {
   onDismiss: () => any;
 };
 
+const requiredValidation = getRequiredValidation("required.error");
+
 export const InventoryAmountForm: FunctionComponent<InventoryAmountFormTypes> = (props) => {
   const [loading, setLoading] = useState(false);
   const l10n = useFormatMessage();
@@ -51,14 +53,19 @@ export const InventoryAmountForm: FunctionComponent<InventoryAmountFormTypes> = 
     }
   };
 
-  const required = getRequiredValidation("required.error");
-
   return (
     <FinalForm onSubmit={onSubmit} initialValues={props.value}>
       {(form) => (
         <Form onSubmit={form.handleSubmit}>
-          <Field name="total" type="number" min="0" label="total" component={TextField} validate={required} />
-          <Field name="quantity" type="number" min="0" label="quantity" component={TextField} validate={required} />
+          <Field name="total" type="number" min="0" label="total" component={TextField} validate={requiredValidation} />
+          <Field
+            name="quantity"
+            type="number"
+            min="0"
+            label="quantity"
+            component={TextField}
+            validate={requiredValidation}
+          />
           <Button type="submit" className="mr-3" disabled={loading}>
             {l10n("submit")}
           </Button>

@@ -47,8 +47,10 @@
   "type": "Tip",
   "dateCreated": "Data Crearii",
   "username": "Nume Utilizator",
+  "email": "Email",
   "addUser": "Adauga utilizator",
   "deleteUser": "Sterge utilizator",
   "password": "Parola",
-  "role": "Categoria"
+  "role": "Categoria",
+  "email.error": "Adresa de email incorecta"
 }

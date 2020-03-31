@@ -15,6 +15,8 @@ type ItemFormTypes = {
   onReset: () => any;
 };
 
+const requiredValidation = getRequiredValidation("required.error");
+
 export const ItemForm: FunctionComponent<ItemFormTypes> = (props) => {
   const [loading, setLoading] = useState(false);
   const l10n = useFormatMessage();
@@ -29,14 +31,18 @@ export const ItemForm: FunctionComponent<ItemFormTypes> = (props) => {
     setLoading(false);
   };
 
-  const required = getRequiredValidation("required.error");
-
   return (
     <FinalForm onSubmit={onSubmit} initialValues={props.item}>
       {(form) => (
         <Form onSubmit={form.handleSubmit}>
-          <Field name="name" type="text" label="name" component={TextField} validate={required} />
-          <Field name="description" type="description" label="description" component={TextField} validate={required} />
+          <Field name="name" type="text" label="name" component={TextField} validate={requiredValidation} />
+          <Field
+            name="description"
+            type="description"
+            label="description"
+            component={TextField}
+            validate={requiredValidation}
+          />
           <Button type="submit" className="mr-3" disabled={loading}>
             {l10n("submit")}
           </Button>

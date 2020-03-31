@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Table, Button } from "reactstrap";
+import { Table, Button, Badge } from "reactstrap";
 import { getCurrentUser } from "../../actions/DataActions";
 import { useFormatMessage } from "../../i18n/i18n.service";
 import { AdminDashboardLayout } from "../../layouts/AdminDashboardLayout";
@@ -10,6 +10,11 @@ import Notify from "../../services/Notify";
 
 type ManageUsersProps = {};
 
+const prettifyUser = (user: any) => ({
+  ...user,
+  createdAt: new Date(user.createdAt).toLocaleString(),
+});
+
 export const ManageUsers: FunctionComponent<ManageUsersProps> = (props) => {
   const user = getCurrentUser();
   const l10n = useFormatMessage();
@@ -19,8 +24,8 @@ export const ManageUsers: FunctionComponent<ManageUsersProps> = (props) => {
   const [pagination, setPagination] = useState<any>();
 
   const fetchUsers = () => {
-    axiosInstance.get(`/admin/identity?token=${user.token}`).then(({ data }) => {
-      setUsers(data.results);
+    axiosInstance.get(`/admin/identity?token=${user.token}&limit=100`).then(({ data }) => {
+      setUsers(data.results.map(prettifyUser));
       setPagination(data.meta);
     });
   };
@@ -35,7 +40,7 @@ export const ManageUsers: FunctionComponent<ManageUsersProps> = (props) => {
 
   const onDeleteUser = async () => {
     try {
-      await axiosInstance.delete(`/admin/identity/${deleteUser.id}?token=${user.token}&limit=100`);
+      await axiosInstance.delete(`/admin/identity/${deleteUser.id}?token=${user.token}`);
       setDeleteUser(null);
       fetchInitialData();
       Notify.success(l10n("defaultSuccessMessage"));
@@ -58,9 +63,11 @@ export const ManageUsers: FunctionComponent<ManageUsersProps> = (props) => {
             <Table>
               <thead>
                 <tr>
-                  <th>{l10n("name")}</th>
+                  <th>{l10n("email")}</th>
                   <th>{l10n("type")}</th>
                   <th>{l10n("dateCreated")}</th>
+                  <th>{l10n("hospitals")}</th>
+                  <th>{l10n("action")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -69,6 +76,13 @@ export const ManageUsers: FunctionComponent<ManageUsersProps> = (props) => {
                     <th scope="row">{u.username}</th>
                     <td>{u.type}</td>
                     <td>{u.createdAt}</td>
+                    <td>
+                      {u.hospitals.map((hospital: any) => (
+                        <Badge className="mr-1 mb-1" key={hospital.id}>
+                          {hospital.name}
+                        </Badge>
+                      ))}
+                    </td>
                     <td>
                       <Button color="danger" onClick={() => setDeleteUser(u)}>
                         {l10n("delete")}
