@@ -1,0 +1,10 @@
+version: '3.3'
+services:
+  spa:
+    image: dc-spa
+    container_name: spa
+    restart: always
+    ports:
+      - '80:80'
+    expose:
+      - '80'
