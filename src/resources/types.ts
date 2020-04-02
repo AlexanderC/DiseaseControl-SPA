@@ -1,7 +1,10 @@
+export type HospitalInventoryDetails = Record<string, number>;
+
 export type HospitalInventory = {
   id: number;
   quantity: number;
   total: number;
+  detailed: HospitalInventoryDetails;
   createdAt: string;
   updatedAt: string;
   HospitalId: number;
