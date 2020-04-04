@@ -38,7 +38,7 @@ export const InventoryAmountModal: FunctionComponent<InventoryAmountModalProps> 
         <InventoryAmountForm
           value={{
             total: data.inventory?.HospitalInventory.total,
-            quantity: data.inventory?.HospitalInventory.quantity,
+            detailed: data.inventory?.HospitalInventory.detailed,
           }}
           hospitalId={data.hospital?.id}
           hospitalInventoryId={data.inventory?.HospitalInventory.id}
