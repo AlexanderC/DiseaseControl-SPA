@@ -1,13 +1,15 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { Button, Container, Input, InputGroup, InputGroupAddon, ListGroup, ListGroupItem } from "reactstrap";
-import { getHospitals, updateInventoryItemCount } from "../actions/DataActions";
+
+import { Button, Container, ListGroup, ListGroupItem } from "reactstrap";
+import { getHospitals, getHospitalsLive } from "../actions/DataActions";
+import { useFormatMessage } from "../i18n/i18n.service";
+import { InventoryAmountModal } from "../modals/InventoryAmountModal";
 import { selectHospitals } from "../reducers/Combiner";
 import { InventoryItem } from "../resources/types";
-import { useFormatMessage } from "../i18n/i18n.service";
-import Notify from "../services/Notify";
 import { Tags } from "../shared/tags.component";
+import { HospitalDetailedInventory } from "./hospital-detailed-inventory.component";
 
 export function Hospital(props: RouteComponentProps<{ id: string }>) {
   const l10n = useFormatMessage();
@@ -43,7 +45,7 @@ export function Hospital(props: RouteComponentProps<{ id: string }>) {
 
       <ListGroup className="mb-4">
         {hospital.inventory.map((inventoryItem) => (
-          <InventoryItemRow key={inventoryItem.id} inventoryItem={inventoryItem} />
+          <InventoryItemRow key={inventoryItem.id} hospital={hospital} inventoryItem={inventoryItem} />
         ))}
       </ListGroup>
     </Container>
@@ -52,56 +54,34 @@ export function Hospital(props: RouteComponentProps<{ id: string }>) {
 
 type InventoryItemProps = {
   inventoryItem: InventoryItem;
+  hospital: any;
 };
 
 function InventoryItemRow(props: InventoryItemProps) {
   const { inventoryItem } = props;
-  const { HospitalId, updatedAt, quantity, id, total } = inventoryItem.HospitalInventory;
+  const { updatedAt, total } = inventoryItem.HospitalInventory;
   const inventUpdatedAt = new Date(updatedAt);
   const dispatch = useDispatch();
-  const [inputQuantity, setInputQuantity] = useState<string>(quantity.toString());
-  const [updating, setUpdating] = useState(false);
-  const l10n = useFormatMessage();
 
-  const save = useCallback(() => {
-    setUpdating(true);
-    dispatch(updateInventoryItemCount(HospitalId, id, parseInt(inputQuantity, 10))).then(() => {
-      Notify.info(l10n("notif.saved"));
-      setUpdating(false);
-    });
-  }, [dispatch, HospitalId, id, inputQuantity, l10n]);
+  const afterSubmit = () => dispatch(getHospitalsLive());
+  const l10n = useFormatMessage();
 
   return (
     <ListGroupItem key={inventoryItem.id} className="d-flex justify-content-between align-items-center">
       <div>
-        <div className="text-uppercase">
-          {inventoryItem.name} ({total})
+        <div>
+          <div className="text-uppercase">
+            {inventoryItem.name} ({total})
+          </div>
+          <small className="text-muted">{inventUpdatedAt.toLocaleString()}</small>
         </div>
-        <small className="text-muted">{inventUpdatedAt.toLocaleString()}</small>
+        <HospitalDetailedInventory detailed={inventoryItem.HospitalInventory.detailed} />
       </div>
-      <InputGroup size="sm" style={{ width: "100px" }}>
-        <Input
-          type="number"
-          min="0"
-          max={total}
-          disabled={updating}
-          value={inputQuantity}
-          onChange={(e) => {
-            let value = parseInt(e.target.value, 10);
-
-            if (value > total) {
-              value = total;
-            }
-
-            setInputQuantity(value.toString());
-          }}
-        />
-        <InputGroupAddon addonType="append">
-          <Button color="success" disabled={updating} onClick={save}>
-            ✓
-          </Button>
-        </InputGroupAddon>
-      </InputGroup>
+      <InventoryAmountModal hideTotalAmount afterSubmit={afterSubmit}>
+        {({ openInventoryForm }: any) => (
+          <Button onClick={() => openInventoryForm(props.hospital, inventoryItem)}>{l10n("action")}</Button>
+        )}
+      </InventoryAmountModal>
     </ListGroupItem>
   );
 }

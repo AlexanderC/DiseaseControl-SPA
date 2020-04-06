@@ -42,6 +42,7 @@
   "hospital.delete": "Удалить Госпиталь",
   "total": "Всего",
   "quantity": "Количество",
+  "update.quantity": "Изменить Количество",
   "defaultErrorMessage": "Произошла ошибка при обработке данных",
   "defaultSuccessMessage": "Выполнено!",
   "type": "Тип",
@@ -52,5 +53,6 @@
   "deleteUser": "Удалить Пользователя",
   "password": "Пароль",
   "role": "Категория",
-  "email.error": "Неверный формат Адреса Эл. Почты"
+  "email.error": "Неверный формат Адреса Эл. Почты",
+  "addNew": "Добавить"
 }

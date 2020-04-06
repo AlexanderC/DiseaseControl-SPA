@@ -6,6 +6,7 @@ import { useFormatMessage } from "../i18n/i18n.service";
 
 type InventoryAmountModalProps = {
   children: any;
+  hideTotalAmount?: boolean;
   afterSubmit: () => any;
 };
 
@@ -34,16 +35,17 @@ export const InventoryAmountModal: FunctionComponent<InventoryAmountModalProps> 
   return (
     <>
       <Child openInventoryForm={openForm} />
-      <BaseModal isOpen={isOpen} close={dismissModal} header={l10n("quantity")}>
+      <BaseModal isOpen={isOpen} close={dismissModal} header={l10n("update.quantity")}>
         <InventoryAmountForm
           value={{
             total: data.inventory?.HospitalInventory.total,
-            quantity: data.inventory?.HospitalInventory.quantity,
+            detailed: data.inventory?.HospitalInventory.detailed,
           }}
           hospitalId={data.hospital?.id}
           hospitalInventoryId={data.inventory?.HospitalInventory.id}
           afterSubmit={afterSubmit}
           onDismiss={dismissModal}
+          hideTotalAmount={props.hideTotalAmount}
         />
       </BaseModal>
     </>
