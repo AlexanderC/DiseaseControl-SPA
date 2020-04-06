@@ -20,6 +20,7 @@ type InventoryAmountFormTypes = {
   };
   afterSubmit: () => any;
   onDismiss: () => any;
+  hideTotalAmount?: boolean;
 };
 
 const requiredValidation = getRequiredValidation("required.error");
@@ -86,7 +87,15 @@ export const InventoryAmountForm: FunctionComponent<InventoryAmountFormTypes> = 
         }
       }, {});
 
-      await patchHospital({ total: Math.trunc(total), detailed: detailedParsed });
+      const body: any = {
+        detailed: detailedParsed,
+      };
+
+      if (!props.hideTotalAmount) {
+        body.total = Math.trunc(total);
+      }
+
+      await patchHospital(body);
       Notify.success(l10n("defaultSuccessMessage"));
       props.afterSubmit();
     } catch (e) {
@@ -103,8 +112,16 @@ export const InventoryAmountForm: FunctionComponent<InventoryAmountFormTypes> = 
     <FinalForm onSubmit={onSubmit} initialValues={props.value}>
       {(form) => (
         <Form onSubmit={form.handleSubmit}>
-          <Field name="total" type="number" min="0" label="total" component={TextField} validate={requiredValidation} />
-
+          {!props.hideTotalAmount && (
+            <Field
+              name="total"
+              type="number"
+              min="0"
+              label="total"
+              component={TextField}
+              validate={requiredValidation}
+            />
+          )}
           {Object.keys(detailedOptions).map((key: string) => (
             <Row key={key}>
               <Col md={6}>
@@ -139,7 +156,7 @@ export const InventoryAmountForm: FunctionComponent<InventoryAmountFormTypes> = 
           <Row className="my-2">
             <Col md={12}>
               <Button color="primary" onClick={addNewKey}>
-                Add Option
+                {l10n("addNew")}
               </Button>
             </Col>
           </Row>

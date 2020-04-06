@@ -18,6 +18,7 @@ import { getHospitalsLive, getTags } from "../actions/DataActions";
 import { selectHospitals, selectTagColors, selectTags } from "../reducers/Combiner";
 import * as T from "../resources/types";
 import { Tags } from "../shared/tags.component";
+import { HospitalDetailedInventory } from "./hospital-detailed-inventory.component";
 
 export function HospitalList() {
   const hospitals = useSelector(selectHospitals);
@@ -93,19 +94,18 @@ export function HospitalList() {
                   {d.inventory.map((p) => {
                     const inventUpdatedAt = new Date(p.HospitalInventory.updatedAt);
                     return (
-                      <ListGroupItem
-                        color="info"
-                        className="d-flex align-items-center justify-content-between"
-                        key={p.id}
-                      >
-                        <small className="text-capitalize">{p.description}</small>
-                        <small className="mx-1 text-muted" title={inventUpdatedAt.toLocaleString()}>
-                          {inventUpdatedAt.toLocaleString()}
-                        </small>
-                        <Badge pill>
-                          <span className="text-warning">{p.HospitalInventory.quantity}</span> /{" "}
-                          {p.HospitalInventory.total}
-                        </Badge>
+                      <ListGroupItem color="info" key={p.id}>
+                        <div className="d-flex align-items-center justify-content-between">
+                          <small className="text-capitalize">{p.description}</small>
+                          <small className="mx-1 text-muted" title={inventUpdatedAt.toLocaleString()}>
+                            {inventUpdatedAt.toLocaleString()}
+                          </small>
+                          <Badge pill>
+                            <span className="text-warning">{p.HospitalInventory.quantity}</span> /{" "}
+                            {p.HospitalInventory.total}
+                          </Badge>
+                        </div>
+                        <HospitalDetailedInventory detailed={p.HospitalInventory.detailed} />
                       </ListGroupItem>
                     );
                   })}

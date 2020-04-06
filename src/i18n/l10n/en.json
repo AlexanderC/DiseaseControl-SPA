@@ -43,6 +43,7 @@
   "hospital.delete": "Delete Hospital",
   "total": "Total",
   "quantity": "Quantity",
+  "update.quantity": "Update Quantity",
   "defaultErrorMessage": "Something went wrong",
   "defaultSuccessMessage": "Success!",
   "type": "Type",
@@ -53,5 +54,6 @@
   "deleteUser": "Delete User",
   "password": "Password",
   "role": "Role",
-  "email.error": "Please provide a vaild email address"
+  "email.error": "Please provide a vaild email address",
+  "addNew": "Add New"
 }

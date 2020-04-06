@@ -42,6 +42,7 @@
   "hospital.delete": "Sterge Spitalul",
   "total": "Total",
   "quantity": "Cantitate",
+  "update.quantity": "Modifica Cantitatea",
   "defaultErrorMessage": "In timpul operatiunii s-a produs o eroare",
   "defaultSuccessMessage": "Succes!",
   "type": "Tip",
@@ -52,5 +53,6 @@
   "deleteUser": "Sterge utilizator",
   "password": "Parola",
   "role": "Categoria",
-  "email.error": "Adresa de email incorecta"
+  "email.error": "Adresa de email incorecta",
+  "addNew": "Adauga"
 }
